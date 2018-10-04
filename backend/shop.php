@@ -21,12 +21,15 @@ class Shop{
     for($j = 0; $j < $ile; $j++){
       $id = pobierz_wartosc('COUNT(id)', 'items', 'level <= ?', $this -> hero -> getLevel());
       $i = 1;
+
       do{
         $item = pobierz_wartosc('*', 'items', 'level <= ? AND id = ?', $this -> hero -> getLevel(), $i);
+        var_dump($item);
         if($item){
           $i++;
           $items[] = $item;
         }
+        else break; //TODO nie rozwiązałem problemu nieskończonej pętli na 1 lvl.
       }while($i < $id);
 
       shuffle($items);
@@ -66,6 +69,7 @@ class Shop{
 
   function getItems(){
     $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND shop = true', $this -> hero -> id);
+    var_dump($items);
 
     if($items != 4) $this -> newItem(4 - $items);
 
