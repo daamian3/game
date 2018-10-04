@@ -1,0 +1,8 @@
+{
+    "require": {
+        "twig/twig": "^2.0",
+        "klein/klein": "^2.1",
+        "fabfuel/prophiler": "^1.6",
+        "phpmailer/phpmailer": "^6.0"
+    }
+}

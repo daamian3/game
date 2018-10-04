@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sklep{% endblock %}
+
+{% block body %}
+  <div class="shop">
+    <h1>Sklep</h1>
+    <div class="shop__items">
+      {% for item in items %}
+        <div class="shop__items__block" data-id="{{ item[0] }}">
+          <h3>{{item.name}}</h3>
+          <img src="images/equipment/{{ item.img }}.png" class="shop__items__img">
+
+          {% if item.type == 'sword' %}
+            <p>
+              <img class="icon" src="images/attributes/swords.svg" alt="miecze"/>
+              Obrażenia:
+              <span class="span">{{ item.attack_min }}-{{ item.attack_max }}</span>
+            </p>
+          {% endif %}
+
+          {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
+            <p>
+              <img class="icon" src="images/attributes/defense.svg" alt="tarcza"/>
+              Pancerz:
+              <span class="span">{{ item.defense }}</span>
+            </p>
+          {% endif %}
+
+          {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
+            <p>
+              <img class="icon" src="images/attributes/strength.svg" alt="pięść"/>
+              Siła:
+              <span class="span">{{ item.strength }}</span>
+            </p>
+            <p>
+              <img class="icon" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+              Inteligencja:
+              <span class="span">{{ item.intelligence }}</span>
+            </p>
+            <p>
+              <img class="icon" src="images/attributes/agility.svg" alt="zwinność"/>
+              Zwinność:
+              <span class="span">{{ item.agility }}</span>
+            </p>
+            <p>
+              <img class="icon" src="images/attributes/vitality.svg" alt="serce"/>
+              Witalność:
+              <span class="span">{{ item.vitality }}</span>
+            </p>
+            <p>
+              <img class="icon" src="images/attributes/luck.svg" alt="koniczyna"/>
+              Szczęście:
+              <span class="span">{{ item.luck }}</span>
+            </p>
+          {% endif %}
+
+          <div class="shop__gold">
+            <h6 class="shop__gold__header">Złoto:</h6>
+            {% if item.cost.gold != false %}
+              <img class="icon small" src="images/gold.svg"/>
+              <span>{{ item.cost.gold }}</span>
+            {% endif %}
+            {% if item.cost.silver != false %}
+              <img class="icon small" src="images/silver.svg"/>
+              <span>{{ item.cost.silver }}</span>
+            {% endif %}
+            <img class="icon small" src="images/bronze.svg"/>
+            <span>{{ item.cost.bronze }}</span>
+          </div>
+					<button class="button small shop__items__buy" value="{{ item[0] }}">Kup</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="scripts/shop.js"></script>
+{% endblock %}

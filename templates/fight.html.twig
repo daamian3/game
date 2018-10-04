@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ dungeon }}{% endblock %}
+
+{% block body %}
+
+	<div data-remodal-id="modal_won">
+		<button data-remodal-action="close" class="remodal-close"></button>
+		<h2 class="remodal__header">Wygrana!</h2>
+		<p>Gratulacje, wygrałeś walkę i zdobyłeś <span id="won_exp"></span> punktów doświadczenia, oraz <span id="won_gold"></span> złota.</p>
+	</div>
+
+	<div data-remodal-id="modal_defeated">
+		<button data-remodal-action="close" class="remodal-close"></button>
+		<h2 class="remodal__header">Porażka!</h2>
+		<p>Niestety przeciwnik cię pokonał... może uda się za innym razem.</p>
+	</div>
+
+	<div class="fight">
+		<header>
+			<a href="dungeons" class="fight__exit"><i id="exit" class="icon-left-big"></i></a>
+			<h1>{{ dungeon }}</h1>
+		</header>
+
+		{% if is_availabl == false %}
+			<div class="fight__comparison">
+				<img id="weapon-1" class="fight__weapon-1" src="images/attributes/warrior_sword.svg" alt="broń"/>
+				<img id="weapon-2" class="fight__weapon-2" src="images/attributes/fist.svg" alt="broń"/>
+
+				<div id="hero" class="fight__block">
+					<h3 id="choice__name-hero">{{ hero.name }}</h3>
+					<img class="fight__block__hero" src="images/heroes/{{ hero.race }}.jpg" alt="bohater"/>
+					<div class="fight__block__stats-flex">
+						<progress id="progress-hero" class="progress-hero"></progress>
+						<div class="fight__block__stats">
+							<div><img class="icon" src="images/attributes/vitality.svg" />Życie: </div>
+							<span class="span" id="choice__health-hero" />{{ hero.health }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon"  src="images/attributes/swords.svg" />Obrażenia: </div>
+							<span class="span" id="choice__attack-hero" />{{ hero.attack_min }} - {{ hero.attack_max }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon"  src="images/attributes/defense.svg" />Pancerz: </div>
+							<span class="span" id="choice__defence-hero" />{{ hero.defense }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon" src="images/attributes/critical.svg" />Szansa na trafienie krytyczne: </div>
+							<span class="span" id="choice__critical-hero" />{{ hero.critical }} %</span></div>
+					</div>
+				</div>
+				<button id="start" class="button inverted fight__start">START</button>
+				<div id="monster" class="fight__block">
+					<h3 id="choice__name-enemy">{{ enemy.name }}</h3>
+					<img class="fight__block__hero" src="images/enemies/{{ enemy.img }}.svg" alt="przeciwnik"/>
+					<div class="fight__block__stats-flex">
+						<progress id="progress-enemy" class="progress-enemy"></progress>
+						<div class="fight__block__stats">
+							<div><img class="icon" src="images/attributes/vitality.svg" />Życie: </div>
+							<span class="span" id="choice__health-enemy" />{{ enemy.health }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon"  src="images/attributes/swords.svg" />Obrażenia: </div>
+							<span class="span" id="choice__attack-enemy" />{{ enemy.attack_min }} - {{ enemy.attack_max }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon"  src="images/attributes/defense.svg" />Pancerz: </div>
+							<span class="span" id="choice__defence-enemy" />{{ enemy.defense }}</span>
+						</div>
+						<div class="fight__block__stats">
+							<div><img class="icon" src="images/attributes/critical.svg" />Szansa na trafienie krytyczne: </div>
+							<span class="span" id="choice__critical-enemy" />{{ enemy.critical }} %</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="fight__time">
+				Pozostało czasu: <span id="dungeon_time"></span>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery-ui.min.js"></script>
+	<script src="scripts/noty.min.js"></script>
+	<script src="scripts/remodal.min.js"></script>
+	<script src="scripts/loader.js"></script>
+	<script src="scripts/menu.js"></script>
+	<script src="scripts/fight.js"></script>
+
+
+	<script>
+		const health1 = {{ hero.health }};
+		const health2 = {{ enemy.health }};
+
+		function displayTime(){
+			var date = ({{ hero.dungeon_time }} * 1000) - Date.now();
+			date = new Date(date);
+
+			var hours = date.getHours() - 1;
+			var minutes = date.getMinutes();
+			var seconds = date.getSeconds();
+
+			if(hours != 0) hours = hours + ' godzin ';
+			else hours = '';
+			if(minutes != 0) minutes = minutes + ' minut ';
+			else minutes = '';
+			if(seconds != 0) seconds = seconds + ' sekund';
+			else seconds = '';
+
+			var time = hours + minutes + seconds;
+
+			$('#dungeon_time').html(time);
+
+			var t = setTimeout(displayTime, 1000);
+		}
+
+		displayTime();
+	</script>
+
+	{% if session.error %}
+	<script>
+		new Noty({
+		    type: 'error',
+		    layout: 'topRight',
+		    text: '{{ session.error }}',
+				timeout: 3000,
+		}).show();
+	</script>
+	{% endif %}
+
+	{% if session.success %}
+	<script>
+		new Noty({
+		    type: 'success',
+		    layout: 'topRight',
+		    text: '{{ session.success }}',
+				timeout: 3000,
+		}).show();
+	</script>
+	{% endif %}
+{% endblock %}

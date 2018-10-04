@@ -1,0 +1,15 @@
+.input{
+  @include padding-box('small');
+  font-family:  $font-secondary;
+  font-size: $font-size-tiny;
+  border-radius: $rounded-small;
+  border: solid 3px $color-primary-base;
+  background-color: $white;
+  outline: none;
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+      -webkit-text-fill-color: $black;
+  }
+}

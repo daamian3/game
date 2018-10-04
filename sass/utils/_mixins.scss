@@ -1,0 +1,121 @@
+@mixin margin-auto{
+    margin:{
+        left: auto;
+        right: auto;
+    }
+}
+
+@mixin clear-both{
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin center($position: 'both') {
+  position: absolute;
+
+  @if $position == 'vertical' {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @else if $position == 'horizontal' {
+    left: 50%;
+    transform: translate(-50%);
+  }
+  @else {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@mixin flex-center($position: 'both'){
+  display: flex;
+
+  @if $position == 'vertical' {
+    align-items: 'center';
+  }
+  @else if $position == 'horizontal' {
+    justify-content: 'center';
+  }
+  @else{
+    justify-content: 'center';
+    align-items: 'center';
+  }
+}
+
+$breakpoints: (
+    "phone":   768px,
+    "desktop":  1248px,
+);
+
+@mixin media-query($width, $orientation: '', $type: max) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @if $orientation == portrait or $orientation == landscape{
+          @media only screen and (#{$type}-width: $width) and (orientation: $orientation){
+              @content;
+          }
+        }
+        @else{
+          @media only screen and (#{$type}-width: $width) {
+              @content;
+          }
+        }
+    }
+}
+
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+  $padding: unquote( ( $y / $x ) * 100 + '%' );
+  @if $pseudo {
+      &:before {
+          @include pseudo($pos: relative);
+          width: 100%;
+          padding-top: $padding;
+      }
+  } @else {
+      padding-top: $padding;
+  }
+}
+
+@mixin hardware($backface: true, $perspective: 1000) {
+    @if $backface {
+        backface-visibility: hidden;
+    }
+    perspective: $perspective;
+}
+
+@mixin padding-box($size: 'normal'){
+  @if $size == 'small'{
+    padding: 7px 12px;
+  }
+  @else if $size == 'big'{
+    padding: 16px 24px;
+  }
+  @else if $size == 'huge'{
+    padding: 24px 36px;
+  }
+  @else{
+    padding: 10px 15px;
+  }
+}
+
+@mixin flexbox($direction: row, $justify: center, $align: center, $wrap: nowrap){
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+@mixin background-image($image: '', $size: cover, $position: center, $repeat: no-repeat){
+  background-image: url($image);
+  background-position: $position;
+  background-repeat: $repeat;
+  background-size: $size;
+}

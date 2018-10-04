@@ -1,0 +1,44 @@
+.card-container{
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: $rounded-normal;
+
+  &::before{
+    content: '';
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(0deg, $black, transparent);
+    border-radius: 0 0 10px 10px;
+    transition: $transition-fast;
+    z-index: 9;
+  }
+
+  &:hover::before{
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &:hover .card-content{
+    color: $white;
+  }
+}
+
+.card-content{
+  z-index: 10;
+  position: absolute;
+  transition: $transition-fast;
+  color: transparent;
+  position: absolute;
+  width: 100%;
+  height: 30%;
+  bottom: 0;
+  left: 0;
+}

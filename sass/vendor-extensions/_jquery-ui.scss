@@ -1,0 +1,59 @@
+.main__flex{
+  .ui-widget-content{
+    background-color: transparent;
+    border: none;
+  }
+
+  .ui-tabs, .ui-tabs-panel{
+    height: 90%;
+  }
+
+  .ui-tabs a{
+    @include media-query('phone'){
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  .ui-tabs-nav {
+    font-size: $font-size-small;
+
+    @include media-query('phone'){
+      font-size: $font-size-normal;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+ .ui-state-active{
+    background-color: $color-primary-base;
+    border-color: $black;
+    outline-color: $black;
+  }
+
+  .ui-state-focus{
+     border-color: $black;
+     outline-color: $black;
+   }
+}
+
+.ui-widget{
+  font-family: $font-primary;
+}
+
+.ui-slider-handle{
+  text-align: center;
+  padding-top: 1px;
+  margin-top: 0px !important;
+  background-color: $color-primary-base !important;
+  color: $white !important;
+}
+
+.ui-widget button {
+  font-family: initial;
+  font-size: initial;
+}

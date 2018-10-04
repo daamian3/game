@@ -1,0 +1,29 @@
+h1, h2, h3, h4, h5, h6{
+  text-align: center;
+  margin: .5em 0;
+}
+
+h1{
+  font-size: $font-size-huge;
+  font-family: 'Lato';
+}
+
+h2{
+  font-size: $font-size-big;
+}
+
+h3{
+  font-size: $font-size-big;
+}
+
+h4{
+  font-size: $font-size-big;
+}
+
+h5{
+  font-size: $font-size-big;
+}
+
+h6{
+  font-size: $font-size-big;
+}

@@ -1,0 +1,288 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bohater{% endblock %}
+
+{% block body %}
+  <div class="hero__flex">
+    <div class="hero__panel">
+      <h2 class="hero__exp-text hero-bold">{{ hero.name }}</h2>
+      <img class="hero__image" src="images/heroes/{{ hero.race }}.jpg"/>
+      <p class="hero__exp-text">Poziom
+        <span class="span">{{ hero.level }}</span>
+			</p>
+      <progress id="hero__exp-bar" class="hero__exp-bar" data-value="{{ hero.experience }} / {{ hero.experience_max }}" value="{{ hero.experience }}" max="{{ hero.experience_max }}"></progress>
+      <p class="hero__gold">Złoto:
+        {% if hero.gold  != false %}
+          <img class="icon small" id="hero-img-gold" src="images/gold.svg"/>
+          <span id="hero-gold">{{ hero.gold }}</span>
+        {% endif %}
+        {% if hero.silver != false %}
+          <img class="icon small" id="hero-img-silver" src="images/silver.svg"/>
+          <span id="hero-silver">{{ hero.silver }}</span>
+        {% endif %}
+        <img class="icon small" id="hero-img-bronze" src="images/bronze.svg"/>
+        <span id="hero-bronze">{{ hero.bronze }}</span>
+      </p>
+    </div>
+    <div id="hero__tabs" class="hero">
+
+      <ul>
+        <!-- Zakładki -->
+        <li>
+          <a href="#hero__tab1">Bohater</a>
+        </li>
+        <li>
+          <a href="#hero__tab2">Ekwipunek</a>
+        </li>
+        <li>
+          <a href="#hero__tab3">Atrybuty</a>
+        </li>
+        <li>
+          <a href="#hero__tab4">Osiągnięcia</a>
+        </li>
+        <!-- Koniec zakładek -->
+      </ul>
+
+      <div id="hero__tab1" class="hero-flex">
+        <p>
+					<img class="icon" src="images/attributes/vitality.svg" alt="serce"/>
+					Życie: <span class="span" id="hero__health">{{ hero.health }}</span>
+				</p>
+        <p>
+					<img class="icon" src="images/attributes/swords.svg" alt="miecze"/>
+					Obrażenia: <span class="span" id="hero__attack">{{ hero.attack_min }} - {{ hero.attack_max }}</span>
+				</p>
+        <p>
+					<img class="icon" src="images/attributes/defense.svg" alt="tarcza"/>
+					Pancerz: <span class="span" id="hero__defence">{{ hero.defense }}</span></p>
+        <p>
+					<img class="icon" src="images/attributes/critical.svg" alt="cios krytyczny"/>
+					Szansa na trafienie krytyczne: <span class="span" id="hero__critical"/>{{ hero.critical }} %</span>
+				</p>
+        <p>
+					<img class="icon" src="images/attributes/miss.svg" alt="unik"/>
+					Szansa na unik: <span class="span" id="hero__miss">{{ hero.miss }} %</span>
+				</p>
+      </div>
+
+      <div id="hero__tab2" class="hero__items">
+        <div class="hero__items-flex">
+          <div id="helmet" class="hero__items__block"><img src="images/equipment/helmet.svg"/></div>
+        </div>
+        <div class="hero__items-flex">
+          <div id="necklace" class="hero__items__block"><img src="images/equipment/necklace.svg"/></div>
+          <div id="chest" class="hero__items__block"><img src="images/equipment/chest.svg"/></div>
+          <div id="arm" class="hero__items__block left"><img src="images/equipment/arm.svg"/></div>
+        </div>
+        <div class="hero__items-flex">
+          <div id="hand1" class="hero__items__block"><img src="images/equipment/hand.svg"/></div>
+          <div id="belt" class="hero__items__block"><img src="images/equipment/belt.svg"/></div>
+          <div id="hand2" class="hero__items__block"><img src="images/equipment/hand.svg"/></div>
+        </div>
+        <div class="hero__items-flex">
+          <div id="ring1" class="hero__items__block"><img src="images/equipment/ring.svg"/></div>
+          <div id="foot" class="hero__items__block"><img src="images/equipment/foot.svg"/></div>
+          <div id="ring2" class="hero__items__block"><img src="images/equipment/ring.svg"/></div>
+        </div>
+        <div id="hero__inventory" class="hero__items-flex">
+          {% for item in items %}
+          <div class="hero__items__block"><img src="images/equipment/{{ item.img }}.png"/></div>
+          <div class="tooltip hero__tooltip">
+            {% if item.type == 'sword' %}
+              <p>
+                <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
+                Obrażenia:
+                <span>{{ item.attack_min }}-{{ item.attack_max }}</span>
+              </p>
+            {% endif %}
+
+            {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
+              <p>
+                <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+                Pancerz:
+                <span>{{ item.defense }}</span>
+              </p>
+            {% endif %}
+
+            {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
+              <p>
+                <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+                Siła:
+                <span>{{ item.strength }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+                Inteligencja:
+                <span>{{ item.intelligence }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+                Zwinność:
+                <span>{{ item.agility }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+                Witalność:
+                <span>{{ item.vitality }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+                Szczęście:
+                <span>{{ item.luck }}</span>
+              </p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div id="hero__tab3" class="hero-flex">
+        <div class="hero__attributes">
+          <p>
+						<img class="icon" src="images/attributes/vitality.svg" alt="serce"/>
+						Witalność: <span class="span" id="hero__vitality"/>{{ hero.vitality }}</span>
+					</p>
+          <button class="button inverted circle hero__attributes__button" id="vitality">
+            <i class="icon-plus"></i>
+          </button>
+					<div class="tooltip hero__attributes__tooltip" id="tooltip__vitality">
+            <img class="icon small" src="images/gold.svg"/>
+            <span id="attributes-gold-vitality"></span>
+            <img class="icon small" src="images/silver.svg"/>
+            <span id="attributes-silver-vitality"></span>
+            <img class="icon small" src="images/bronze.svg"/>
+            <span id="attributes-bronze-vitality"></span>
+          </div>
+        </div>
+        <div class="hero__attributes">
+          <p>
+						<img class="icon" src="images/attributes/strength.svg" alt="pięść"/>
+						Siła: <span class="span" id="hero__strength"/>{{ hero.strength }}</span>
+					</p>
+          <button class="button inverted circle hero__attributes__button" id="strength">
+            <i class="icon-plus"></i>
+          </button>
+					<div class="tooltip hero__attributes__tooltip" id="tooltip__strength">
+            <img class="icon small" src="images/gold.svg"/>
+            <span id="attributes-gold-strength"></span>
+            <img class="icon small" src="images/silver.svg"/>
+            <span id="attributes-silver-strength"></span>
+            <img class="icon small" src="images/bronze.svg"/>
+            <span id="attributes-bronze-strength"></span>
+          </div>
+        </div>
+        <div class="hero__attributes">
+          <p>
+						<img class="icon" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+						Inteligencja: <span class="span" id="hero__intelligence"/>{{ hero.intelligence }}</span>
+					</p>
+          <button class="button inverted circle hero__attributes__button" id="intelligence">
+            <i class="icon-plus"></i>
+          </button>
+					<div class="tooltip hero__attributes__tooltip" id="tooltip__intelligence">
+            <img class="icon small" src="images/gold.svg"/>
+            <span id="attributes-gold-intelligence"></span>
+            <img class="icon small" src="images/silver.svg"/>
+            <span id="attributes-silver-intelligence"></span>
+            <img class="icon small" src="images/bronze.svg"/>
+            <span id="attributes-bronze-intelligence"></span>
+          </div>
+        </div>
+        <div class="hero__attributes">
+          <p>
+						<img class="icon" src="images/attributes/agility.svg" alt="zręczność"/>
+						Zwinność: <span class="span" id="hero__agility"/>{{ hero.agility }}</span>
+					</p>
+          <button class="button inverted circle hero__attributes__button" id="agility">
+            <i class="icon-plus"></i>
+          </button>
+					<div class="tooltip hero__attributes__tooltip" id="tooltip__agility">
+            <img class="icon small" src="images/gold.svg"/>
+            <span id="attributes-gold-agility"></span>
+            <img class="icon small" src="images/silver.svg"/>
+            <span id="attributes-silver-agility"></span>
+            <img class="icon small" src="images/bronze.svg"/>
+            <span id="attributes-bronze-agility"></span>
+          </div>
+        </div>
+        <div class="hero__attributes">
+          <p>
+						<img class="icon" src="images/attributes/luck.svg" alt="czterolistna koniczyna"/>
+						Szczęście: <span class="span" id="hero__luck"/>{{ hero.luck }}</span>
+					</p>
+          <button class="button inverted circle hero__attributes__button" id="luck">
+            <i class="icon-plus"></i>
+          </button>
+					<div class="tooltip hero__attributes__tooltip" id="tooltip__luck">
+            <img class="icon small" src="images/gold.svg"/>
+            <span id="attributes-gold-luck"></span>
+            <img class="icon small" src="images/silver.svg"/>
+            <span id="attributes-silver-luck"></span>
+            <img class="icon small" src="images/bronze.svg"/>
+            <span id="attributes-bronze-luck"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="hero__tab4" class="hero__achievements">
+        <div class="achievements">
+          {% if hero.killed_monsters >= 1000 %}
+            <div class="achievements__block">
+              <img src="images/achievements/killer_gold.png" class="icon big achievements__img"/>
+              <div class="tooltip achievements__tooltip">
+                <h6>Zabójca potworów</h6>
+                <p>{{ hero.killed_monsters }} zabitych potworów</p>
+              </div>
+            </div>
+          {% elseif hero.killed_monsters >= 100 %}
+            <div class="achievements__block">
+              <img src="images/achievements/killer_silver.png" class="icon big achievements__img"/>
+              <div class="tooltip achievements__tooltip">
+                <h6>Zabójca potworów</h6>
+                <p>{{ hero.killed_monsters }}/1000 zabitych potworów</p>
+              </div>
+            </div>
+          {% elseif hero.killed_monsters >= 10 %}
+            <div class="achievements__block">
+              <img src="images/achievements/killer_bronze.png" class="icon big achievements__img"/>
+              <div class="tooltip achievements__tooltip">
+                <h6>Zabójca potworów</h6>
+                <p>{{ hero.killed_monsters }}/100 zabitych potworów</p>
+              </div>
+            </div>
+          {% endif %}
+          {% if hero.beated_players >= 500 %}
+          <div class="achievements__block">
+            <img src="images/achievements/gladiator_gold.png" class="icon big achievements__img"/>
+            <div class="tooltip achievements__tooltip">
+              <h6>Gladiator</h6>
+              <p>{{ hero.beated_players }} pokonanych graczy</p>
+            </div>
+          </div>
+          {% elseif hero.beated_players >= 50 %}
+          <div class="achievements__block">
+            <img src="images/achievements/gladiator_silver.png" class="icon big achievements__img"/>
+            <div class="tooltip achievements__tooltip">
+              <h6>Gladiator</h6>
+              <p>{{ hero.beated_players }}/500 pokonanych graczy</p>
+            </div>
+          </div>
+          {% elseif hero.beated_players >= 10 %}
+          <div class="achievements__block">
+            <img src="images/achievements/gladiator_bronze.png" class="icon big achievements__img"/>
+            <div class="tooltip achievements__tooltip">
+              <h6>Gladiator</h6>
+              <p>{{ hero.beated_players }}/50 pokonanych graczy</p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="scripts/hero.js"></script>
+{% endblock %}

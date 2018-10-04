@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lochy{% endblock %}
+
+{% block body %}
+	<div id="level-choice" class="dungeon">
+		<header><h1>Wybierz poziom lochów:</h1></header>
+		<div class="dungeon__level-flex">
+			<a href="dungeons?name=basements" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_1.jpg)"><span class="card-content">Piwnice</span></a>
+			<a href="dungeons?name=catacombs" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_2.jpg)"><span class="card-content">Katakumby</span></a>
+			<a href="dungeons?name=snakesground" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_3.jpg)"><span class="card-content">Wężowe pole</span></a>
+			<a href="dungeons?name=infernalcave" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_4.jpg)"><span class="card-content">Piekielna Grota</span></a>
+			<a href="dungeons?name=spiderlair" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_5.jpg)"><span class="card-content">Leże pająków</span></a>
+			<a href="dungeons?name=demontower" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_6.jpg)"><span class="card-content">Wieża demonów</span></a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="scripts/dungeons.js"></script>
+{% endblock %}

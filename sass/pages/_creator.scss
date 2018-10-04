@@ -1,0 +1,348 @@
+.creator{
+  &__form{
+    height: 100%;
+  }
+
+  &__class__flex{
+    @include flexbox(row, space-around, center);
+    height: 100%;
+
+    @include media-query('phone', portrait){
+      flex-flow: column;
+      margin: 7% 0;
+    }
+  }
+
+  &__class__block{
+    text-align: center;
+    cursor: pointer;
+    transition: $transition-normal;
+
+    @include media-query('phone', portrait){
+      margin: 20px 0;
+    }
+
+    &:hover + label{
+      transform: scale(1.1);
+    }
+
+    input{
+      transform: translateX(-9999px);
+      & + label{
+        background-size: 70%;
+
+        @include media-query('phone'){
+          margin: 0 auto;
+        }
+      }
+
+      &:checked + label{
+        box-shadow: 0 0 10px $color-primary-base;
+        border-radius: $circle;
+        @include hardware;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__hero-class{
+    display: block;
+    background-color: transparent;
+    @include background-image;
+    height: calc(12vh + 30px);
+    width: calc(12vh + 30px);
+    transition: $transition-normal;
+    cursor: pointer;
+    z-index: 1;
+
+    @include media-query('phone', portrait){
+      height: 100px;
+      width: 100px;
+    }
+  }
+
+  &__warrior{
+    background-image: url(images/creator/warrior_sword.svg);
+  }
+
+  &__mage{
+    background-image: url(images/creator/mage_wand.png);
+  }
+
+  &__ranger{
+    background-image: url(images/creator/ranger_bow.svg);
+  }
+
+  &__class-image{
+    position: relative;
+  }
+
+  &__race-flex{
+    @include flexbox(row, space-between, center, wrap);
+    height: 100%;
+
+    @include media-query('phone', portrait){
+      flex-flow: column;
+    }
+  }
+
+  &__race__block{
+    position: relative;
+
+    @include media-query('phone', portrait){
+      margin: 20px 0;
+      height: 100px;
+      width: 100px;
+      margin-bottom: 100%;
+    }
+
+    input{
+      transform: translateX(-9999px);
+
+      &:checked + label{
+        box-shadow: 0 0 5px 2px $black;
+        border-radius: $circle;
+        @include hardware;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &__hero-race{
+    display: block;
+    background-color: transparent;
+    @include background-image;
+    background-size: cover !important;
+    height: calc(12vh + 30px);
+    width: calc(12vh + 30px);
+    border: none;
+    transition: $transition-fast;
+    cursor: pointer;
+    z-index: 1;
+    margin: 0 5px;
+    border-radius: $circle;
+
+    @include media-query('phone', portrait){
+      margin: 0;
+    }
+
+    &:hover{
+      transform: scale(1.1);
+    }
+
+    & + .creator__tooltip p:first-child{
+      font-weight: bold;
+    }
+  }
+
+  &__human{
+    background-image: url(images/heroes/human.jpg);
+  }
+
+  &__elf{
+    background-image: url(images/heroes/elf.jpg);
+  }
+
+  &__dwarf{
+    background-image: url(images/heroes/dwarf.jpg);
+  }
+
+  &__demon{
+    background-image: url(images/heroes/demon.jpg);
+  }
+
+  &__orc{
+    background-image: url(images/heroes/orc.jpg);
+  }
+
+  &__tooltip{
+    left: 50%;
+    text-align: left;
+    margin: 0 2px;
+
+    p{
+      margin: 0;
+      margin-bottom: 5px;
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+
+    .plus{
+      color: $green;
+    }
+
+    .minus{
+      color: $red;
+    }
+  }
+
+  &__attributes{
+    text-align: right;
+
+    @include media-query('phone', portrait){
+      text-align: center;
+    }
+  }
+
+  &__attributes__block{
+    text-align: left;
+
+    p{
+      margin: 10px 0;
+      font-size: $font-size-small;
+    }
+  }
+
+  &__attribute-flex{
+    @include flexbox(row, space-between);
+
+    @include media-query('phone', portrait){
+      margin: 20px 0;
+      flex-flow: column;
+      text-align: center;
+    }
+  }
+
+  &__attribute__button{
+    font-size: .75em;
+    line-height: .75em;
+    padding: .75em;
+
+    &:active{
+      animation-name: pulse;
+      animation-duration: $transition-fast;
+    }
+
+    @include media-query('phone', portrait){
+      font-size: 0.6em !important;
+      line-height: 0.6em;
+    }
+  }
+
+  &__slider-flex{
+    @include flexbox(row, space-between);
+    width: 70%;
+
+    @include media-query('phone', portrait){
+      width: 100%;
+    }
+  }
+
+  &__silder{
+    width: 50%;
+    float: right;
+    border: solid 1px grey !important;
+  }
+
+  &__name-flex{
+    @include flexbox;
+    height: 100%;
+
+    @include media-query('phone'){
+      min-height: 300px;
+    }
+  }
+
+  &__input-name{
+    font-size: $font-size-small;
+    @include flexbox;
+    @include padding-box('huge');
+    border-radius: $rounded-normal;
+    border: solid 3px $color-primary-base;
+
+    button{
+      padding: 0;
+      background: none;
+      border: none;
+      outline: none;
+      color:  $grey;
+      transition: $transition-fast;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    input[type=text]{
+      border-style: none;
+      background: transparent;
+      outline: none;
+      flex-grow: 1;
+      font-size: $font-size-normal;
+      font-family: $font-secondary;
+
+      &::-webkit-input-placeholder {
+        color: $grey;
+      }
+    }
+  }
+
+  &__next{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border: none;
+    border-radius: 0 0 8px 8px;
+
+    @include media-query('phone'){
+      position: static;
+      border-radius: 0;
+      margin: 5px 0;
+    }
+
+    &:hover{
+      background-color: $color-primary-base;
+      border: none;
+      color: $white;
+      border-radius: 0 0 8px 8px;
+    }
+  }
+}
+
+.register{
+  @include flexbox(column);
+
+  &-flex{
+    @include flexbox(column, space-between, normal);
+
+    .input{
+       margin: 5px 0;
+       transition: $transition-fast;
+
+       &.good{
+         border-color: $green;
+         background-color: #daebbb;
+       }
+       &.bad{
+        background-color: #e3ccc2;
+         border-color: $red;
+       }
+    }
+  }
+
+  &__policy{
+    font-size: $font-size-small;
+    margin: 10px 0 15px 0;
+  }
+
+  &__progress[value]::-webkit-progress-value {
+      background-color: $red;
+  }
+
+  &__progress[value="3"]::-webkit-progress-value {
+      background-color: $yellow;
+  }
+
+  &__progress[value="4"]::-webkit-progress-value {
+      background-color: $green;
+  }
+
+  &__progress[value="5"]::-webkit-progress-value {
+      background-color: $blue;
+  }
+
+}

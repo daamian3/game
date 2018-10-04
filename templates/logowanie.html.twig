@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block body %}
+	<h1 class="login__header">Logowanie</h1>
+	<form class="login" action="zaloguj" method="POST">
+		<div>
+			<div class=login__block>
+				<label for="inputEmail" class="login__label">Login: </label>
+				<input type="text" id="inputEmail" class="input" name="name" required autofocus>
+			</div>
+			<div class=login__block>
+				<label for="inputPassword" class="login__label">Hasło: </label>
+				<input type="password" id="inputPassword" class="input" name="pass" required>
+			</div>
+			<button id="login" class="button small login__button" type="submit">Zaloguj się</button>
+		</div>
+	</form>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="scripts/login.js"></script>
+{% endblock %}

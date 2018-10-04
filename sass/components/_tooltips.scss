@@ -1,0 +1,29 @@
+.tooltip{
+  background-color: $color-primary-base;
+  color: $white;
+  position: absolute;
+  min-width: 10em;
+  transform: translateX(-50%);
+  visibility: hidden;
+  opacity: 0;
+  font-size: $font-size-tiny;
+  border: solid 2px $black;
+  border-radius: $rounded-normal;
+  @include padding-box('small');
+  transition: visibility 0s, opacity $transition-fast linear;
+  z-index: 2;
+
+  @include media-query('phone'){
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    margin: 10px auto;
+    transform: none;
+    width: 90%;
+  }
+}
+
+*:hover + .tooltip{
+  visibility: visible;
+  opacity: 1;
+}

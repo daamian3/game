@@ -1,0 +1,17 @@
+.login{
+  height: 90%;
+  text-align: center;
+  @include flexbox(column);
+
+  &__block{
+    margin: 15px 0;
+  }
+
+  &__button{
+    width: 100%;
+  }
+
+  .main__window &{
+    min-height: 66vh;
+  }
+}

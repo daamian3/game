@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	{% block stylesheets %}
+		<link rel="stylesheet" href="style.min.css">
+	{% endblock %}
+</head>
+
+<body>
+	<div id="loading" class="loading"></div>
+
+	<div id="welcome" class="welcome" style="display: none">
+		<h2>Gotowy na przygodę?</h2>
+		<h1>The Game</h1>
+		<p>Przygoda wzywa, powodzenia!</p>
+	</div>
+
+	<main class="main__flex">
+		<button id="open" class="hamburger"></button>
+		<ul class="main__menu">
+			{% if session.auth %}
+				<a href="hero"><li class="button main__menu__button">Postać</li></a>
+				<a href="adventure"><li class="button main__menu__button">Wyprawa</li></a>
+				<a href="arena"><li class="button main__menu__button">Arena</li></a>
+				<a href="dungeons"><li class="button main__menu__button">Lochy</li></a>
+				<a href="shop"><li class="button main__menu__button">Sklep</li></a>
+				<a href="help"><li class="button main__menu__button">Pomoc</li></a>
+				<a href="about-us"><li class="button main__menu__button">Autorzy</li></a>
+				<a href="logout"><li class="button main__menu__button">Wyloguj</li></a>
+			{% else %}
+				<a href="./"><li class="button main__menu__button">Strona główna</li></a>
+				<a href="help"><li class="button main__menu__button">Pomoc</li></a>
+				<a href="about-us"><li class="button main__menu__button">Autorzy</li></a>
+				<a href="login"><li class="button main__menu__button">Logowanie</li></a>
+			{% endif %}
+
+		</ul>
+		<div class="main__window">
+			{% block body %}{% endblock %}
+		</div>
+	</main>
+
+	<footer class="footer"> 2018 | &copy; GAME by Damian Chojnacki</footer>
+
+	{% block scripts %}
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery-ui.min.js"></script>
+	<script src="scripts/noty.min.js"></script>
+	<script src="scripts/remodal.min.js"></script>
+	<script src="scripts/loader.js"></script>
+	<script src="scripts/menu.js"></script>
+
+	{% if session.error %}
+	<script>
+		new Noty({
+		    type: 'error',
+		    layout: 'topRight',
+		    text: '{{ session.error }}',
+				timeout: 3000,
+		}).show();
+	</script>
+	{% endif %}
+
+	{% if session.success %}
+	<script>
+		new Noty({
+		    type: 'success',
+		    layout: 'topRight',
+		    text: '{{ session.success }}',
+				timeout: 3000,
+		}).show();
+	</script>
+	{% endif %}
+
+	{% endblock %}
+
+</body>
+</html>

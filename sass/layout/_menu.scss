@@ -1,0 +1,115 @@
+.main__menu{
+  width: 20%;
+  padding: 20px;
+  background-image: url(images/texture.png);
+  border-radius: $rounded-normal;
+  box-shadow: 0 0 5px 1px $color-primary-base;
+  height: 100%;
+
+  @include media-query('phone'){
+    width: 100%;
+    height: auto;
+    display: none;
+    border-radius: 0;
+    margin: 0;
+  }
+}
+
+.hamburger{
+  display: none;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-top: 6px solid $white;
+  border-radius: 7px;
+  transition: 0.3s transform linear;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  align-self: flex-end;
+  margin: 10px;
+
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top: 6px solid $white;
+    border-radius: 5px;
+    transform: translateY(10px);
+  }
+
+  &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top: 6px solid $white;
+    transform: translateY(10px);
+    border-radius: 0px 0px 5px 5px;
+    transform: translateY(25px);
+    transition: 0.3s transform linear;
+  }
+
+  &:hover{
+    background-color: transparent;
+    border-top: 6px solid $white;
+  }
+
+  @include media-query('phone'){
+    display: block;
+  }
+}
+
+.exit{
+  width: 40px;
+  height: 40px;
+  position: relative;
+  transition: 0.3s transform linear;
+  background-color: transparent;
+  border: none;
+  transform: rotate(45deg) translateY(5px);
+  z-index: 9999;
+  cursor: pointer;
+
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top: 6px solid $white;
+    border-radius: 10px;
+    transform: translateY(10px);
+  }
+
+  &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-top: 6px solid $white;
+    transform: translateY(10px);
+    border-radius: 10px;
+    transform: translateY(25px);
+    transition: 0.3s transform linear;
+    transform: rotate(-90deg) translateX(-10px);
+  }
+
+  &:hover{
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.main__menu__button{
+  list-style-type: none;
+  margin-top: 10px;
+
+  @include media-query('phone'){
+    text-align: center;
+  }
+}

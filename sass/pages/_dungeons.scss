@@ -1,0 +1,26 @@
+.dungeon{
+  height: 100%;
+
+  &__level-flex{
+    @include flexbox;
+    flex-wrap: wrap;
+    height: 90%;
+
+    @include media-query('phone', portrait){
+      flex-flow: column;
+    }
+  }
+
+  &__level{
+    @include background-image;
+    width: calc(33% - 20px);
+    height: 25vh;
+    margin: 10px;
+    letter-spacing: 5px;
+
+    @include media-query('phone', portrait){
+      width: 100%;
+      height: 40vw;
+    }
+  }
+}

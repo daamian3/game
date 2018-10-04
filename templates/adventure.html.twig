@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wyprawa{% endblock %}
+
+{% block body %}
+
+	<div class="adventure">
+		<h1>Wyprawa</h1>
+		<div class="adventure__flex">
+			<form id="adventure__list" class="adventure__panel">
+				{% for adventure in adventures %}
+					<input type="radio" name="adventure" id="adventure_{{ adventure.id }}"/>
+					<label for="adventure_{{ adventure.id }}" id="adventure_label_{{ adventure.id }}" class="card-container  adventure__panel__block"><span class="card-content">{{ adventure.name }}</span></label>
+				{% endfor %}
+			</form>
+
+		  <div class="adventure__info">
+				<div class="adventure__welcome" id="adventureWelcome">Wybierz przygodę aby zobaczyć szczegóły</div>
+				{% for adventure in adventures %}
+					<div class="adventure__info__block" id="adventure__info-{{ adventure.id }}">
+						<h2>{{ adventure.name }}</h2>
+						<p class="adventure__info__text">{{ adventure.description }}</p>
+						<p class="adventure__conditions">
+							<span class="adventure__time">Czas wyprawy: {{ adventure.time }}</span>
+							<span class="adventure__reward">
+								Nagroda:
+								{% if adventure.reward.gold != false %}
+				          <img class="icon small" src="images/gold.svg"/>
+				          <span id="adventure-gold">{{ adventure.reward.gold }}</span>
+				        {% endif %}
+				        {% if adventure.reward.silver != false %}
+				          <img class="icon small" src="images/silver.svg"/>
+				          <span id="adventure-silver">{{ adventure.reward.silver }}</span>
+				        {% endif %}
+				        <img class="icon small" src="images/bronze.svg"/>
+				        <span id="adventure-bronze">{{ adventure.reward.bronze }}</span>
+							</span>
+						</p>
+						<button class="button">Rozpocznij przygodę</button>
+					</div>
+				{% endfor %}
+		  </div>
+		 </div>
+	 </div>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="scripts/adventure.js"></script>
+{% endblock %}

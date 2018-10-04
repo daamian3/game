@@ -1,0 +1,16 @@
+.main__window{
+  width: 77.5%;
+  padding: 20px;
+  background-image: url(images/texture.png);
+  border-radius: 10px;
+  box-shadow: 0 0 5px 1px $color-primary-base;
+  height: 100%;
+  position: relative;
+
+  @include media-query('phone'){
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    padding: 25px;
+  }
+}

@@ -1,0 +1,71 @@
+button:focus{
+  outline: none;
+}
+
+.button{
+  cursor: pointer;
+  background-color: $color-primary-base;
+  color: $white;
+  transition: $transition-fast;
+  border-radius: $rounded-normal;
+  border: solid 2px $color-primary-base;
+  font-size: $font-size-normal;
+  @include padding-box;
+
+  &:hover{
+    background-color: $white;
+    color: $color-primary-base;
+  }
+}
+
+.button.light{
+  background-color: $color-primary-light;
+  border-color: $color-primary-light;
+
+  &:hover{
+    background-color: $white;
+  }
+}
+
+.button.dark{
+  background-color: $color-primary-dark;
+  border-color: $color-primary-dark;
+
+  &:hover{
+    background-color: $white;
+  }
+}
+
+.button.inverted{
+  background-color: $white;
+  color: $color-primary-base;
+  border-color: $color-primary-base;
+
+  &:hover{
+    background-color: $color-primary-base;
+    color: $white;
+  }
+}
+
+.button.small{
+  font-size: $font-size-small;
+  @include padding-box('small');
+}
+
+
+.button.big{
+  font-size: $font-size-big;
+  @include padding-box('big');
+}
+
+.button.circle{
+  border-radius: $circle;
+}
+
+.button.disabled{
+  background-color: $grey;
+  &:hover{
+    background-color: $grey;
+    color: $white;
+  }
+}

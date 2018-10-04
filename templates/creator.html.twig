@@ -1,0 +1,241 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kreator postaci{% endblock %}
+
+{% block body %}
+	<form id="creator__tabs" action="/game/register" method="POST">
+		<ul>
+			<li><a href="#creator__tab1">Klasa</a></li>
+			<li><a href="#creator__tab2">Rasa</a></li>
+			<li><a href="#creator__tab3">Atrybuty</a></li>
+			<li><a href="#creator__tab4">Nazwa</a></li>
+		</ul>
+
+		<div class="creator__class" id="creator__tab1">
+			<!-- Zakładka 1 -->
+			<div class="creator__class__flex">
+				<div class="creator__class__block">
+					<p>Wojownik</p>
+					<div class="creator__class-image">
+					<input id="warrior" type="radio" name="class" value="warrior" required/>
+					<label for="warrior" class="creator__hero-class creator__warrior"></label>
+						<div class="tooltip creator__tooltip">
+							<p>Siła: <span class="plus">+2%</span></p>
+							<p>Inteligencja: <span>0</span></p>
+							<p>Zręczność: <span>0</span></p>
+							<p>Witalność: <span class="plus">+4%</span></p>
+						</div>
+					</div>
+					<!-- Wojownik obrazek -->
+				</div>
+				<div class="creator__class__block">
+					<p>Mag</p>
+					<div class="creator__class-image">
+						<input id="mage" type="radio" name="class" value="mage" required/>
+						<label for="mage" class="creator__hero-class creator__mage"></label>
+						<div class="tooltip creator__tooltip">
+							<p>Siła: <span>0</span></p>
+							<p>Inteligencja: <span class="plus">+5%</span></p>
+							<p>Zręczność: <span>0</span></p>
+							<p>Witalność: <span class="plus">+1%</span></p>
+						</div>
+					</div>
+					<!-- Mag obrazek -->
+				</div>
+				<div class="creator__class__block">
+					<p>Łowca</p>
+					<div class="creator__class-image">
+						<input id="ranger" type="radio" name="class" value="mage" required/>
+						<label for="ranger" class="creator__hero-class creator__ranger"></label>
+						<div class="tooltip creator__tooltip">
+							<p>Siła: <span>0</span></p>
+							<p>Inteligencja: <span>0</span></p>
+							<p>Zręczność: <span class="plus">+3%</span></p>
+							<p>Witalność: <span class="plus">+3%</span></p>
+						</div>
+					</div>
+					<!-- Łowca obrazek -->
+				</div>
+			</div>
+		</div>
+
+		<div class="creator__race" id="creator__tab2">
+			<div class="creator__race-flex">
+				<div class="creator__race__block">
+					<input id="human" type="radio" name="race" value="human" required/>
+					<label for="human" class="creator__hero-race creator__human"></label>
+					<div class="tooltip creator__tooltip">
+						<p>Rasa: Człowiek</p>
+						<p>Siła: <span class="plus">+1%</span></p>
+						<p>Inteligencja: <span class="plus">+1%</span></p>
+						<p>Zręczność: <span class="plus">+1%</span></p>
+						<p>Witalność: <span class="plus">+1%</span></p>
+					</div>
+				</div>
+				<div class="creator__race__block">
+					<input id="elf" type="radio" name="race" value="elf" required/>
+					<label for="elf" class="creator__hero-race creator__elf"></label>
+					<div class="tooltip creator__tooltip">
+						<p>Rasa: Elf</p>
+						<p>Siła: <span>0</span></p>
+						<p>Inteligencja: <span class="plus">+2%</span></p>
+						<p>Zręczność: <span class="plus">+2%</span></p>
+						<p>Witalność: <span>0</span></p>
+					</div>
+				</div>
+				<div class="creator__race__block">
+					<input id="dwarf" type="radio" name="race" value="dwarf" required/>
+					<label for="dwarf" class="creator__hero-race creator__dwarf"></label>
+					<div class="tooltip creator__tooltip">
+						<p>Rasa: Krasnolud</p>
+						<p>Siła: <span class="plus">+2%</span></p>
+						<p>Inteligencja: <span class="minus">-1%</span></p>
+						<p>Zręczność: <span class="plus">+3%</span></p>
+						<p>Witalność: <span>0</span></p>
+					</div>
+				</div>
+				<div class="creator__race__block">
+					<input id="demon" type="radio" name="race" value="demon" required/>
+					<label for="demon" class="creator__hero-race creator__demon"></label>
+					<div class="tooltip creator__tooltip">
+						<p>Rasa: Demon</p>
+						<p>Siła: <span class="plus">+4%</span></p>
+						<p>Inteligencja: <span>0</span></p>
+						<p>Zręczność: <span class="minus">-1%</span></p>
+						<p>Witalność: <span class="plus">+1%</span></p>
+					</div>
+				</div>
+				<div class="creator__race__block">
+					<input id="orc" type="radio" name="race" value="orc" required/>
+					<label for="orc" class="creator__hero-race creator__orc"></label>
+					<div class="tooltip creator__tooltip">
+						<p>Rasa: Ork</p>
+						<p>Siła: <span class="plus">+2%</span></p>
+						<p>Inteligencja: <span class="minus">-1%</span></p>
+						<p>Zręczność: <span class="minus">-1%</span></p>
+						<p>Witalność: <span class="plus">+4%</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="creator__attributes" id="creator__tab3">
+			<!-- Zakładka 2 -->
+			<div class="creator__attributes__flex">
+				<span>Pozostało punktów: </span><span id="creator__points">10</span>
+				<div class="creator__attributes__block">
+					<div class="creator__attribute-flex">
+						<div>
+							<p>Siła</p>
+							<img class="icon" src="images/attributes/strength.svg" alt="siła"/>
+							<!-- Ikonka -->
+						</div>
+						<div class="creator__slider-flex">
+							<button class="button inverted circle creator__attribute__button" type="button" id="strength__minus"><i class="icon-minus"></i></button>
+							<!-- Odejmij punkt -->
+							<div id="strength__slider" class="creator__silder">
+								<!-- Slider -->
+								<div id="strength__handle" class="ui-slider-handle"></div>
+								<!-- Suwak -->
+							</div>
+							<button class="button inverted circle creator__attribute__button" type="button" id="strength__plus"><i class="icon-plus"></i></button>
+							<!-- Dodaj punkt -->
+						</div>
+					</div>
+				</div>
+				<div class="creator__attributes__block">
+					<div class="creator__attribute-flex">
+						<div>
+							<p>Inteligencja</p>
+							<img class="icon" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+						</div>
+						<div class="creator__slider-flex">
+							<button class="button inverted circle creator__attribute__button" type="button" id="intelligence__minus"><i class="icon-minus"></i></button>
+							<div id="intelligence__slider" class="creator__silder">
+								<div id="intelligence__handle" class="ui-slider-handle"></div>
+							</div>
+							<button class="button inverted circle creator__attribute__button" type="button" id="intelligence__plus"><i class="icon-plus"></i></button>
+						</div>
+					</div>
+				</div>
+				<div class="creator__attributes__block">
+					<div class="creator__attribute-flex">
+						<div>
+							<p>Zręczność</p>
+							<img class="icon" src="images/attributes/agility.svg" alt="zręczność"/>
+						</div>
+						<div class="creator__slider-flex">
+							<button class="button inverted circle creator__attribute__button" type="button" id="agility__minus"><i class="icon-minus"></i></button>
+							<div id="agility__slider" class="creator__silder">
+								<div id="agility__handle" class="ui-slider-handle"></div>
+							</div>
+							<button class="button inverted circle creator__attribute__button" type="button" id="agility__plus"><i class="icon-plus"></i></button>
+						</div>
+					</div>
+				</div>
+				<div class="creator__attributes__block">
+					<div class="creator__attribute-flex">
+						<div>
+							<p>Wytrzymałość</p>
+							<img class="icon" src="images/attributes/vitality.svg" alt="witalność"/>
+						</div>
+						<div class="creator__slider-flex">
+							<button class="button inverted circle creator__attribute__button" type="button" id="vitality__minus"><i class="icon-minus"></i></button>
+							<div id="vitality__slider" class="creator__silder">
+								<div id="vitality__handle" class="ui-slider-handle"></div>
+							</div>
+							<button class="button inverted circle creator__attribute__button" type="button" id="vitality__plus"><i class="icon-plus"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div data-remodal-id="register">
+			<button data-remodal-action="close" class="remodal-close"></button>
+			<div class="register">
+				<h2 class="remodal__header">Rejestracja</h2>
+				<div class="register-flex">
+					<input class="input" type="text" id="login" name="login" autocomplete="off" maxlength="14" placeholder="Login" title="4-14 characters. Without space" aria-label="login" required/>
+					<input class="input" type="email" id="email" name="email" autocomplete="on" maxlength="50" placeholder="Email" aria-label="email" required/>
+					<input class="input register__password" type="password" id="haslo" name="haslo" maxlength="20" placeholder="Hasło" title="4-14 characters. Without space" aria-label="password" required/>
+					<progress class="register__progress passwordComplexity" id="passwordComplexity" value="0" title="Password strength"></progress>
+					<input class="input register__password-check" type="password" id="vhaslo" name="vhaslo" maxlength="20" placeholder="Potwierdź hasło" title="Type password again" aria-label="password-check" required/>
+					<div class="register__policy">
+						<label for="policy">Akceptuję <a href="privacy-policy" class="span">regulamin</a></label>
+						<input type="checkbox" id="policy" aria-label="policy">
+					</div>
+					<button id="submit__reg" class="button small" type="button" class="disabled" disabled>Dalej</button>
+					<input id="display__time" name="displaytime" type="hidden" value="0"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="creator__name" id="creator__tab4">
+			<!-- Zakładka 3 -->
+			<div class="creator__name-flex">
+				<input type="hidden" name="strength"/>
+				<input type="hidden" name="intelligence"/>
+				<input type="hidden" name="agility"/>
+				<input type="hidden" name="vitality"/>
+
+				<input type="hidden" name="login"/>
+				<input type="hidden" name="email"/>
+				<input type="hidden" name="haslo"/>
+				<input type="hidden" name="vhaslo"/>
+				<input type="hidden" name="displaytime"/>
+
+				<div class="creator__input-name">
+					<input id="name" type="text" class="creator__name" name="name" autocomplete="off" placeholder="Nazwa bohatera" aria-label="nazwa bohatera" maxlength="16" required/>
+					<button id="submit-hero" type="button"><i class="icon-right-big"></i></button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<button class="button creator__next" id="nextTab">Dalej</button>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="scripts/creator.js"></script>
+{% endblock %}
