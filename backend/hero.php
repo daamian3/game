@@ -367,7 +367,7 @@ class Hero{
   }
 
   function unEquipItem($type){
-    ustal_wartosc('state', '0', 'eq', 'hero_id = ? AND type = ? LIMIT 1', $this -> id, $type);
+    ustal_wartosc('state', '0', 'eq', 'hero_id = ? AND type = ? AND state = 3 LIMIT 1', $this -> id, $type);
     //TODO przy dwoch mieczach tylko drugi jest sciagany, tak samo pierscienie
     return true;
   }

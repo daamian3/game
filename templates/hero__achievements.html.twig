@@ -1,0 +1,52 @@
+<div class="achievements">
+  {% if hero.killed_monsters >= 1000 %}
+    <div class="achievements__block">
+      <img src="images/achievements/killer_gold.png" class="icon big achievements__img"/>
+      <div class="tooltip achievements__tooltip">
+        <h6>Zabójca potworów</h6>
+        <p>{{ hero.killed_monsters }} zabitych potworów</p>
+      </div>
+    </div>
+  {% elseif hero.killed_monsters >= 100 %}
+    <div class="achievements__block">
+      <img src="images/achievements/killer_silver.png" class="icon big achievements__img"/>
+      <div class="tooltip achievements__tooltip">
+        <h6>Zabójca potworów</h6>
+        <p>{{ hero.killed_monsters }}/1000 zabitych potworów</p>
+      </div>
+    </div>
+  {% elseif hero.killed_monsters >= 10 %}
+    <div class="achievements__block">
+      <img src="images/achievements/killer_bronze.png" class="icon big achievements__img"/>
+      <div class="tooltip achievements__tooltip">
+        <h6>Zabójca potworów</h6>
+        <p>{{ hero.killed_monsters }}/100 zabitych potworów</p>
+      </div>
+    </div>
+  {% endif %}
+  {% if hero.beated_players >= 500 %}
+  <div class="achievements__block">
+    <img src="images/achievements/gladiator_gold.png" class="icon big achievements__img"/>
+    <div class="tooltip achievements__tooltip">
+      <h6>Gladiator</h6>
+      <p>{{ hero.beated_players }} pokonanych graczy</p>
+    </div>
+  </div>
+  {% elseif hero.beated_players >= 50 %}
+  <div class="achievements__block">
+    <img src="images/achievements/gladiator_silver.png" class="icon big achievements__img"/>
+    <div class="tooltip achievements__tooltip">
+      <h6>Gladiator</h6>
+      <p>{{ hero.beated_players }}/500 pokonanych graczy</p>
+    </div>
+  </div>
+  {% elseif hero.beated_players >= 10 %}
+  <div class="achievements__block">
+    <img src="images/achievements/gladiator_bronze.png" class="icon big achievements__img"/>
+    <div class="tooltip achievements__tooltip">
+      <h6>Gladiator</h6>
+      <p>{{ hero.beated_players }}/50 pokonanych graczy</p>
+    </div>
+  </div>
+  {% endif %}
+</div>

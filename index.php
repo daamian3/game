@@ -196,6 +196,28 @@ $klein -> respond('POST', '/game/get_stats', function ($request, $response, $ser
   ));
 });
 
+$klein -> respond('GET', '/game/hero__eq', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  echo $app -> twig -> render('hero__eq.html.twig', array(
+    'eq' => $hero -> getEq(),
+    'items' => $hero -> getBag(),
+  ));
+});
+
+$klein -> respond('GET', '/game/hero__stats', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  echo $app -> twig -> render('hero__stats.html.twig', array(
+    'hero' => $hero -> getStats(),
+  ));
+});
+
+$klein -> respond('GET', '/game/hero__attrib', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  echo $app -> twig -> render('hero__attrib.html.twig', array(
+    'hero' => $hero -> getStats(),
+  ));
+});
+
 $klein -> respond(array('POST', 'GET'), '/game/zaloguj', function ($request, $response, $service, $app) {
   if(zalogowany()) indexAction($request, $response, $service, $app);
   else if(zaloguj()) indexAction($request, $response, $service, $app);

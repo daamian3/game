@@ -92,38 +92,46 @@ $(document).ready(function() {
 	    });
 	});
 
-	$('#hero__inventory .hero__items__block').on('click', function(){
-		const object = $(this);
-		const id = this.id.slice(5);
+	$("body").on( "click", "#hero__inventory .hero__items__block", function( event ) {
+			const id = this.id.slice(5);
 
-		$.post({
-	        url : 'hero_equip',
-					data: { item: id },
-	    })
-	    .done(result => {
-				if(result){
-					noty = new Noty({
-							type: 'success',
-							layout: 'topRight',
-							text: 'Udało się!',
-							timeout: 3000,
-					}).show();
-					getStats();
-					object.fadeOut();
-				}
-				else{
-					noty = new Noty({
-					    type: 'error',
-					    layout: 'topRight',
-					    text: 'Nie udało się, przepraszamy!',
-							timeout: 3000,
-					}).show();
-				}
-	    });
-	});
+			$.post({
+						url : 'hero_equip',
+						data: { item: id },
+				})
+				.done(result => {
+					if(result){
+						noty = new Noty({
+								type: 'success',
+								layout: 'topRight',
+								text: 'Udało się!',
+								timeout: 3000,
+						}).show();
 
-	$('.equiped').on('click', function(){
-		const object = $(this);
+						$("#hero__tab1").load("hero__stats");
+						$("#hero__tab2").load("hero__eq");
+						$("#hero__tab3").load("hero__attrib");
+
+						setTimeout(function(){
+							getAttribCost('vitality');
+							getAttribCost('strength');
+							getAttribCost('intelligence');
+							getAttribCost('agility');
+							getAttribCost('luck');
+						}, 1000);
+					}
+					else{
+						noty = new Noty({
+								type: 'error',
+								layout: 'topRight',
+								text: 'Nie udało się, przepraszamy!',
+								timeout: 3000,
+						}).show();
+					}
+				});
+		});
+
+	$("body").on( "click", ".equiped", function( event ) {
 		const type = this.id;
 
 		$.post({
@@ -138,7 +146,17 @@ $(document).ready(function() {
 							text: 'Udało się!',
 							timeout: 3000,
 					}).show();
-					getStats();
+					$("#hero__tab1").load("hero__stats");
+					$("#hero__tab2").load("hero__eq");
+					$("#hero__tab3").load("hero__attrib");
+
+					setTimeout(function(){
+						getAttribCost('vitality');
+						getAttribCost('strength');
+						getAttribCost('intelligence');
+						getAttribCost('agility');
+						getAttribCost('luck');
+					}, 1000);
 				}
 				else{
 					noty = new Noty({

@@ -1,0 +1,286 @@
+    <div class="hero__items-flex">
+      {% if eq.helmet %}
+        <div id="helmet" class="hero__items__block equiped"><img src="images/equipment/{{ eq.helmet.img }}.png"/></div>
+        <div class="tooltip hero__tooltip">
+          <span><h5>{{ eq.helmet.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+            Pancerz:
+            <span>{{ eq.helmet.defense }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="helmet" class="hero__items__block"><img src="images/equipment/helmet.svg"/></div>
+      {% endif %}
+    </div>
+    <div class="hero__items-flex">
+      {% if eq.necklace %}
+        <div id="necklace" class="hero__items__block equiped"><img src="images/equipment/{{ eq.necklace.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.necklace.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+            Siła:
+            <span>{{ eq.necklace.strength }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+            Inteligencja:
+            <span>{{ eq.necklace.intelligence }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+            Zwinność:
+            <span>{{ eq.necklace.agility }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+            Witalność:
+            <span>{{ eq.necklace.vitality }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+            Szczęście:
+            <span>{{ eq.necklace.luck }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="necklace" class="hero__items__block"><img src="images/equipment/necklace.svg"/></div>
+      {% endif %}
+
+      {% if eq.chestplate %}
+        <div id="chestplate" class="hero__items__block equiped"><img src="images/equipment/{{ eq.chestplate.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.chestplate.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+            Pancerz:
+            <span>{{ eq.chestplate.defense }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="chestplate" class="hero__items__block"><img src="images/equipment/chestplate.svg"/></div>
+      {% endif %}
+
+      {% if eq.arm %}
+        <div id="arm" class="hero__items__block equiped"><img src="images/equipment/{{ eq.arm.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.arm.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+            Pancerz:
+            <span>{{ eq.arm.defense }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="arm" class="hero__items__block"><img src="images/equipment/arm.svg"/></div>
+      {% endif %}
+    </div>
+    <div class="hero__items-flex">
+      {% if eq.hand1 %}
+        <div id="sword" class="hero__items__block equiped"><img src="images/equipment/{{ eq.hand1.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.hand1.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
+            Obrażenia:
+            <span>{{ eq.hand1.attack_min }}-{{ eq.hand1.attack_max }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="hand1" class="hero__items__block"><img src="images/equipment/hand.svg"/></div>
+      {% endif %}
+
+      {% if eq.belt %}
+        <div id="belt" class="hero__items__block equiped"><img src="images/equipment/{{ eq.belt.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.belt.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+            Siła:
+            <span>{{ eq.belt.strength }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+            Inteligencja:
+            <span>{{ eq.belt.intelligence }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+            Zwinność:
+            <span>{{ eq.belt.agility }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+            Witalność:
+            <span>{{ eq.belt.vitality }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+            Szczęście:
+            <span>{{ eq.belt.luck }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="belt" class="hero__items__block"><img src="images/equipment/belt.svg"/></div>
+      {% endif %}
+
+      {% if eq.hand2 %}
+          {% if eq.hand2.type == 'sword' %}
+          <div id="sword" class="hero__items__block equiped"><img src="images/equipment/{{ eq.hand2.img }}.png"/></div>
+          <div class="tooltip hero__tooltip-eq">
+            <span><h5>{{ eq.hand2.name }}</h5></span>
+            <p>
+              <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
+              Obrażenia:
+              <span>{{ eq.hand2.attack_min }}-{{ eq.hand2.attack_max }}</span>
+            </p>
+          {% else %}
+          <div id="shield" class="hero__items__block equiped"><img src="images/equipment/{{ eq.hand2.img }}.png"/></div>
+          <div class="tooltip hero__tooltip-eq">
+            <span><h5>{{ eq.hand2.name }}</h5></span>
+            <p>
+              <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+              Pancerz:
+              <span>{{ eq.hand2.defense }}</span>
+            </p>
+          {% endif %}
+        </div>
+      {% else %}
+        <div id="hand2" class="hero__items__block"><img src="images/equipment/hand.svg"/></div>
+      {% endif %}
+    </div>
+    <div class="hero__items-flex">
+      {% if eq.ring1 %}
+        <div id="ring1" class="hero__items__block equiped"><img src="images/equipment/{{ eq.ring1.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.ring1.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+            Siła:
+            <span>{{ eq.ring1.strength }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+            Inteligencja:
+            <span>{{ eq.ring1.intelligence }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+            Zwinność:
+            <span>{{ eq.ring1.agility }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+            Witalność:
+            <span>{{ eq.ring1.vitality }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+            Szczęście:
+            <span>{{ eq.ring1.luck }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="ring1" class="hero__items__block"><img src="images/equipment/ring.svg"/></div>
+      {% endif %}
+
+      {% if eq.feet %}
+        <div id="feet" class="hero__items__block equiped"><img src="images/equipment/{{ eq.feet.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.feet.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+            Pancerz:
+            <span>{{ eq.feet.defense }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="feet" class="hero__items__block"><img src="images/equipment/feet.svg"/></div>
+      {% endif %}
+
+      {% if eq.ring2 %}
+        <div id="ring2" class="hero__items__block equiped"><img src="images/equipment/{{ eq.ring2.img }}.png"/></div>
+        <div class="tooltip hero__tooltip-eq">
+          <span><h5>{{ eq.ring2.name }}</h5></span>
+          <p>
+            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+            Siła:
+            <span>{{ eq.ring2.strength }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+            Inteligencja:
+            <span>{{ eq.ring2.intelligence }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+            Zwinność:
+            <span>{{ eq.ring2.agility }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+            Witalność:
+            <span>{{ eq.ring2.vitality }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+            Szczęście:
+            <span>{{ eq.ring2.luck }}</span>
+          </p>
+        </div>
+      {% else %}
+        <div id="ring2" class="hero__items__block"><img src="images/equipment/ring.svg"/></div>
+      {% endif %}
+    </div>
+    <div id="hero__inventory" class="hero__items-flex">
+      {% for item in items %}
+      <div class="hero__items__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
+      <div class="tooltip hero__tooltip">
+        <span><h5>{{ item.name }}</h5></span>
+        {% if item.type == 'sword' %}
+          <p>
+            <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
+            Obrażenia:
+            <span>{{ item.attack_min }}-{{ item.attack_max }}</span>
+          </p>
+        {% endif %}
+
+        {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
+          <p>
+            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+            Pancerz:
+            <span>{{ item.defense }}</span>
+          </p>
+        {% endif %}
+
+        {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
+          <p>
+            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+            Siła:
+            <span>{{ item.strength }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+            Inteligencja:
+            <span>{{ item.intelligence }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+            Zwinność:
+            <span>{{ item.agility }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+            Witalność:
+            <span>{{ item.vitality }}</span>
+          </p>
+          <p>
+            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+            Szczęście:
+            <span>{{ item.luck }}</span>
+          </p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
