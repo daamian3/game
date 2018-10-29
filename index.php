@@ -29,6 +29,7 @@ function indexAction($request, $response, $service, $app){
 
     echo $app -> twig -> render('hero.html.twig', array(
       'hero' => $hero -> getStats(),
+      'eq' => $hero -> getEq(),
       'items' => $hero -> getBag(),
     ));
   }
@@ -159,6 +160,16 @@ $klein -> respond('POST', '/game/check_reg', function ($request, $response, $ser
   echo checkReg();
 });
 
+$klein -> respond('POST', '/game/hero_equip', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  echo $hero -> equipItem($_POST['item']);
+});
+
+$klein -> respond('POST', '/game/hero_unEquip', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  echo $hero -> unEquipItem($_POST['item']);
+});
+
 $klein -> respond('POST', '/game/buy_item', function ($request, $response, $service, $app) {
   $hero = new Hero;
   $shop = new Shop($hero);
@@ -177,6 +188,11 @@ $klein -> respond('POST', '/game/get_stats', function ($request, $response, $ser
     'defense' => $hero -> defense,
     'critical' => $hero -> critical,
     'miss' => $hero -> miss,
+    'vitality' => $hero -> vitality,
+    'strength' => $hero -> strength,
+    'intelligence' => $hero -> intelligence,
+    'agility' => $hero -> agility,
+    'luck' => $hero -> luck,
   ));
 });
 

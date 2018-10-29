@@ -172,7 +172,7 @@
     }
 
     &:last-child{
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-wrap: wrap;
       margin-top: 2em;
 
@@ -220,6 +220,9 @@
 
   &__tooltip{
     top: -300px;
+    left: 80px;
+  }
+  &__tooltip-eq{
     left: 80px;
   }
 }

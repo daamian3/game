@@ -24,7 +24,6 @@ class Shop{
 
       do{
         $item = pobierz_wartosc('*', 'items', 'level <= ? AND id = ?', $this -> hero -> getLevel(), $i);
-        var_dump($item);
         if($item){
           $i++;
           $items[] = $item;
@@ -53,7 +52,7 @@ class Shop{
         if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
       }
 
-      dodaj_wartosc('name, hero_id, type, attack_min, attack_max, defense, shop', 'eq', $item['name'], $this -> hero -> id, $item['type'], $item['attack_min'], $item['attack_max'], $item['defense'], true);
+      dodaj_wartosc('name, hero_id, type, attack_min, attack_max, defense, state', 'eq', $item['name'], $this -> hero -> id, $item['type'], $item['attack_min'], $item['attack_max'], $item['defense'], true);
       ustal_wartosc('img', '"'.$item['img'].'"', 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
       ustal_wartosc('vitality', $vitality, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
       ustal_wartosc('strength', $strength, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
@@ -68,12 +67,12 @@ class Shop{
   }
 
   function getItems(){
-    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND shop = true', $this -> hero -> id);
+    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND state = 1', $this -> hero -> id);
     var_dump($items);
 
     if($items != 4) $this -> newItem(4 - $items);
 
-    $items = pobierz_wartosc('*', 'eq', 'hero_id = ? AND shop = true', $this -> hero -> id, NULL, NULL, NULL, true);
+    $items = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 1', $this -> hero -> id, NULL, NULL, NULL, true);
 
     for($i = 0; $i < 4; $i++){
       $items[$i]['cost'] = $this -> convertGold($items[$i]['cost']);
@@ -85,14 +84,14 @@ class Shop{
   function buyItem($id){
     $cost = pobierz_wartosc('cost', 'eq', 'id = ?', $id);
     $gold = pobierz_wartosc('gold', 'heroes', 'id = ?', $this -> hero -> id);
-    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND shop = false', $this -> hero -> id);
-    $item = pobierz_wartosc('shop', 'eq', 'id = ?', $id);
+    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND state = 0', $this -> hero -> id);
+    $item = pobierz_wartosc('state', 'eq', 'id = ?', $id);
 
     if($gold < $cost) $error[] = 'Nie posiadasz wystarczającej ilości złota!';
     if($items > 8) $error[] = 'Twój ekwipunek jest zapełniony!';
 
     if($gold >= $cost && $items <= 8 && $item == 1){
-      ustal_wartosc('shop', 0, 'eq', 'id = ?', $id);
+      ustal_wartosc('state', 0, 'eq', 'id = ?', $id);
       ustal_wartosc('gold', $gold - $cost, 'heroes', 'id = ?', $this -> hero -> id);
       return false;
     }

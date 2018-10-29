@@ -5441,10 +5441,10 @@ h4 {
 		font-size: 1.15em; }
 
 h5 {
-		font-size: 1.15em; }
+		font-size: 1em; }
 
 h6 {
-		font-size: 1.15em; }
+		font-size: 1em; }
 
 .tooltip {
 		background-color: #3B3A59;
@@ -5989,7 +5989,7 @@ progress {
 				.hero__items-flex:nth-child(5) {
 						transform: translateY(5px); }
 				.hero__items-flex:last-child {
-						justify-content: space-between;
+						justify-content: flex-start;
 						flex-wrap: wrap;
 						margin-top: 2em; }
 						.hero__items-flex:last-child .hero__items__block {
@@ -6021,6 +6021,8 @@ progress {
 						transform: rotate(90deg); }
 		.hero__tooltip {
 				top: -300px;
+				left: 80px; }
+		.hero__tooltip-eq {
 				left: 80px; }
 
 .achievements {

@@ -13,11 +13,10 @@ class Hero{
   }
 
   function getBag(){
-    return $items = pobierz_wartosc('*', 'eq', 'hero_id = ? AND shop = false', $this -> id, NULL, NULL, NULL, true);
+    return $items = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 0', $this -> id, NULL, NULL, NULL, true);
   }
 
   function getEq(){
-    $stats = pobierz_wartosc('*', 'heroes', 'id = ?', $this -> id);
 
     $eq = array(
       'helmet' => array(
@@ -106,16 +105,23 @@ class Hero{
       ),
     );
 
-    if (!is_null($stats['helmet_id'])) $eq['helmet'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['helmet_id']);
-    if (!is_null($stats['chestplate_id'])) $eq['chestplate'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['chestplate_id']);
-    if (!is_null($stats['hand1_id'])) $eq['hand1'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['hand1_id']);
-    if (!is_null($stats['hand2_id'])) $eq['hand2'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['hand2_id']);
-    if (!is_null($stats['feet_id'])) $eq['feet'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['feet_id']);
-    if (!is_null($stats['arm_id'])) $eq['arm'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['arm_id']);
-    if (!is_null($stats['belt_id'])) $eq['belt'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['belt_id']);
-    if (!is_null($stats['ring1_id'])) $eq['ring1'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['ring1_id']);
-    if (!is_null($stats['ring2_id'])) $eq['ring2'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['ring2_id']);
-    if (!is_null($stats['necklace_id'])) $eq['necklace'] = pobierz_wartosc('*', 'eq', 'id = ?', $stats['necklace_id']);
+    $count_hand = pobierz_wartosc('COUNT(*)', 'eq', 'hero_id = ? AND state = 3 AND type = "sword"', $this -> id);
+    if($count_hand > 1){
+      $eq['hand1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword" ORDER BY type DESC', $this -> id);
+      $eq['hand2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword" ORDER BY type ASC', $this -> id);
+    }
+    else{
+      $eq['hand1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword"', $this -> id);
+      $eq['hand2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "shield"', $this -> id);
+    }
+    $eq['helmet'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "helmet"', $this -> id);
+    $eq['chestplate'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "chestplate"', $this -> id);
+    $eq['feet'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "feet"', $this -> id);
+    $eq['arm'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "arm"', $this -> id);
+    $eq['belt'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "belt"', $this -> id);
+    $eq['ring1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "ring" ORDER BY type DESC', $this -> id);
+    $eq['ring2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "ring" ORDER BY type ASC', $this -> id);
+    $eq['necklace'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "necklace"', $this -> id);
 
     return $eq;
   }
@@ -348,6 +354,21 @@ class Hero{
   }
 
   function equipItem($id){
+    $hero_id = pobierz_wartosc('hero_id', 'eq', 'id = ?', $id);
 
+    if($hero_id == $this -> id){
+      $item_type = pobierz_wartosc('type', 'eq', 'id = ?', $id);
+      $item_using = pobierz_wartosc('id', 'eq', 'hero_id = ? AND type = ? AND state = 3', $hero_id, $item_type);
+      if($item_using) ustal_wartosc('state', '0', 'eq', 'id = ?', $item_using);
+      ustal_wartosc('state', '3', 'eq', 'id = ?', $id);
+      return true;
+    }
+    else return false;
+  }
+
+  function unEquipItem($type){
+    ustal_wartosc('state', '0', 'eq', 'hero_id = ? AND type = ? LIMIT 1', $this -> id, $type);
+    //TODO przy dwoch mieczach tylko drugi jest sciagany, tak samo pierscienie
+    return true;
   }
 }
