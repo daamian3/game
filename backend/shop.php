@@ -1,9 +1,20 @@
 <?php
 
+use Medoo\Medoo;
+
 class Shop{
 
   function __construct($hero){
     $this -> hero = $hero;
+
+    $this -> database = new Medoo([
+      'database_type' => 'mysql',
+      'database_name' => 'game',
+      'server' => 'localhost',
+      'username' => 'root',
+      'password' => '',
+      "charset" => "utf8",
+    ]);
 	}
 
   function convertGold($gold){
@@ -15,26 +26,36 @@ class Shop{
   }
 
   function newItem($ile){
-
-    $class = pobierz_wartosc('class', 'heroes', 'id = ?', $this -> hero -> id);
+    $level = $this -> hero -> getLevel();
+    $class = $this -> database -> get('heroes', 'class', [
+      'id' =>  $this -> hero -> id,
+    ]);
 
     for($j = 0; $j < $ile; $j++){
-      $id = pobierz_wartosc('COUNT(id)', 'items', 'level <= ?', $this -> hero -> getLevel());
+      $id = $this -> database -> count('items', [
+        'level[<=]' =>  $this -> hero -> getLevel(),
+      ]);
+
       $i = 1;
 
       do{
-        $item = pobierz_wartosc('*', 'items', 'level <= ? AND id = ?', $this -> hero -> getLevel(), $i);
+        $item = $this -> database -> get('items', '*', [
+          'AND' => [
+            'level[<=]' => $level,
+            'id' => $i,
+          ],
+        ]);
         if($item){
           $i++;
           $items[] = $item;
         }
         else break; //TODO nie rozwiązałem problemu nieskończonej pętli na 1 lvl.
-      }while($i < $id);
+      } while($i < $id);
 
       shuffle($items);
       $item = $items[0];
 
-      $multipler = pobierz_wartosc('level', 'heroes', 'id = ?', $this -> hero -> id);
+      $multipler = $level;
 
       $vitality = 0;
       $strength = 0;
@@ -52,46 +73,83 @@ class Shop{
         if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
       }
 
-      dodaj_wartosc('name, hero_id, type, attack_min, attack_max, defense, state', 'eq', $item['name'], $this -> hero -> id, $item['type'], $item['attack_min'], $item['attack_max'], $item['defense'], true);
-      ustal_wartosc('img', '"'.$item['img'].'"', 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-      ustal_wartosc('vitality', $vitality, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-      ustal_wartosc('strength', $strength, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-      ustal_wartosc('intelligence', $intelligence, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-      ustal_wartosc('agility', $agility, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-      ustal_wartosc('luck', $luck, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
-
       $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck);
 
-      ustal_wartosc('cost', $cost, 'eq', 'name = ? AND hero_id = ?', $item['name'], $this -> hero -> id);
+      $this -> database -> insert("eq", [
+      	"name" => $item['name'],
+      	"hero_id" => $this -> hero -> id,
+      	"type" => $item['type'],
+        "attack_min" => $item['attack_min'],
+        "attack_max" => $item['attack_max'],
+        "defense" => $item['defense'],
+        "state" => 0,
+        "img" => $item['img'],
+        "vitality" => $vitality,
+        "strength" => $strength,
+        "intelligence" => $intelligence,
+        "agility" => $agility,
+        "luck" => $luck,
+        "cost" => $cost,
+      ]);
     }
   }
 
   function getItems(){
-    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND state = 1', $this -> hero -> id);
+    $items = $this -> database -> count('eq', [
+      'hero_id' =>  $this -> hero -> id,
+      'state' => 0,
+    ]);
 
     if($items != 4) $this -> newItem(4 - $items);
 
-    $items = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 1', $this -> hero -> id, NULL, NULL, NULL, true);
+    $items = $this -> database -> select('eq', '*', [
+      'hero_id' => $this -> hero -> id,
+      'state' => 0,
+    ]);
 
     for($i = 0; $i < 4; $i++){
       $items[$i]['cost'] = $this -> convertGold($items[$i]['cost']);
     }
-
     return $items;
   }
 
   function buyItem($id){
-    $cost = pobierz_wartosc('cost', 'eq', 'id = ?', $id);
-    $gold = pobierz_wartosc('gold', 'heroes', 'id = ?', $this -> hero -> id);
-    $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND state = 0', $this -> hero -> id);
-    $item = pobierz_wartosc('state', 'eq', 'id = ?', $id);
+    $error = NULL;
+
+    $cost = $this -> database -> get('eq', 'cost', [
+      'id' => $id,
+    ]);
+
+    $gold = $this -> database -> get('heroes', 'gold', [
+      'id' => $this -> hero -> id,
+    ]);
+
+    $items = $this -> database -> count('eq', [
+      'AND' => [
+        'hero_id' => $this -> hero -> id,
+        'state[<>]' => [1, 2],
+      ],
+    ]);
+
+    $item = $this -> database -> get('eq', 'state', [
+      'id' => $id,
+    ]);
 
     if($gold < $cost) $error[] = 'Nie posiadasz wystarczającej ilości złota!';
-    if($items > 8) $error[] = 'Twój ekwipunek jest zapełniony!';
+    if($items >= 8) $error[] = 'Twój ekwipunek jest zapełniony!';
 
-    if($gold >= $cost && $items <= 8 && $item == 1){
-      ustal_wartosc('state', 0, 'eq', 'id = ?', $id);
-      ustal_wartosc('gold', $gold - $cost, 'heroes', 'id = ?', $this -> hero -> id);
+    if($gold >= $cost && $items < 8 && $item == 0){
+      $this -> database -> update('eq', [
+        'state' => 1,
+        ], [
+        'id' => $id,
+      ]);
+
+      $this -> database -> update('heroes', [
+        'gold[-]' => $cost,
+        ], [
+        'id' => $this -> hero -> id,
+      ]);
       return false;
     }
 

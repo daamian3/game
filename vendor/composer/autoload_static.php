@@ -24,6 +24,10 @@ class ComposerStaticInit644fc189d7c70e700baa4fb3e399f81b
             'Psr\\Log\\' => 8,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'M' => 
+        array (
+            'Medoo\\' => 6,
+        ),
         'K' => 
         array (
             'Klein\\' => 6,
@@ -46,6 +50,10 @@ class ComposerStaticInit644fc189d7c70e700baa4fb3e399f81b
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Medoo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/catfan/medoo/src',
         ),
         'Klein\\' => 
         array (

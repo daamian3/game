@@ -6297,3 +6297,15 @@ progress {
 				padding-top: 0.5em;
 				border-top: solid 2px #555555;
 				margin-top: 0; }
+
+.shop__reload {
+		background: transparent;
+		border: none;
+		position: absolute;
+		top: 40%;
+		width: 10%;
+		cursor: pointer;
+		display: none;
+		transition: ease-in 0.3s; }
+		.shop__reload:hover {
+				transform: rotate(30deg); }

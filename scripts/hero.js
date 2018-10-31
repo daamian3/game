@@ -49,12 +49,6 @@ function getAttribCost(id){
 
 $(document).ready(function() {
 
-	getAttribCost('vitality');
-	getAttribCost('strength');
-	getAttribCost('intelligence');
-	getAttribCost('agility');
-	getAttribCost('luck');
-
 	$("#hero__tabs").tabs({ //utworzenie zakladek
 		show: {
 			effect: "fade",
@@ -66,7 +60,7 @@ $(document).ready(function() {
 
 	let noty;
 
-	$('.hero__attributes__button').on('click', function(){
+	$("body").on( "click", ".hero__attributes__button", function( event ) {
 		const id = this.id;
 		$.post({
 	        url : 'attrib_up',
@@ -92,8 +86,8 @@ $(document).ready(function() {
 	    });
 	});
 
-	$("body").on( "click", "#hero__inventory .hero__items__block", function( event ) {
-			const id = this.id.slice(5);
+	$("body").on( "click", "#hero__inventory .hero__items__block img", function( event ) {
+			const id = $(this).parent().attr('id').slice(5);
 
 			$.post({
 						url : 'hero_equip',
@@ -101,24 +95,9 @@ $(document).ready(function() {
 				})
 				.done(result => {
 					if(result){
-						noty = new Noty({
-								type: 'success',
-								layout: 'topRight',
-								text: 'Udało się!',
-								timeout: 3000,
-						}).show();
-
 						$("#hero__tab1").load("hero__stats");
 						$("#hero__tab2").load("hero__eq");
 						$("#hero__tab3").load("hero__attrib");
-
-						setTimeout(function(){
-							getAttribCost('vitality');
-							getAttribCost('strength');
-							getAttribCost('intelligence');
-							getAttribCost('agility');
-							getAttribCost('luck');
-						}, 1000);
 					}
 					else{
 						noty = new Noty({
@@ -140,23 +119,9 @@ $(document).ready(function() {
 	    })
 	    .done(result => {
 				if(result){
-					noty = new Noty({
-							type: 'success',
-							layout: 'topRight',
-							text: 'Udało się!',
-							timeout: 3000,
-					}).show();
 					$("#hero__tab1").load("hero__stats");
 					$("#hero__tab2").load("hero__eq");
 					$("#hero__tab3").load("hero__attrib");
-
-					setTimeout(function(){
-						getAttribCost('vitality');
-						getAttribCost('strength');
-						getAttribCost('intelligence');
-						getAttribCost('agility');
-						getAttribCost('luck');
-					}, 1000);
 				}
 				else{
 					noty = new Noty({

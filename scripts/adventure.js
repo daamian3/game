@@ -1,10 +1,12 @@
+var a = false;
+
 function show_info(id){
   const object = id.slice(-1);
 
   $('#adventureWelcome').fadeOut(200);
   $('.adventure__info__block').fadeOut(200);
 
-  $('#adventure__info-' + object).delay(300).show("drop", {direction: "up"}, 500);
+  $('#adventure__info-' + object).delay(400).show("drop", {direction: "up"}, 500);
 }
 
 $(document).ready(function() {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 29 Paź 2018, 19:09
+-- Czas generowania: 31 Paź 2018, 17:09
 -- Wersja serwera: 10.1.31-MariaDB
 -- Wersja PHP: 7.2.3
 
@@ -126,28 +126,18 @@ CREATE TABLE `eq` (
 --
 
 INSERT INTO `eq` (`ID`, `name`, `hero_id`, `type`, `attack_min`, `attack_max`, `defense`, `vitality`, `strength`, `intelligence`, `agility`, `luck`, `state`, `cost`, `img`) VALUES
-(13, 'Srebrna Zbroja', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 0, 13044, 'chestplate_silver'),
-(14, 'Pancerz Złodzieja', 1, 'chestplate', 0, 0, 38, 0, 0, 0, 0, 0, 3, 11858, 'chestplate_thief'),
-(15, 'Pas Giganta', 1, 'belt', 0, 0, 1, 23, 0, 0, 0, 0, 3, 14253, 'belt_ruby'),
-(16, 'Krasnoludzkie Buty', 1, 'feet', 0, 0, 6, 0, 0, 0, 0, 0, 0, 13044, 'boots_dwarf'),
-(17, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(18, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 3, 2, 'sword_steel'),
-(19, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(20, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(21, 'Lwie Buty', 1, 'feet', 0, 0, 6, 0, 0, 0, 0, 0, 3, 11858, 'boots_lion'),
-(22, 'Pas Giganta', 1, 'belt', 0, 0, 1, 23, 0, 0, 0, 0, 0, 14253, 'belt_ruby'),
-(23, 'Buty z Brązu', 1, 'feet', 0, 0, 1, 0, 0, 0, 0, 0, 0, 14230, 'boots_bronze'),
-(24, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(25, 'Szata Kapłana', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 1, 11858, 'chestplate_priest'),
-(26, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(27, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
-(28, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
-(29, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
-(30, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
-(31, 'Srebrna Zbroja', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 1, 13044, 'chestplate_silver'),
-(32, 'Smoczy Miecz', 1, 'sword', 34, 42, 0, 0, 0, 0, 0, 0, 3, 11858, 'sword_dragon'),
-(33, 'Buty Paladyna', 1, 'feet', 0, 0, 16, 0, 0, 0, 0, 0, 1, 11858, 'boots_paladin'),
-(34, 'Srebrna Zbroja', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 1, 13044, 'chestplate_silver');
+(1, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(2, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(3, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(4, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(5, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(6, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(7, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(8, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 1, 2, 'sword_steel'),
+(9, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
+(10, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
+(11, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
+(12, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel');
 
 -- --------------------------------------------------------
 
@@ -300,8 +290,8 @@ CREATE TABLE `heroes` (
 --
 
 INSERT INTO `heroes` (`ID`, `name`, `race`, `class`, `strength`, `intelligence`, `agility`, `vitality`, `luck`, `level`, `experience`, `killed_monsters`, `beated_players`, `gold`, `dungeon`, `dungeon_time`, `adventures`, `adventure_duration`, `adventure_reward`, `adventure_time`) VALUES
-(1, 'Alalo', 'demon', 'warrior', 29, 13, 15, 24, 57, 77, 13449, 43, 0, 23444, 11, '2018-10-29 18:08:21', '1/3/2', '2/9/2', '6499/19497/12884', '2018-10-29 18:08:21'),
-(7, 'daamian3', 'elf', 'mage', 1, 11, 1, 1, 2, 1, 15, 1, 0, 1, 2, '2018-10-28 14:37:23', '2/3/4', '2/9/8', '46/69/84', '2018-10-28 13:37:23');
+(1, 'Alalo', 'demon', 'warrior', 30, 17, 20, 46, 59, 79, 947, 43, 0, 1518378054, 11, '2018-10-31 11:50:05', '1/3/2', '2/9/2', '6499/19497/12884', '2018-10-31 11:50:05'),
+(7, 'daamian3', 'elf', 'mage', 1, 11, 1, 1, 2, 1, 27, 2, 0, 1388, 3, '2018-10-31 16:08:06', '2/3/4', '2/9/8', '46/69/84', '2018-10-31 16:08:06');
 
 -- --------------------------------------------------------
 
@@ -543,7 +533,7 @@ ALTER TABLE `dungeons`
 -- AUTO_INCREMENT dla tabeli `eq`
 --
 ALTER TABLE `eq`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT dla tabeli `heroes`

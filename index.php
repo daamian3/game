@@ -50,7 +50,7 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
   if(zalogowany()){
     $hero = new Hero;
     $shop = new Shop($hero);
-
+    
     echo $app -> twig -> render('shop.html.twig', array(
       'items' => $shop -> getItems(),
     ));
@@ -133,7 +133,6 @@ $klein -> respond('POST', '/game/fight', function ($request, $response, $service
 
   $id = pobierz_wartosc('dungeon', 'heroes', 'id = ?', $hero -> id);
   $enemy = new Enemy($id);
-
   $fight = new Fight($hero, $enemy);
 
   echo json_encode($fight -> getResult());
@@ -242,5 +241,5 @@ unset($_SESSION['success']);
 $toolbar = new \Fabfuel\Prophiler\Toolbar($profiler);
 $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());
 session_commit();
-echo $toolbar->render();
+//echo $toolbar->render();
 exit();

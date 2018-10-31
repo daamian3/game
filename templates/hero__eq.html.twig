@@ -235,52 +235,56 @@
     </div>
     <div id="hero__inventory" class="hero__items-flex">
       {% for item in items %}
-      <div class="hero__items__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
-      <div class="tooltip hero__tooltip">
-        <span><h5>{{ item.name }}</h5></span>
-        {% if item.type == 'sword' %}
-          <p>
-            <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
-            Obrażenia:
-            <span>{{ item.attack_min }}-{{ item.attack_max }}</span>
-          </p>
-        {% endif %}
+        {% if item == 0 %}
+          <div class="hero__items__block empty"></div>
+        {% else %}
+          <div class="hero__items__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
+          <div class="tooltip hero__tooltip">
+            <span><h5>{{ item.name }}</h5></span>
+            {% if item.type == 'sword' %}
+              <p>
+                <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
+                Obrażenia:
+                <span>{{ item.attack_min }}-{{ item.attack_max }}</span>
+              </p>
+            {% endif %}
 
-        {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
-          <p>
-            <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
-            Pancerz:
-            <span>{{ item.defense }}</span>
-          </p>
-        {% endif %}
+            {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
+              <p>
+                <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
+                Pancerz:
+                <span>{{ item.defense }}</span>
+              </p>
+            {% endif %}
 
-        {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
-          <p>
-            <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
-            Siła:
-            <span>{{ item.strength }}</span>
-          </p>
-          <p>
-            <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
-            Inteligencja:
-            <span>{{ item.intelligence }}</span>
-          </p>
-          <p>
-            <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
-            Zwinność:
-            <span>{{ item.agility }}</span>
-          </p>
-          <p>
-            <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
-            Witalność:
-            <span>{{ item.vitality }}</span>
-          </p>
-          <p>
-            <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
-            Szczęście:
-            <span>{{ item.luck }}</span>
-          </p>
+            {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
+              <p>
+                <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
+                Siła:
+                <span>{{ item.strength }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
+                Inteligencja:
+                <span>{{ item.intelligence }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
+                Zwinność:
+                <span>{{ item.agility }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
+                Witalność:
+                <span>{{ item.vitality }}</span>
+              </p>
+              <p>
+                <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
+                Szczęście:
+                <span>{{ item.luck }}</span>
+              </p>
+            {% endif %}
+          </div>
         {% endif %}
-      </div>
       {% endfor %}
     </div>

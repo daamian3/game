@@ -8,11 +8,23 @@
   </button>
   <div class="tooltip hero__attributes__tooltip" id="tooltip__vitality">
     <img class="icon small" src="images/gold.svg"/>
-    <span id="attributes-gold-vitality"></span>
+    <span id="attributes-gold-vitality">
+      {% if hero.vitality_cost.gold  != false %}
+        {{ hero.vitality_cost.gold }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/silver.svg"/>
-    <span id="attributes-silver-vitality"></span>
+    <span id="attributes-silver-vitality">
+      {% if hero.vitality_cost.silver  != false %}
+        {{ hero.vitality_cost.silver }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/bronze.svg"/>
-    <span id="attributes-bronze-vitality"></span>
+    <span id="attributes-bronze-vitality">{{ hero.vitality_cost.bronze }}</span>
   </div>
 </div>
 <div class="hero__attributes">
@@ -25,11 +37,23 @@
   </button>
   <div class="tooltip hero__attributes__tooltip" id="tooltip__strength">
     <img class="icon small" src="images/gold.svg"/>
-    <span id="attributes-gold-strength"></span>
+    <span id="attributes-gold-strength">
+      {% if hero.strength_cost.gold  != false %}
+        {{ hero.strength_cost.gold }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/silver.svg"/>
-    <span id="attributes-silver-strength"></span>
+    <span id="attributes-silver-strength">
+      {% if hero.strength_cost.silver  != false %}
+        {{ hero.strength_cost.silver }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/bronze.svg"/>
-    <span id="attributes-bronze-strength"></span>
+    <span id="attributes-bronze-strength">{{ hero.strength_cost.bronze }}</span>
   </div>
 </div>
 <div class="hero__attributes">
@@ -42,11 +66,23 @@
   </button>
   <div class="tooltip hero__attributes__tooltip" id="tooltip__intelligence">
     <img class="icon small" src="images/gold.svg"/>
-    <span id="attributes-gold-intelligence"></span>
+    <span id="attributes-gold-intelligence">
+      {% if hero.intelligence_cost.gold  != false %}
+        {{ hero.intelligence_cost.gold }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/silver.svg"/>
-    <span id="attributes-silver-intelligence"></span>
+    <span id="attributes-silver-intelligence">
+      {% if hero.intelligence_cost.silver  != false %}
+        {{ hero.intelligence_cost.silver }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/bronze.svg"/>
-    <span id="attributes-bronze-intelligence"></span>
+    <span id="attributes-bronze-intelligence">{{ hero.intelligence_cost.bronze }}</span>
   </div>
 </div>
 <div class="hero__attributes">
@@ -59,11 +95,23 @@
   </button>
   <div class="tooltip hero__attributes__tooltip" id="tooltip__agility">
     <img class="icon small" src="images/gold.svg"/>
-    <span id="attributes-gold-agility"></span>
+    <span id="attributes-gold-agility">
+      {% if hero.agility_cost.gold  != false %}
+        {{ hero.agility_cost.gold }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/silver.svg"/>
-    <span id="attributes-silver-agility"></span>
+    <span id="attributes-silver-agility">
+      {% if hero.agility_cost.silver  != false %}
+        {{ hero.agility_cost.silver }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/bronze.svg"/>
-    <span id="attributes-bronze-agility"></span>
+    <span id="attributes-bronze-agility">{{ hero.agility_cost.bronze }}</span>
   </div>
 </div>
 <div class="hero__attributes">
@@ -76,10 +124,22 @@
   </button>
   <div class="tooltip hero__attributes__tooltip" id="tooltip__luck">
     <img class="icon small" src="images/gold.svg"/>
-    <span id="attributes-gold-luck"></span>
+    <span id="attributes-gold-luck">
+      {% if hero.luck_cost.gold  != false %}
+        {{ hero.luck_cost.gold }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/silver.svg"/>
-    <span id="attributes-silver-luck"></span>
+    <span id="attributes-silver-luck">
+      {% if hero.luck_cost.silver  != false %}
+        {{ hero.luck_cost.silver }}
+      {% else %}
+        0
+      {% endif %}
+    </span>
     <img class="icon small" src="images/bronze.svg"/>
-    <span id="attributes-bronze-luck"></span>
+    <span id="attributes-bronze-luck">{{ hero.luck_cost.bronze }}</span>
   </div>
 </div>

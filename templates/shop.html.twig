@@ -7,7 +7,7 @@
     <h1>Sklep</h1>
     <div class="shop__items">
       {% for item in items %}
-        <div class="shop__items__block" data-id="{{ item[0] }}">
+        <div class="shop__items__block" data-id="{{ item.ID }}">
           <h3>{{item.name}}</h3>
           <img src="images/equipment/{{ item.img }}.png" class="shop__items__img">
 
@@ -68,9 +68,10 @@
             <img class="icon small" src="images/bronze.svg"/>
             <span>{{ item.cost.bronze }}</span>
           </div>
-					<button class="button small shop__items__buy" value="{{ item[0] }}">Kup</button>
+					<button class="button small shop__items__buy" value="{{ item.ID }}">Kup</button>
         </div>
       {% endfor %}
+      <button class="shop__reload"><img src="images/shop/reload.svg"></button>
     </div>
   </div>
 {% endblock %}
