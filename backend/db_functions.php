@@ -4,6 +4,8 @@ session_regenerate_id();
 
 function db_connect(){
 
+	global $profiler;
+
 	require 'config.php';
 
 	try{
@@ -12,7 +14,7 @@ function db_connect(){
 				PDO::ATTR_EMULATE_PREPARES => false,
 				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 			));
-
+		$connect = new \Fabfuel\Prophiler\Decorator\PDO\PDO($connect, $profiler);
 		return $connect;
 	}
 

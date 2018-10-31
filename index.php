@@ -1,6 +1,8 @@
 <?php
 $loader = require_once 'vendor/autoload.php';
 $profiler = new \Fabfuel\Prophiler\Profiler();
+$profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Database\QueryAggregator());
+$profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Cache\CacheAggregator());
 
 require_once 'backend/session.php';
 require_once 'backend/login.php';
@@ -239,5 +241,6 @@ unset($_SESSION['success']);
 
 $toolbar = new \Fabfuel\Prophiler\Toolbar($profiler);
 $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());
-//echo $toolbar->render();
+session_commit();
+echo $toolbar->render();
 exit();

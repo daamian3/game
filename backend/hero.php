@@ -105,23 +105,19 @@ class Hero{
       ),
     );
 
-    $count_hand = pobierz_wartosc('COUNT(*)', 'eq', 'hero_id = ? AND state = 3 AND type = "sword"', $this -> id);
-    if($count_hand > 1){
-      $eq['hand1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword" ORDER BY type DESC', $this -> id);
-      $eq['hand2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword" ORDER BY type ASC', $this -> id);
+    $equiped = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3', $this -> id, NULL, NULL, NULL, true);
+    $sword_count = 0;
+
+    foreach($equiped as $item){
+      $eq[$item['type']] = $item;
+
+      if($item['type'] == "sword"){
+        $sword_count++;
+        if($sword_count > 1) $eq['hand2'] = $item;
+        else $eq['hand1'] = $item;
+      }
+
     }
-    else{
-      $eq['hand1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "sword"', $this -> id);
-      $eq['hand2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "shield"', $this -> id);
-    }
-    $eq['helmet'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "helmet"', $this -> id);
-    $eq['chestplate'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "chestplate"', $this -> id);
-    $eq['feet'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "feet"', $this -> id);
-    $eq['arm'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "arm"', $this -> id);
-    $eq['belt'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "belt"', $this -> id);
-    $eq['ring1'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "ring" ORDER BY type DESC', $this -> id);
-    $eq['ring2'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "ring" ORDER BY type ASC', $this -> id);
-    $eq['necklace'] = pobierz_wartosc('*', 'eq', 'hero_id = ? AND state = 3 AND type = "necklace"', $this -> id);
 
     return $eq;
   }
@@ -135,7 +131,7 @@ class Hero{
       $this -> vitality = pobierz_wartosc('vitality', 'heroes', 'id = ?', $this -> id) * $class['vitality'] * $race['vitality'];
     }
 
-    $health = $this -> vitality * 7 + (6 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1));
+    $health = $this -> vitality * 7 + (3 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1));
 
     return floor($health);
   }
@@ -359,7 +355,7 @@ class Hero{
     if($hero_id == $this -> id){
       $item_type = pobierz_wartosc('type', 'eq', 'id = ?', $id);
       $item_using = pobierz_wartosc('id', 'eq', 'hero_id = ? AND type = ? AND state = 3', $hero_id, $item_type);
-      if($item_using) ustal_wartosc('state', '0', 'eq', 'id = ?', $item_using);
+      if($item_using && $item_type != 'sword' && $item_type != 'ring') ustal_wartosc('state', '0', 'eq', 'id = ?', $item_using);
       ustal_wartosc('state', '3', 'eq', 'id = ?', $id);
       return true;
     }

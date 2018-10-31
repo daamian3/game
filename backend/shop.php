@@ -68,7 +68,6 @@ class Shop{
 
   function getItems(){
     $items = pobierz_wartosc('COUNT(id)', 'eq', 'hero_id = ? AND state = 1', $this -> hero -> id);
-    var_dump($items);
 
     if($items != 4) $this -> newItem(4 - $items);
 
