@@ -449,11 +449,10 @@ class Hero{
   }
 
   function setDungeonTime(){
-    return $this -> database -> update('heroes', [
-      "dungeon_time" => 'NOW() + INTERVAL 1 HOUR',
-    ],[
-      'id' => $this -> id,
-    ]);
+    $this -> database->query(
+	    'UPDATE <heroes> SET <dungeon_time> = "NOW() + INTERVAL 1 HOUR" WHERE <id> = :id', [
+		      ":id" => $this -> id,
+	    ]);
   }
 
   function dungeonIsAvailable(){

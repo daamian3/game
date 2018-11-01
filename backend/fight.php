@@ -3,6 +3,15 @@ use Medoo\Medoo;
 
 class Fight{
 	function __construct($hero, $enemy){
+		$this -> database = new Medoo([
+      'database_type' => 'mysql',
+      'database_name' => 'game',
+      'server' => 'localhost',
+      'username' => 'root',
+      'password' => '',
+      "charset" => "utf8",
+		]);
+
 		$this -> hero = $hero;
 		$hero = $hero -> getStats();
 
@@ -12,15 +21,6 @@ class Fight{
 		$this -> result = array();
 		$this -> result[0] = false;
 		$this -> startFight();
-
-		$this -> database = new Medoo([
-      'database_type' => 'mysql',
-      'database_name' => 'game',
-      'server' => 'localhost',
-      'username' => 'root',
-      'password' => '',
-      "charset" => "utf8",
-		]);
 	}
 
 	function checkType(){
@@ -50,16 +50,11 @@ class Fight{
 					'name' => $this -> enemy -> name,
 				]);
 				if($check > 0) $type = 'monster';
+				else $type = 'not exist';
 			}
 		}
-
-		if(pobierz_wartosc('id', 'heroes', 'name = ?', $this -> enemy -> name)) $type = 'player';
-		else if(pobierz_wartosc('id', 'dungeons', 'stage_1 = ? OR stage_2 = ? OR stage_3 = ? OR stage_4 = ?', $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name)) $type = 'dungeon';
-		else if(pobierz_wartosc('id', 'dungeons', 'stage_5 = ? OR stage_6 = ? OR stage_7 = ? OR stage_8 = ?', $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name)) $type = 'dungeon';
-		else if(pobierz_wartosc('id', 'dungeons', 'stage_9 = ? OR stage_10 = ?', $this -> enemy -> name, $this -> enemy -> name)) $type = 'dungeon';
-		else if(pobierz_wartosc('id', 'monsters', 'name = ?', $this -> enemy -> name)) $type = 'monster';
-		else $type = 'not exist';
 		return $type;
+
 	}
 
 	function winDungeon(){
@@ -68,18 +63,26 @@ class Fight{
 		$exp = $multipler * rand(12, 16);
 		$gold = $multipler * rand(12, 16);
 
-		ustal_wartosc('experience', "experience +".$exp, 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('gold', "gold +".$gold, 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('dungeon', "dungeon + 1", 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('killed_monsters', "killed_monsters + 1", 'heroes', 'id = ?', $this -> hero -> id);
+		$this -> database -> update('heroes', [
+			'experience[+]' => $exp,
+			'gold[+]' => $gold,
+			'dungeon[+]' => 1,
+			'killed_monsters[+]' => 1,
+		],[
+			'id' => $this -> hero -> id,
+		]);
 
 		$this -> result['exp'] = $exp;
 		$this -> result['gold'] = $gold;
 	}
 
 	function winPlayer($gold){
-		ustal_wartosc('gold', "gold +".$gold, 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('beated_players', "beated_players + 1", 'heroes', 'id = ?', $this -> hero -> id);
+		$this -> database -> update('heroes', [
+			'gold[+]' => $gold,
+			'beated_players[+]' => 1,
+		],[
+			'id' => $this -> hero -> id,
+		]);
 	}
 
 	function winMonster(){
@@ -88,9 +91,13 @@ class Fight{
 		$exp = $multipler * rand(2, 5);
 		$gold = $multipler * rand(2, 5);
 
-		ustal_wartosc('experience', "experience +".$exp, 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('gold', "gold +".$gold, 'heroes', 'id = ?', $this -> hero -> id);
-		ustal_wartosc('killed_monsters', "killed_monsters + 1", 'heroes', 'id = ?', $this -> hero -> id);
+		$this -> database -> update('heroes', [
+			'experience[+]' => $exp,
+			'gold[+]' => $gold,
+			'killed_monsters[+]' => 1,
+		],[
+			'id' => $this -> hero -> id,
+		]);
 
 		$this -> result['exp'] = $exp;
 		$this -> result['gold'] = $gold;

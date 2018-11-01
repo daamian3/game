@@ -107,7 +107,6 @@ $(document).ready(function() {
 								timeout: 3000,
 						}).show();
 					}
-					console.log(result);
 				});
 		});
 

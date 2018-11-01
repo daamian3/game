@@ -10,6 +10,13 @@ class Adventure{
   }
 
   function adventureCost($hero, $time){
+    $level = $this -> database -> get('heroes', [
+			'level',
+			'luck',
+		],[
+			'id' => $hero -> id,
+		]);
+
     $level = pobierz_wartosc('level', 'heroes', 'id = ?', $hero -> id);
     $luck = pobierz_wartosc('luck', 'heroes', 'id = ?', $hero -> id);
 
