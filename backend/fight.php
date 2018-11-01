@@ -1,4 +1,5 @@
 <?php
+use Medoo\Medoo;
 
 class Fight{
 	function __construct($hero, $enemy){
@@ -11,9 +12,46 @@ class Fight{
 		$this -> result = array();
 		$this -> result[0] = false;
 		$this -> startFight();
+
+		$this -> database = new Medoo([
+      'database_type' => 'mysql',
+      'database_name' => 'game',
+      'server' => 'localhost',
+      'username' => 'root',
+      'password' => '',
+      "charset" => "utf8",
+		]);
 	}
 
 	function checkType(){
+		$check = $this -> database -> count('heroes', [
+			'name' => $this -> enemy -> name,
+		]);
+
+		if($check > 0) $type = 'player';
+		else{
+			$check = $this -> database -> count('dungeons', [
+				'OR' => [
+					'stage_1' => $this -> enemy -> name,
+					'stage_2' => $this -> enemy -> name,
+					'stage_3' => $this -> enemy -> name,
+					'stage_4' => $this -> enemy -> name,
+					'stage_5' => $this -> enemy -> name,
+					'stage_6' => $this -> enemy -> name,
+					'stage_7' => $this -> enemy -> name,
+					'stage_8' => $this -> enemy -> name,
+					'stage_9' => $this -> enemy -> name,
+					'stage_10' => $this -> enemy -> name,
+				],
+			]);
+			if($check > 0) $type = 'dungeon';
+			else{
+				$check = $this -> database -> count('monsters', [
+					'name' => $this -> enemy -> name,
+				]);
+			}
+		}
+
 		if(pobierz_wartosc('id', 'heroes', 'name = ?', $this -> enemy -> name)) $type = 'player';
 		else if(pobierz_wartosc('id', 'dungeons', 'stage_1 = ? OR stage_2 = ? OR stage_3 = ? OR stage_4 = ?', $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name)) $type = 'dungeon';
 		else if(pobierz_wartosc('id', 'dungeons', 'stage_5 = ? OR stage_6 = ? OR stage_7 = ? OR stage_8 = ?', $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name, $this -> enemy -> name)) $type = 'dungeon';
