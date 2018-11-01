@@ -49,6 +49,7 @@ class Fight{
 				$check = $this -> database -> count('monsters', [
 					'name' => $this -> enemy -> name,
 				]);
+				if($check > 0) $type = 'monster';
 			}
 		}
 
