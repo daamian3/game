@@ -1,7 +1,5 @@
 <?php
 
-require_once 'db_functions.php';
-
 use Medoo\Medoo;
 
 class Hero{

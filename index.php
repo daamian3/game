@@ -50,7 +50,7 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
   if(zalogowany()){
     $hero = new Hero;
     $shop = new Shop($hero);
-    
+
     echo $app -> twig -> render('shop.html.twig', array(
       'items' => $shop -> getItems(),
     ));
@@ -60,10 +60,10 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
 
 $klein -> respond('GET', '/game/adventure', function ($request, $response, $service, $app) {
   if(zalogowany()){
-    $adventure = (array) new Adventure(new Hero);
+    $adventure = new Adventure();
 
     echo $app -> twig -> render('adventure.html.twig', array(
-      'adventures' => $adventure,
+      'adventures' => $adventure -> getAdventures(new Hero),
     ));
   }
   else header("Refresh:0; url=/game/");

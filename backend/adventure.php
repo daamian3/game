@@ -1,5 +1,62 @@
 <?php
+
+use Medoo\Medoo;
+
 class Adventure{
+  function __construct(){
+    $this -> database = new Medoo([
+      'database_type' => 'mysql',
+      'database_name' => 'game',
+      'server' => 'localhost',
+      'username' => 'root',
+      'password' => '',
+      "charset" => "utf8",
+    ]);
+  }
+
+  function getAdventures($hero){
+    $adventures = $this -> database -> get('heroes', [
+      'adventures',
+      'adventure_reward',
+      'adventure_duration',
+    ], [
+      'id' => $hero -> id,
+    ]);
+
+    if($adventures == NULL){
+      $this -> changeAdventures($hero);
+      $adventures = $this -> database -> get('heroes', [
+        'adventures',
+        'adventure_reward',
+        'adventure_duration',
+      ], [
+  			'id' => $hero -> id,
+  		]);
+    }
+
+    $adventure = explode("/", $adventures['adventures']);
+    $reward = explode("/", $adventures['adventure_reward']);
+    $duration = explode("/", $adventures['adventure_duration']);
+
+    $adventures = $this -> database -> select('adventures', [
+      'id',
+      'name',
+      'description',
+    ], [
+			'id' => $adventure,
+		]);
+
+    for($i = 0; $i < 3; $i++){
+      $adv[$i]['id'] = $adventures[$i]['id'];
+      $adv[$i]['name'] = $adventures[$i]['name'];
+      $adv[$i]['description'] = $adventures[$i]['description'];
+      $adv[$i]['reward'] = $this -> convertGold($reward[$i]);
+      $adv[$i]['duration'] = $duration[$i];
+    }
+
+    return $adv;
+  }
+
   function random_numbers($from, $to) {
     $los = array();
     for($i = $from; $i < $to; $i++){
@@ -9,19 +66,16 @@ class Adventure{
     return $los;
   }
 
-  function adventureCost($hero, $time){
-    $level = $this -> database -> get('heroes', [
+  function adventureReward($hero, $time){
+    $heroes = $this -> database -> get('heroes', [
 			'level',
 			'luck',
 		],[
 			'id' => $hero -> id,
 		]);
 
-    $level = pobierz_wartosc('level', 'heroes', 'id = ?', $hero -> id);
-    $luck = pobierz_wartosc('luck', 'heroes', 'id = ?', $hero -> id);
-
-    $cost = ($level * $level + ($luck * rand(9, 11))) * $time;
-    return $cost;
+    $reward = ($heroes['level'] * $heroes['level'] + ($heroes['luck'] * rand(9, 11))) * $time;
+    return $reward;
   }
 
   function convertGold($gold){
@@ -35,47 +89,33 @@ class Adventure{
   function changeAdventures($hero){
     $random = $this -> random_numbers(1, 5);
     $random = $random[0].'/'.$random[1].'/'.$random[2];
-    ustal_wartosc('adventures', '"'.$random.'"', 'heroes', 'id = ?',  $hero -> id);
 
-    $adventure = pobierz_wartosc('adventures', 'heroes', 'id = ?', $hero -> id);
+    $this -> database -> update('heroes', [
+      'adventures' => $random,
+      ], [
+      'id' => $hero -> id,
+    ]);
+
+    $adventure = $this -> database -> get('heroes', 'adventures', [
+			'id' => $hero -> id,
+		]);
     $adventure = explode("/", $adventure);
 
     $random = $this -> random_numbers(1, 4);
 
     for($i = 0; $i < 3; $i++){
-      $reward[] = $this -> adventureCost($hero, $adventure[$i]);
+      $reward[] = $this -> adventureReward($hero, $adventure[$i]);
       $time[] = $adventure[$i] * $random[$i];
     }
 
     $reward = $reward[0].'/'.$reward[1].'/'.$reward[2];
     $time = $time[0].'/'.$time[1].'/'.$time[2];
 
-    ustal_wartosc('adventure_reward', '"'.$reward.'"', 'heroes', 'id = ?',  $hero -> id);
-    ustal_wartosc('adventure_duration', '"'.$time.'"', 'heroes', 'id = ?',  $hero -> id);
-  }
-
-  function __construct($hero){
-    $adventure = pobierz_wartosc('adventures', 'heroes', 'id = ?', $hero -> id);
-    if($adventure == NULL){
-      $this -> changeAdventures($hero);
-      $adventure = pobierz_wartosc('adventures', 'heroes', 'id = ?', $hero -> id);
-    }
-
-    $adventure = explode("/", $adventure);
-
-    $reward = pobierz_wartosc('adventure_reward', 'heroes', 'id = ?', $hero -> id);
-    $reward = explode("/", $reward);
-    $time = pobierz_wartosc('adventure_duration', 'heroes', 'id = ?', $hero -> id);
-    $time = explode("/", $time);
-
-    for($i = 0; $i < 3; $i++){
-      $this -> $i = new stdClass;
-      $this -> $i -> id = pobierz_wartosc('id', 'adventures', 'id = ?', $adventure[$i]);
-      $this -> $i -> name = pobierz_wartosc('name', 'adventures', 'id = ?', $adventure[$i]);
-      $this -> $i -> description = pobierz_wartosc('description', 'adventures', 'id = ?', $adventure[$i]);
-      $this -> $i -> reward = $this -> convertGold($reward[$i]);
-      $this -> $i -> time = $time[$i];
-    }
-    return $this;
+    $this -> database -> update('heroes', [
+      'adventure_reward' => $reward,
+      'adventure_duration' => $time,
+      ], [
+      'id' => $hero -> id,
+    ]);
   }
 }
