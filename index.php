@@ -4,14 +4,15 @@ $profiler = new \Fabfuel\Prophiler\Profiler();
 $profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Database\QueryAggregator());
 $profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Cache\CacheAggregator());
 
-require_once 'backend/session.php';
-require_once 'backend/login.php';
-require_once 'backend/register.php';
-require_once 'backend/hero.php';
-require_once 'backend/enemy.php';
-require_once 'backend/fight.php';
-require_once 'backend/adventure.php';
-require_once 'backend/shop.php';
+require_once 'backend/Session.php';
+require_once 'backend/Login.php';
+require_once 'backend/Register.php';
+require_once 'backend/Hero.php';
+require_once 'backend/Enemy.php';
+require_once 'backend/Fight.php';
+require_once 'backend/Adventure.php';
+require_once 'backend/Shop.php';
+require_once 'backend/Dungeon.php';
 
 $klein = new \Klein\Klein();
 
@@ -101,8 +102,8 @@ $klein -> respond('GET', '/game/dungeons', function ($request, $response, $servi
       }
       $hero = new Hero();
 
-      $id = pobierz_wartosc('dungeon', 'heroes', 'id = ?', $hero -> id);
-      $enemy = new Enemy($id);
+      $dunegon = new Dungeon($hero);
+      $enemy = new Enemy($dunegon -> getEnemyId());
 
       echo $app -> twig -> render('fight.html.twig', array(
         'dungeon' => $dungeon,
@@ -181,20 +182,7 @@ $klein -> respond('POST', '/game/buy_item', function ($request, $response, $serv
 
 $klein -> respond('POST', '/game/get_stats', function ($request, $response, $service, $app) {
   $hero = new Hero();
-  $hero -> getStats();
-  echo json_encode(array(
-    'health' => $hero -> getHealth(),
-    'attack_min' => $hero -> attack_min,
-    'attack_max' => $hero -> attack_max,
-    'defense' => $hero -> defense,
-    'critical' => $hero -> critical,
-    'miss' => $hero -> miss,
-    'vitality' => $hero -> vitality,
-    'strength' => $hero -> strength,
-    'intelligence' => $hero -> intelligence,
-    'agility' => $hero -> agility,
-    'luck' => $hero -> luck,
-  ));
+  echo json_encode($hero -> getStats());
 });
 
 $klein -> respond('GET', '/game/hero__eq', function ($request, $response, $service, $app) {

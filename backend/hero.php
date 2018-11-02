@@ -131,6 +131,7 @@ class Hero{
     ]);
 
     $sword_count = 0;
+    $ring_count = 0;
 
     foreach($equiped as $item){
       $eq[$item['type']] = $item;
@@ -139,6 +140,12 @@ class Hero{
         $sword_count++;
         if($sword_count > 1) $eq['hand2'] = $item;
         else $eq['hand1'] = $item;
+      }
+
+      if($item['type'] == "ring"){
+        $ring_count++;
+        if($ring_count > 1) $eq['ring2'] = $item;
+        else $eq['ring1'] = $item;
       }
     }
 
@@ -282,7 +289,7 @@ class Hero{
 
     if(!isset($this -> luck)) $this -> getLuck($eq);
 
-    $critical = $this -> luck * 0.3 * ( 0.1 * ($eq['ring1']['luck'] + $eq['ring2']['luck'] + $eq['belt']['luck'] + $eq['necklace']['luck'] + 1));
+    $critical = $this -> luck * 0.1 + ( 0.1 * ($eq['ring1']['luck'] + $eq['ring2']['luck'] + $eq['belt']['luck'] + $eq['necklace']['luck'] + 1));
 
     if($critical < 1) $critical = 1;
 
@@ -293,7 +300,7 @@ class Hero{
     if($eq == NULL) $eq = $this -> getEq();
     if(!isset($this -> agility)) $this -> getTriple($eq);
 
-    $miss = $this -> agility * 0.3 * ( 0.1 * ($eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility'] + 1));
+    $miss = $this -> agility * 0.1 + ( 0.1 * $eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility'] + 1);
 
     if($miss < 1) $miss = 1;
 
