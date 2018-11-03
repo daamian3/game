@@ -7,14 +7,27 @@
 	<form class="login" action="zaloguj" method="POST">
 		<div>
 			<div class=login__block>
-				<label for="inputEmail" class="login__label">Login: </label>
-				<input type="text" id="inputEmail" class="input" name="username" required autofocus>
+				<label for="inputUsername" class="login__label">Login: </label>
+				<input type="text" id="inputUsername" class="input" name="username" required autofocus>
 			</div>
 			<div class=login__block>
 				<label for="inputPassword" class="login__label">Hasło: </label>
 				<input type="password" id="inputPassword" class="input" name="password" required>
 			</div>
 			<button id="login" class="button small login__button" type="submit">Zaloguj się</button>
+			<div class="login__forgot_password">
+				<a class="login__forgot_password-link" href="#password_reset">Zapomniałem hasła</a>
+			</div>
+		</div>
+	</form>
+
+	<form class="login" action="password_reset" method="POST">
+		<div>
+			<div class=login__block>
+				<label for="inputEmail" class="login__label">Email: </label>
+				<input type="text" id="inputEmail" class="input" name="email" required>
+			</div>
+			<button id="forgotPassword" class="button small login__button" type="submit">Potwierdź</button>
 		</div>
 	</form>
 {% endblock %}

@@ -5,10 +5,38 @@
 
   &__block{
     margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__label{
+    margin-right: 5px;
+  }
+
+  & input{
+    &.good{
+      border-color: $green;
+      background-color: #daebbb;
+    }
+    &.bad{
+     background-color: #e3ccc2;
+      border-color: $red;
+    }
   }
 
   &__button{
     width: 100%;
+  }
+
+  &__forgot_password{
+    text-align: left;
+    margin: 5px 0;
+  }
+
+  &__forgot_password-link{
+    color: $black;
+    text-align: left;
+    font-size: $font-size-small;
   }
 
   .main__window &{

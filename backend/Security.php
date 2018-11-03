@@ -159,8 +159,8 @@ class Security{
   function verifyEmail(){
     try {
       $this -> auth -> confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
-
-      echo 'Email address has been verified';
+      $_SESSION['success'] = 'Email address has been verified';
+      return true;
     }
 
     catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
@@ -178,17 +178,18 @@ class Security{
     catch (\Delight\Auth\TooManyRequestsException $e) {
       die('Too many requests');
     }
+
   }
 
-  function forgotPassword(){
-
+  function forgotPassword($twig){
+    $this -> twig = $twig;
     try {
       $this -> auth -> forgotPassword($_POST['email'], function ($selector, $token) {
-          echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
+      if($this -> mailSend($_POST['email'], 'Rejestracja na portalu The Game', 'forgot_password.html.twig', 'Alternative text', $selector, $token)){
+        $_SESSION['success'] = 'Link do zmiany hasła został wysłany';
+        return true;
+      }
       });
-      $url = 'localhost/game/reset_password?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
-
-      echo 'Request has been generated';
     }
 
     catch (\Delight\Auth\InvalidEmailException $e) {
@@ -208,4 +209,57 @@ class Security{
     }
   }
 
+  function isPasswordResetCorrect(){
+    try {
+      $this -> auth -> canResetPasswordOrThrow($_GET['selector'], $_GET['token']);
+      return true;
+    }
+
+    catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
+      die('Invalid token');
+      return false;
+    }
+
+    catch (\Delight\Auth\TokenExpiredException $e) {
+      die('Token expired');
+      return false;
+    }
+
+    catch (\Delight\Auth\ResetDisabledException $e) {
+      die('Password reset is disabled');
+      return false;
+    }
+
+    catch (\Delight\Auth\TooManyRequestsException $e) {
+      die('Too many requests');
+      return false;
+    }
+  }
+
+  function changePassword(){
+    try {
+      if($_POST['password'] == $_POST['password-check'])
+      $this -> auth -> resetPassword($_POST['selector'], $_POST['token'], $_POST['password']);
+      $_SESSION['success'] = 'Password has been reset';
+    }
+    catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
+      die('Invalid token');
+    }
+
+    catch (\Delight\Auth\TokenExpiredException $e) {
+      die('Token expired');
+    }
+
+    catch (\Delight\Auth\ResetDisabledException $e) {
+      die('Password reset is disabled');
+    }
+
+    catch (\Delight\Auth\InvalidPasswordException $e) {
+      die('Invalid password');
+    }
+
+    catch (\Delight\Auth\TooManyRequestsException $e) {
+      die('Too many requests');
+    }
+  }
 }

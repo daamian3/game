@@ -231,6 +231,32 @@ $klein -> respond('GET', '/game/hero__attrib', function ($request, $response, $s
   ));
 });
 
+$klein -> respond(array('POST', 'GET'), '/game/password_reset', function ($request, $response, $service, $app) {
+  global $auth;
+
+  $security = new Security;
+
+  if(isset($_POST['selector']) && isset($_POST['token']) && isset($_POST['password']) && isset($_POST['password-check'])){
+    $security -> changePassword();
+    echo $app -> twig -> render('logowanie.html.twig', array(
+      'session' => $_SESSION,
+    ));
+  }
+  else if(isset($_GET['selector']) && isset($_GET['token']) && $security -> isPasswordResetCorrect()){
+    echo $app -> twig -> render('password_change.html.twig', array(
+      'selector' => $_GET['selector'],
+      'token' => $_GET['token'],
+      'session' => $_SESSION,
+    ));
+  }
+  else{
+    $security -> forgotPassword($app -> twig);
+    echo $app -> twig -> render('logowanie.html.twig', array(
+      'session' => $_SESSION,
+    ));
+  }
+});
+
 $klein -> respond(array('POST', 'GET'), '/game/zaloguj', function ($request, $response, $service, $app) {
   global $auth;
 
@@ -238,17 +264,16 @@ $klein -> respond(array('POST', 'GET'), '/game/zaloguj', function ($request, $re
 
   if($auth -> isLoggedIn()) indexAction($request, $response, $service, $app);
   else if($security -> login()) indexAction($request, $response, $service, $app);
-  else echo $app -> twig -> render('logowanie.html.twig');
+  else echo $app -> twig -> render('logowanie.html.twig', array(
+    'session' => $_SESSION,
+  ));
 });
 
 $klein -> respond('GET', '/game/logout', function ($request, $response, $service, $app) {
   global $auth;
-  if($auth -> logOut()) indexAction($request, $response, $service, $app);
-  else{
-    $_SESSION['error'] = 'Przepraszamy, wystąpił błąd!';
-    indexAction($request, $response, $service, $app);
-  }
-  session_destroy();
+  $auth -> logOut();
+  $auth -> destroySession();
+  indexAction($request, $response, $service, $app);
 });
 
 $klein -> dispatch();
