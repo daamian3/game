@@ -2,12 +2,13 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Medoo\Medoo;
 
 class Security{
 
   function __construct(){
-    $auth = new \Delight\Auth\Auth($db);
     $db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
+    $this -> auth = new \Delight\Auth\Auth($db);
 
     $this -> database = new Medoo([
       'database_type' => 'mysql',
@@ -19,7 +20,7 @@ class Security{
 		]);
   }
 
-  function mailSend($twig, $email, $subject, $template, $alt, $login, $token){
+  function mailSend($email, $subject, $template, $alt, $selector, $token){
 	   $mail = new PHPMailer();
 
   	try {
@@ -40,7 +41,7 @@ class Security{
       //Content
       $mail -> isHTML(true);
       $mail -> Subject = $subject;
-      $mail -> Body    = $twig -> render($template, array(
+      $mail -> Body    = $this -> twig -> render($template, array(
   			'selector' => $selector,
   			'token' => $token,
   		));
@@ -50,14 +51,17 @@ class Security{
   		return true;
   	}
   	catch (Exception $e) {
-  		return false;
+    	echo $e;
   	}
   }
 
   function login(){
     try {
-      $auth -> loginWithUsername($_POST['username'], $_POST['password']);
-      echo 'User is logged in';
+      if(isset($_POST['username']) && isset($_POST['password'])) {
+        $this -> auth -> loginWithUsername($_POST['username'], $_POST['password']);
+        $_SESSION['auth'] = true;
+        return true;
+      }
     }
 
     catch (\Delight\Auth\UnknownUsernameException $e) {
@@ -82,9 +86,10 @@ class Security{
   }
 
   function register($twig){
+    $this -> twig = $twig;
     try {
-      $userId = $auth -> registerWithUniqueUsername($_POST['email'], $_POST['password'], $_POST['username'], function ($selector, $token) {
-        if(mailSend($twig, $_POST['email'], 'Rejestracja na portalu The Game', 'register_confirm.html.twig', 'Alternative text', $selector, $token)){
+      $userId = $this -> auth -> registerWithUniqueUsername($_POST['email'], $_POST['haslo'], $_POST['login'], function ($selector, $token) {
+        if($this -> mailSend($_POST['email'], 'Rejestracja na portalu The Game', 'register_confirm.html.twig', 'Alternative text', $selector, $token)){
 
           $name = htmlentities(trim($_POST['name']), ENT_QUOTES, "UTF-8");
           $class = htmlentities(trim($_POST['class']), ENT_QUOTES, "UTF-8");
@@ -102,7 +107,7 @@ class Security{
             "strength" => $strength,
             "intelligence" => $intelligence,
             "agility" => $agility,
-            "luck" => $luck,
+            "luck" => 1,
           ]);
 
           $hero_id = $this -> database -> get('heroes', 'id', [
@@ -112,7 +117,7 @@ class Security{
           $this -> database -> update('users', [
       			'hero_id' => $hero_id,
       		],[
-      			'username' => $_POST['username'],
+      			'username' => $_POST['login'],
       		]);
 
           echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
@@ -144,9 +149,16 @@ class Security{
     }
   }
 
+  function isUserAvailable(){
+    return $this -> database -> count('users', [
+      'username' => $_POST['username'],
+      'email' => $_POST['email'],
+    ]);
+  }
+
   function verifyEmail(){
     try {
-      $auth -> confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
+      $this -> auth -> confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
 
       echo 'Email address has been verified';
     }
@@ -171,7 +183,7 @@ class Security{
   function forgotPassword(){
 
     try {
-      $auth->forgotPassword($_POST['email'], function ($selector, $token) {
+      $this -> auth -> forgotPassword($_POST['email'], function ($selector, $token) {
           echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
       });
       $url = 'localhost/game/reset_password?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
@@ -195,4 +207,5 @@ class Security{
       die('Too many requests');
     }
   }
+
 }

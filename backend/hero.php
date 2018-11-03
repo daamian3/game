@@ -5,9 +5,7 @@ use Medoo\Medoo;
 class Hero{
 
   function __construct($id = NULL){
-		if($id == NULL) $this -> id = $_SESSION['id'];
-    else $this -> id = $id;
-
+    global $auth;
     $this -> database = new Medoo([
         'database_type' => 'mysql',
         'database_name' => 'game',
@@ -16,7 +14,26 @@ class Hero{
         'password' => '',
         "charset" => "utf8",
     ]);
+
+
+		if($id == NULL){
+      $id = $auth -> getUserId();
+
+      $id = $this -> database -> get('users', 'hero_id', [
+        'id' => $id,
+      ]);
+      $this -> id = $id;
+    }
+    else $this -> id = $id;
+
+
 	}
+
+  function checkHero(){
+    return $this -> database -> count('heroes', [
+      'name' => $_POST['username'],
+    ]);
+  }
 
   function getLevel(){
     return $this -> database -> get('heroes', 'level', [

@@ -1,12 +1,12 @@
 <?php
+
 $loader = require_once 'vendor/autoload.php';
 $profiler = new \Fabfuel\Prophiler\Profiler();
 $profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Database\QueryAggregator());
 $profiler->addAggregator(new \Fabfuel\Prophiler\Aggregator\Cache\CacheAggregator());
 
 require_once 'backend/Session.php';
-require_once 'backend/Login.php';
-require_once 'backend/Register.php';
+require_once 'backend/Security.php';
 require_once 'backend/Hero.php';
 require_once 'backend/Enemy.php';
 require_once 'backend/Fight.php';
@@ -25,9 +25,14 @@ $klein -> respond(function ($request, $response, $service, $app) use ($klein) {
   });
 });
 
+$db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
+$auth = new \Delight\Auth\Auth($db);
+
 function indexAction($request, $response, $service, $app){
 
-  if(zalogowany()){
+  global $auth;
+
+  if($auth -> isLoggedIn()) {
     $hero = new Hero();
 
     echo $app -> twig -> render('hero.html.twig', array(
@@ -48,7 +53,9 @@ $klein -> respond('GET', '/game/hero', function ($request, $response, $service, 
 });
 
 $klein -> respond('GET', '/game/shop', function ($request, $response, $service, $app) {
-  if(zalogowany()){
+  global $auth;
+
+  if($auth -> isLoggedIn()) {
     $hero = new Hero;
     $shop = new Shop($hero);
 
@@ -60,7 +67,9 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
 });
 
 $klein -> respond('GET', '/game/adventure', function ($request, $response, $service, $app) {
-  if(zalogowany()){
+  global $auth;
+
+  if($auth -> isLoggedIn()) {
     $adventure = new Adventure();
 
     echo $app -> twig -> render('adventure.html.twig', array(
@@ -72,7 +81,9 @@ $klein -> respond('GET', '/game/adventure', function ($request, $response, $serv
 
 $klein -> respond('GET', '/game/dungeons', function ($request, $response, $service, $app) {
 
-  if(zalogowany()){
+  global $auth;
+
+  if($auth -> isLoggedIn()) {
     if(!isset($_GET['name'])) echo $app -> twig -> render('dungeons.html.twig');
 
     else{
@@ -118,12 +129,23 @@ $klein -> respond('GET', '/game/dungeons', function ($request, $response, $servi
 });
 
 $klein -> respond('GET', '/game/login', function ($request, $response, $service, $app) {
-  if(zalogowany()) indexAction($request, $response, $service, $app);
+  global $auth;
+
+  if($auth -> isLoggedIn()) indexAction($request, $response, $service, $app);
   else echo $app -> twig -> render('logowanie.html.twig');
 });
 
 $klein -> respond(array('POST', 'GET'), '/game/register', function ($request, $response, $service, $app) {
-  register($app -> twig);
+  $security = new Security();
+  $security -> register($app -> twig);
+  echo $app -> twig -> render('creator.html.twig', array(
+    'session' => $_SESSION,
+  ));
+});
+
+$klein -> respond('GET', '/game/verify_email', function ($request, $response, $service, $app) {
+  $security = new Security();
+  $security -> verifyEmail();
   echo $app -> twig -> render('creator.html.twig', array(
     'session' => $_SESSION,
   ));
@@ -131,9 +153,9 @@ $klein -> respond(array('POST', 'GET'), '/game/register', function ($request, $r
 
 $klein -> respond('POST', '/game/fight', function ($request, $response, $service, $app) {
   $hero = new Hero();
+  $dunegon = new Dungeon($hero);
+  $enemy = new Enemy($dunegon -> getEnemyId());
 
-  $id = pobierz_wartosc('dungeon', 'heroes', 'id = ?', $hero -> id);
-  $enemy = new Enemy($id);
   $fight = new Fight($hero, $enemy);
 
   echo json_encode($fight -> getResult());
@@ -155,11 +177,13 @@ $klein -> respond('POST', '/game/get_money', function ($request, $response, $ser
 });
 
 $klein -> respond('POST', '/game/check_hero', function ($request, $response, $service, $app) {
-  echo checkHero();
+  $hero = new Hero();
+  echo $hero -> checkHero();
 });
 
 $klein -> respond('POST', '/game/check_reg', function ($request, $response, $service, $app) {
-  echo checkReg();
+  $security = new Security();
+  echo $security -> isUserAvailable();
 });
 
 $klein -> respond('POST', '/game/hero_equip', function ($request, $response, $service, $app) {
@@ -208,17 +232,23 @@ $klein -> respond('GET', '/game/hero__attrib', function ($request, $response, $s
 });
 
 $klein -> respond(array('POST', 'GET'), '/game/zaloguj', function ($request, $response, $service, $app) {
-  if(zalogowany()) indexAction($request, $response, $service, $app);
-  else if(zaloguj()) indexAction($request, $response, $service, $app);
+  global $auth;
+
+  $security = new Security;
+
+  if($auth -> isLoggedIn()) indexAction($request, $response, $service, $app);
+  else if($security -> login()) indexAction($request, $response, $service, $app);
   else echo $app -> twig -> render('logowanie.html.twig');
 });
 
 $klein -> respond('GET', '/game/logout', function ($request, $response, $service, $app) {
-  if(wyloguj()) header("Refresh:0; url=/game/");
+  global $auth;
+  if($auth -> logOut()) indexAction($request, $response, $service, $app);
   else{
     $_SESSION['error'] = 'Przepraszamy, wystąpił błąd!';
-    header("Refresh:0; url=/game/");
+    indexAction($request, $response, $service, $app);
   }
+  session_destroy();
 });
 
 $klein -> dispatch();

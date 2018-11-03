@@ -191,7 +191,7 @@ $("#submit-hero").on("click", function(){
           data: {name: name},
   		})
   		.done(result => {
-        if(result){
+        if(result == 1){
           new Noty({
         			type: 'warning',
         			layout: 'topRight',
@@ -228,18 +228,16 @@ $("#submit__reg").on("click", function(){
   $.post({
         url : 'check_reg',
         data: {
-          login: login,
+          username: login,
           email: email,
-          haslo: haslo,
-          vhaslo: vhaslo,
         },
     })
     .done(result => {
-      if(!result) $('#creator__tabs').submit();
+      if(result == 0) $('#creator__tabs').submit();
       else new Noty({
           type: 'warning',
           layout: 'topRight',
-          text: result,
+          text: 'Nazwa użytkownika lub email jest już zajęta!',
           timeout: 2000,
       }).show();
     });

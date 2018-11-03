@@ -1,4 +1,5 @@
 <?php
+
 $host = 'localhost';
 $baza = 'game';
 $login = 'root';
