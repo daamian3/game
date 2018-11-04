@@ -65,24 +65,31 @@ class Security{
     }
 
     catch (\Delight\Auth\UnknownUsernameException $e) {
-      die('Wrong login');
+      $_SESSION['error'] = 'Nieprawidłowa nazwa użytkownika lub hasło';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\AmbiguousUsernameException $e) {
-      die('Ambiguous username.');
+      $_SESSION['error'] = 'Przepraszamy, wystąpił błąd';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\InvalidPasswordException $e) {
-      die('Wrong password');
+      $_SESSION['error'] = 'Nieprawidłowa nazwa użytkownika lub hasło';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\EmailNotVerifiedException $e) {
-      die('Email not verified');
+      $_SESSION['error'] = 'Konto nie zostało aktywowane';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
+      $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+      error_log($e, 0);
     }
+
+    return false;
   }
 
   function register($twig){
@@ -125,27 +132,32 @@ class Security{
 
       });
 
-      echo 'We have signed up a new user with the ID ' . $userId;
+      echo 'Zostałeś zarejestrowany jako: '.$_POST['login'];
     }
 
     catch (\Delight\Auth\InvalidEmailException $e) {
-      die('Invalid email address');
+      $_SESSION['error'] = 'Niedozwolony adres email';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\InvalidPasswordException $e) {
-      die('Invalid password');
+      $_SESSION['error'] = 'Niedozwolone hasło';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\DuplicateUsernameException $e) {
-      die('User already exists');
+      $_SESSION['error'] = 'Taki użytkownik już istnieje';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\UserAlreadyExistsException $e) {
-      die('User already exists');
+      $_SESSION['error'] = 'Taki użytkownik już istnieje';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
+      $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+      error_log($e, 0);
     }
   }
 
@@ -159,54 +171,63 @@ class Security{
   function verifyEmail(){
     try {
       $this -> auth -> confirmEmailAndSignIn($_GET['selector'], $_GET['token']);
-      $_SESSION['success'] = 'Email address has been verified';
-      return true;
+      $_SESSION['success'] = 'Konto zostało aktywowane';
     }
 
     catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-      die('Invalid token');
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - nieprawidłowy link';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TokenExpiredException $e) {
-      die('Token expired');
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - link stracił ważność';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\UserAlreadyExistsException $e) {
-      die('Email address already exists');
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - konto jest już aktywne';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
+      $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+      error_log($e, 0);
     }
-
   }
 
   function forgotPassword($twig){
     $this -> twig = $twig;
-    try {
-      $this -> auth -> forgotPassword($_POST['email'], function ($selector, $token) {
-      if($this -> mailSend($_POST['email'], 'Rejestracja na portalu The Game', 'forgot_password.html.twig', 'Alternative text', $selector, $token)){
-        $_SESSION['success'] = 'Link do zmiany hasła został wysłany';
-        return true;
+    if(isset($_POST['email'])){
+      try {
+        $this -> auth -> forgotPassword($_POST['email'], function ($selector, $token) {
+          if($this -> mailSend($_POST['email'], 'Rejestracja na portalu The Game', 'forgot_password.html.twig', 'Alternative text', $selector, $token)){
+            $_SESSION['success'] = 'Link do zmiany hasła został wysłany';
+            return true;
+          }
+        });
       }
-      });
-    }
 
-    catch (\Delight\Auth\InvalidEmailException $e) {
-      die('Invalid email address');
-    }
+      catch (\Delight\Auth\InvalidEmailException $e) {
+        $_SESSION['error'] = 'Nieprawidłowy adres email';
+        error_log($e, 0);
+      }
 
-    catch (\Delight\Auth\EmailNotVerifiedException $e) {
-      die('Email not verified');
-    }
+      catch (\Delight\Auth\EmailNotVerifiedException $e) {
+        $_SESSION['error'] = 'Konto jest nieaktywne';
+        error_log($e, 0);
+      }
 
-    catch (\Delight\Auth\ResetDisabledException $e) {
-      die('Password reset is disabled');
-    }
+      catch (\Delight\Auth\ResetDisabledException $e) {
+        $_SESSION['error'] = 'Nie można było zmienić hasła';
+        error_log($e, 0);
+      }
 
-    catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
+      catch (\Delight\Auth\TooManyRequestsException $e) {
+        $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+        error_log($e, 0);
+      }
     }
+    else $_SESSION['error'] = 'Nieprawidłowy adres email';
   }
 
   function isPasswordResetCorrect(){
@@ -216,50 +237,61 @@ class Security{
     }
 
     catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-      die('Invalid token');
-      return false;
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - nieprawidłowy link';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TokenExpiredException $e) {
-      die('Token expired');
-      return false;
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - link stracił ważność';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\ResetDisabledException $e) {
-      die('Password reset is disabled');
-      return false;
+      $_SESSION['error'] = 'Nie można było zmienić hasła';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
-      return false;
+      $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+      error_log($e, 0);
     }
+
+    return false;
   }
 
   function changePassword(){
     try {
-      if($_POST['password'] == $_POST['password-check'])
-      $this -> auth -> resetPassword($_POST['selector'], $_POST['token'], $_POST['password']);
-      $_SESSION['success'] = 'Password has been reset';
+      if($_POST['password'] == $_POST['password-check']){
+        $this -> auth -> resetPassword($_POST['selector'], $_POST['token'], $_POST['password']);
+        $_SESSION['success'] = 'Hasło zostało zmienione';
+      }
+      else{
+        $_SESSION['error'] = 'Hasła nie są identyczne';
+      }
     }
     catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-      die('Invalid token');
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - nieprawidłowy link';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TokenExpiredException $e) {
-      die('Token expired');
+      $_SESSION['error'] = 'Ups, coś poszło nie tak - link stracił ważność';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\ResetDisabledException $e) {
-      die('Password reset is disabled');
+      $_SESSION['error'] = 'Nie można było zmienić hasła';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\InvalidPasswordException $e) {
-      die('Invalid password');
+      $_SESSION['error'] = 'Niedozwolone hasło';
+      error_log($e, 0);
     }
 
     catch (\Delight\Auth\TooManyRequestsException $e) {
-      die('Too many requests');
+      $_SESSION['error'] = 'Zbyt wiele prób, dostęp zostanie czasowo wstrzymany';
+      error_log($e, 0);
     }
   }
 }

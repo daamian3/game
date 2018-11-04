@@ -138,17 +138,13 @@ $klein -> respond('GET', '/game/login', function ($request, $response, $service,
 $klein -> respond(array('POST', 'GET'), '/game/register', function ($request, $response, $service, $app) {
   $security = new Security();
   $security -> register($app -> twig);
-  echo $app -> twig -> render('creator.html.twig', array(
-    'session' => $_SESSION,
-  ));
+  echo $app -> twig -> render('creator.html.twig');
 });
 
 $klein -> respond('GET', '/game/verify_email', function ($request, $response, $service, $app) {
   $security = new Security();
   $security -> verifyEmail();
-  echo $app -> twig -> render('creator.html.twig', array(
-    'session' => $_SESSION,
-  ));
+  echo $app -> twig -> render('creator.html.twig');
 });
 
 $klein -> respond('POST', '/game/fight', function ($request, $response, $service, $app) {
@@ -238,22 +234,17 @@ $klein -> respond(array('POST', 'GET'), '/game/password_reset', function ($reque
 
   if(isset($_POST['selector']) && isset($_POST['token']) && isset($_POST['password']) && isset($_POST['password-check'])){
     $security -> changePassword();
-    echo $app -> twig -> render('logowanie.html.twig', array(
-      'session' => $_SESSION,
-    ));
+    echo $app -> twig -> render('logowanie.html.twig');
   }
   else if(isset($_GET['selector']) && isset($_GET['token']) && $security -> isPasswordResetCorrect()){
     echo $app -> twig -> render('password_change.html.twig', array(
       'selector' => $_GET['selector'],
-      'token' => $_GET['token'],
-      'session' => $_SESSION,
+      'token' => $_GET['token']
     ));
   }
   else{
     $security -> forgotPassword($app -> twig);
-    echo $app -> twig -> render('logowanie.html.twig', array(
-      'session' => $_SESSION,
-    ));
+    echo $app -> twig -> render('logowanie.html.twig');
   }
 });
 
@@ -264,9 +255,7 @@ $klein -> respond(array('POST', 'GET'), '/game/zaloguj', function ($request, $re
 
   if($auth -> isLoggedIn()) indexAction($request, $response, $service, $app);
   else if($security -> login()) indexAction($request, $response, $service, $app);
-  else echo $app -> twig -> render('logowanie.html.twig', array(
-    'session' => $_SESSION,
-  ));
+  else echo $app -> twig -> render('logowanie.html.twig');
 });
 
 $klein -> respond('GET', '/game/logout', function ($request, $response, $service, $app) {

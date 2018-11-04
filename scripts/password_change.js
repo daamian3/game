@@ -1,6 +1,7 @@
 function checkPassword(){
-  let haslo = document.getElementById("inputPassword");
-  let vhaslo = document.getElementById("inputPasswordCheck");
+  const haslo = document.getElementById("inputPassword");
+  const vhaslo = document.getElementById("inputPasswordCheck");
+  const submit = document.getElementById("forgot");
 
   function check(){
     if(haslo.value===0) vhaslo.classList.remove('bad');
@@ -11,6 +12,15 @@ function checkPassword(){
     else if(haslo.value!==0){
         vhaslo.classList.remove('bad');
         vhaslo.classList.add('good');
+    }
+
+    if(haslo.value == vhaslo.value){
+      submit.disabled = false;
+      submit.classList.remove('disabled');
+    }
+    else{
+      submit.disabled = true;
+      submit.classList.add('disabled');
     }
   }
 
