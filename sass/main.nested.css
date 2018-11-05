@@ -4820,7 +4820,7 @@ html.remodal-is-locked {
 		font-size: initial; }
 
 .noty_theme__mint.noty_bar .noty_body {
-		font-size: 1em; }
+		font-size: 0.85em; }
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
@@ -5558,9 +5558,27 @@ progress {
 		align-items: center;
 		flex-wrap: nowrap; }
 		.login__block {
-				margin: 15px 0; }
+				margin: 15px 0;
+				display: flex;
+				justify-content: space-between;
+				align-items: center; }
+		.login__label {
+				margin-right: 5px; }
+		.login input.good {
+				border-color: #49ab39;
+				background-color: #daebbb; }
+		.login input.bad {
+				background-color: #e3ccc2;
+				border-color: #ab3c35; }
 		.login__button {
 				width: 100%; }
+		.login__forgot_password {
+				text-align: left;
+				margin: 5px 0; }
+		.login__forgot_password-link {
+				color: #111111;
+				text-align: left;
+				font-size: 0.85em; }
 		.main__window .login {
 				min-height: 66vh; }
 

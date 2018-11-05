@@ -213,6 +213,7 @@ $("#submit-hero").on("click", function(){
 });
 
 $("#submit__reg").on("click", function(){
+
   var login = $('.register input[name="login"]').val();
   var haslo = $('.register input[name="haslo"]').val();
   var vhaslo = $('.register input[name="vhaslo"]').val();
@@ -265,7 +266,9 @@ $("#nextTab").on("click", function(){
 		else $('.creator__race__block').animateCss('bounce');
 	}
 	else{
-		if($('#creator__points').html() == 0) $('#ui-id-4').click();
+		if($('#creator__points').html() == 0){
+      $('#ui-id-4').click();
+    }
 		else $('#creator__points').animateCss('bounce');
 	}
 });

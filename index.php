@@ -14,19 +14,21 @@ require_once 'backend/Adventure.php';
 require_once 'backend/Shop.php';
 require_once 'backend/Dungeon.php';
 
+$db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
+$auth = new \Delight\Auth\Auth($db);
+
 $klein = new \Klein\Klein();
 
 $klein -> respond(function ($request, $response, $service, $app) use ($klein) {
   $app -> register('twig', function () {
+
     $loader = new Twig_Loader_Filesystem('templates');
     $twig = new Twig_Environment($loader);
     $twig -> addGlobal('session', $_SESSION);
+
     return $twig;
   });
 });
-
-$db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
-$auth = new \Delight\Auth\Auth($db);
 
 function indexAction($request, $response, $service, $app){
 
@@ -137,14 +139,15 @@ $klein -> respond('GET', '/game/login', function ($request, $response, $service,
 
 $klein -> respond(array('POST', 'GET'), '/game/register', function ($request, $response, $service, $app) {
   $security = new Security();
-  $security -> register($app -> twig);
-  echo $app -> twig -> render('creator.html.twig');
+  echo $app -> twig -> render('creator.html.twig', array(
+    'session' => $security -> register($app -> twig),
+  ));
 });
 
 $klein -> respond('GET', '/game/verify_email', function ($request, $response, $service, $app) {
   $security = new Security();
   $security -> verifyEmail();
-  echo $app -> twig -> render('creator.html.twig');
+  indexAction($request, $response, $service, $app);
 });
 
 $klein -> respond('POST', '/game/fight', function ($request, $response, $service, $app) {
@@ -243,8 +246,9 @@ $klein -> respond(array('POST', 'GET'), '/game/password_reset', function ($reque
     ));
   }
   else{
-    $security -> forgotPassword($app -> twig);
-    echo $app -> twig -> render('logowanie.html.twig');
+    echo $app -> twig -> render('logowanie.html.twig', array(
+      'session' => $security -> forgotPassword($app -> twig),
+    ));
   }
 });
 
@@ -262,6 +266,7 @@ $klein -> respond('GET', '/game/logout', function ($request, $response, $service
   global $auth;
   $auth -> logOut();
   $auth -> destroySession();
+
   indexAction($request, $response, $service, $app);
 });
 
@@ -272,6 +277,5 @@ unset($_SESSION['success']);
 
 $toolbar = new \Fabfuel\Prophiler\Toolbar($profiler);
 $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());
-session_commit();
 //echo $toolbar->render();
 exit();
