@@ -3,7 +3,6 @@
 {% block title %}{{ dungeon }}{% endblock %}
 
 {% block body %}
-
 	<div data-remodal-id="modal_won">
 		<button data-remodal-action="close" class="remodal-close"></button>
 		<h2 class="remodal__header">Wygrana!</h2>
@@ -28,6 +27,7 @@
 				<img id="weapon-2" class="fight__weapon-2" src="images/attributes/fist.svg" alt="broń"/>
 
 				<div id="hero" class="fight__block">
+					<canvas class="fireworks_hero" style="position: absolute; top: 0;"></canvas>
 					<h3 id="choice__name-hero">{{ hero.name }}</h3>
 					<img class="fight__block__hero" src="images/heroes/{{ hero.race }}.jpg" alt="bohater"/>
 					<div class="fight__block__stats-flex">
@@ -52,6 +52,7 @@
 				<button id="start" class="button inverted fight__start">START</button>
 				<div id="monster" class="fight__block">
 					<h3 id="choice__name-enemy">{{ enemy.name }}</h3>
+					<canvas class="fireworks_monster" style="position: absolute; top: 0;"></canvas>
 					<img class="fight__block__hero" src="images/enemies/{{ enemy.img }}.svg" alt="przeciwnik"/>
 					<div class="fight__block__stats-flex">
 						<progress id="progress-enemy" class="progress-enemy"></progress>
@@ -87,10 +88,10 @@
 	<script src="scripts/jquery-ui.min.js"></script>
 	<script src="scripts/noty.min.js"></script>
 	<script src="scripts/remodal.min.js"></script>
+	<script src="scripts/anime.min.js"></script>
 	<script src="scripts/loader.js"></script>
 	<script src="scripts/menu.js"></script>
 	<script src="scripts/fight.js"></script>
-
 
 	<script>
 		const health1 = {{ hero.health }};

@@ -53,6 +53,7 @@ function fight(result) {
 
 		setTimeout(function() {
 			$("#" + weapon).css("opacity", "0");
+			resolveParticules('hero');
 		}, 400);
 
 		setTimeout(function() {
@@ -97,6 +98,7 @@ function fight(result) {
 
 		setTimeout(function() {
 			$("#" + weapon).css("opacity", "0");
+			resolveParticules('monster');
 		}, 400);
 
 		setTimeout(function() {
@@ -115,6 +117,10 @@ function fight(result) {
 			$("#progress-enemy").attr('data-value', health_enemy + " / " + health2);
 		}
 		else {
+		$('.fireworks_monster').fadeOut();
+		setTimeout(function() {
+			$('.fireworks_monster').fadeIn();
+		}, 1000);
 		$("#monster img").effect("drop", {direction: 'right'}, 400, function(){
 			$("#monster img").fadeIn("fast");
 		});
@@ -131,6 +137,10 @@ function fight(result) {
 			$("#progress-hero").attr('data-value', health_hero + " / " + health1);
 		}
 		else {
+		$('.fireworks_hero').fadeOut();
+		setTimeout(function() {
+			$('.fireworks_hero').fadeIn();
+		}, 1000);
 		$("#hero img").effect("drop", 400, function(){
 			$("#hero img").fadeIn("fast");
 		});
@@ -186,3 +196,150 @@ $("#start").on("click", function() {
 			fight(result);
     });
 });
+
+window.human = false;
+
+var canvasHero = document.querySelector('.fireworks_hero');
+var canvasMonster = document.querySelector('.fireworks_monster');
+var ctx = canvasHero.getContext('2d');
+var numberOfParticules = 30;
+var pointerX = 0;
+var pointerY = 0;
+var colors = ['#FF0000', '#FFaa00', '#aa1100', '#FBF38C'];
+
+function setCanvasSizeHero() {
+  canvasHero.width = $("#hero").width() + 150;
+  canvasHero.height = $("#hero").height() + 150;
+  canvasHero.style.width = $("#hero").width() + 150 + 'px';
+  canvasHero.style.height = $("#hero").height() + 150 + 'px';
+  canvasHero.getContext('2d').scale(2, 2);
+}
+
+function setCanvasSizeMonster() {
+  canvasMonster.width = $("#hero").width() + 150;
+  canvasMonster.height = $("#hero").height() + 150;
+  canvasMonster.style.width = $("#hero").width() + 150 + 'px';
+  canvasMonster.style.height = $("#hero").height() + 150 + 'px';
+  canvasMonster.getContext('2d').scale(2, 2);
+}
+
+function setParticuleDirection(p) {
+  var angle = anime.random(0, 360) * Math.PI / 180;
+  var value = anime.random(30, 200);
+  var radius = [-1, 1][anime.random(0, 1)] * value;
+  return {
+    x: p.x + radius * Math.cos(angle),
+    y: p.y + radius * Math.sin(angle)
+  }
+}
+
+function createParticule(x,y) {
+  var p = {};
+  p.x = x;
+  p.y = y;
+  p.color = colors[anime.random(0, colors.length - 1)];
+  p.radius = anime.random(3, 12);
+  p.endPos = setParticuleDirection(p);
+  p.draw = function() {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  }
+  return p;
+}
+
+function createCircle(x,y) {
+  var p = {};
+  p.x = x;
+  p.y = y;
+  p.color = '#FFF';
+  p.radius = 0.01;
+  p.alpha = .0;
+  p.lineWidth = 1;
+  p.draw = function() {
+    ctx.globalAlpha = p.alpha;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+    ctx.lineWidth = p.lineWidth;
+    ctx.strokeStyle = p.color;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  return p;
+}
+
+function renderParticule(anim) {
+  for (var i = 0; i < anim.animatables.length; i++) {
+    anim.animatables[i].target.draw();
+  }
+}
+
+function animateParticules(x, y) {
+  var circle = createCircle(x, y);
+  var particules = [];
+  for (var i = 0; i < numberOfParticules; i++) {
+    particules.push(createParticule(x, y));
+  }
+  anime.timeline().add({
+    targets: particules,
+    x: function(p) { return p.endPos.x; },
+    y: function(p) { return p.endPos.y; },
+    radius: 0.5,
+    duration: anime.random(1200, 1800),
+    easing: 'easeOutExpo',
+    update: renderParticule
+  })
+    .add({
+    targets: circle,
+    radius: anime.random(80, 300),
+    lineWidth: 0,
+    alpha: {
+      value: 0,
+      easing: 'linear',
+      duration: anime.random(600, 800),
+    },
+    duration: anime.random(1200, 1800),
+    easing: 'easeOutExpo',
+    update: renderParticule,
+    offset: 0
+  });
+}
+
+var render = anime({
+  duration: Infinity,
+  update: function() {
+    ctx.clearRect(0, 0, canvasHero.width, canvasHero.height);
+  }
+});
+
+function resolveParticules(object){
+
+	if(object == 'hero') ctx = canvasHero.getContext('2d');
+	else ctx = canvasMonster.getContext('2d');
+
+	object = $('#' + object);
+  window.human = true;
+  render.play();
+	x = (object.width() + 150) / 4;
+	y = (object.height() + 150) / 4;
+  animateParticules(x, y);
+}
+
+var centerX = window.innerWidth / 2;
+var centerY = window.innerHeight / 2;
+
+function autoClick() {
+  if (window.human) return;
+  animateParticules(
+    anime.random(centerX-50, centerX+50),
+    anime.random(centerY-50, centerY+50)
+  );
+  anime({duration: 200}).finished;
+}
+
+autoClick();
+setCanvasSizeHero();
+setCanvasSizeMonster();
+window.addEventListener('resize', setCanvasSizeHero, false);
+window.addEventListener('resize', setCanvasSizeMonster, false);
