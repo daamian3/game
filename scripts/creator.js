@@ -183,14 +183,15 @@ $("#creator__tabs").on("submit", function(){
 let klasa = false;
 let rasa = false;
 
-$("#submit-hero").on("click", function(){
+function openReg(){
   const name = $("#name").val();
   if(name){
     $.post({
   				url : 'check_hero',
-          data: {name: name},
+          data: {username: name},
   		})
   		.done(result => {
+        console.log(result);
         if(result == 1){
           new Noty({
         			type: 'warning',
@@ -210,6 +211,16 @@ $("#submit-hero").on("click", function(){
       	}).show();
   		});
   }
+}
+
+$("#submit-hero").on("click", function(){
+  openReg();
+});
+
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        openReg();
+    }
 });
 
 $("#submit__reg").on("click", function(){

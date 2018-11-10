@@ -3,6 +3,27 @@ function fight(result) {
 	let health_enemy = health2;
 	let i = 1;
 
+	function getMinDmg(opponent){
+		let min_dmg;
+
+		if(opponent == 'hero'){
+			min_dmg = result[1];
+			for(let i = 1; i <= result.length; i+=2){
+				if(result[i] < min_dmg) min_dmg = result[i];
+			}
+		}
+		else if(opponent == 'monster'){
+			min_dmg = result[2];
+			for(let i = 2; i <= result.length; i+=2){
+				if(result[i] < min_dmg) min_dmg = result[i];
+			}
+		}
+
+		return min_dmg;
+	}
+
+	alert(getMinDmg('monster'));
+
 	$("#exit").fadeOut();
 
 	function finish(winner) {
@@ -111,10 +132,18 @@ function fight(result) {
 		slashEnemy("weapon-1");
 
 		health_enemy -= result[i];
+		let min_dmg = getMinDmg('hero');
 
 		if(result[i] > 0){
+			if((min_dmg * 2) <= result[i] * 2){
+				setTimeout(function(){$("#monster").effect("highlight", { color: "#bb2200" }, 500);}, 400);
+			}
 			$("#progress-enemy").val(health_enemy);
 			$("#progress-enemy").attr('data-value', health_enemy + " / " + health2);
+			$('.fireworks_monster').fadeIn();
+			setTimeout(function() {
+				$('.fireworks_monster').fadeOut();
+			}, 1000);
 		}
 		else {
 		$('.fireworks_monster').fadeOut();
@@ -131,10 +160,18 @@ function fight(result) {
 		slashHero("weapon-2");
 
 		health_hero -= result[i];
+		let min_dmg = getMinDmg('monster');
 
 		if(result[i] > 0){
+			if((min_dmg * 2) <= result[i]){
+				setTimeout(function(){$("#hero").effect("highlight", { color: "#bb2200" }, 500);}, 400);
+			}
 			$("#progress-hero").val(health_hero);
 			$("#progress-hero").attr('data-value', health_hero + " / " + health1);
+			$('.fireworks_hero').fadeIn();
+			setTimeout(function() {
+				$('.fireworks_hero').fadeOut();
+			}, 1000);
 		}
 		else {
 		$('.fireworks_hero').fadeOut();
@@ -152,7 +189,7 @@ function fight(result) {
 			hitEnemy();
 			i++;
 			if (health_enemy > 0 && health_hero > 0) hitting2();
-			else finish();
+			else setTimeout(function(){finish();}, 1000);
 		}, 1500) //czas rundy
 	}
 
@@ -161,7 +198,7 @@ function fight(result) {
 			hitHero();
 			i++;
 			if (health_enemy > 0 && health_hero > 0) hitting1();
-			else finish();
+			else setTimeout(function(){finish();}, 1000);
 		}, 1500) //czas rundy
 	}
 
@@ -254,9 +291,9 @@ function createCircle(x,y) {
   p.x = x;
   p.y = y;
   p.color = '#FFF';
-  p.radius = 0.01;
-  p.alpha = .0;
-  p.lineWidth = 1;
+  p.radius = 0.05;
+  p.alpha = .2;
+  p.lineWidth = 2;
   p.draw = function() {
     ctx.globalAlpha = p.alpha;
     ctx.beginPath();
@@ -286,7 +323,7 @@ function animateParticules(x, y) {
     x: function(p) { return p.endPos.x; },
     y: function(p) { return p.endPos.y; },
     radius: 0.5,
-    duration: anime.random(1200, 1800),
+    duration: anime.random(1000, 1500),
     easing: 'easeOutExpo',
     update: renderParticule
   })

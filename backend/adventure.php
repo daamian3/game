@@ -23,7 +23,7 @@ class Adventure{
       'id' => $hero -> id,
     ]);
 
-    if($adventures == NULL){
+    if($adventures['adventures'] == NULL){
       $this -> changeAdventures($hero);
       $adventures = $this -> database -> get('heroes', [
         'adventures',
