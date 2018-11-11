@@ -95,8 +95,23 @@
     text-align: right;
   }
 
+  &__title{
+    background-color: rgba(255, 255, 255, .6);
+    @include padding-box('small');
+    display: inline-block;
+    border-radius: $rounded-small;
+  }
+
+  &__description{
+    background-color: rgba(255, 255, 255, .6);
+    @include padding-box('small');
+    display: inline-block;
+    border-radius: $rounded-small;
+  }
+
   &__background{
-    height: 100%;
+    height: 70%;
+    text-align: center;
     @include background-image;
     @include padding-box('big');
   }

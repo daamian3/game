@@ -30,6 +30,11 @@ class Adventure{
       if($diff > 0) return true;
       else{
         $this -> changeAdventures();
+        $this -> database -> update('heroes', [
+          'adventure_time' => 0,
+          ], [
+          'id' => $this -> hero -> id,
+        ]);
         return false;
       }
     }
@@ -88,7 +93,9 @@ class Adventure{
       ], [
         'id' => $this -> hero -> id,
       ]);
-
+      $time = new DateTime($adv1['adventure_time']);
+      $time -> format('U');
+      $adv1['adventure_time'] = $time->getTimestamp();
       $adv2 = $this -> database -> get('adventures', [
         'name',
         'description',
@@ -188,7 +195,6 @@ class Adventure{
     $this -> database -> update('heroes', [
       'adventure_reward' => $reward,
       'adventure_duration' => $time,
-      'adventure_time' => 0,
       ], [
       'id' => $this -> hero -> id,
     ]);

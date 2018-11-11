@@ -44,15 +44,48 @@
 			 </div>
 			{% else %}
 			<div id="adventure_background_{{ adventure.adventures }}" class="adventure__background" mask="url(#mask1)">
-				<h2>{{ adventure.name }}</h2>
-				<p>{{ adventure.description }}</p>
-				<p>{{ adventure.adventure_time }}</p>
+				<h2 class="adventure__title">{{ adventure.name }}</h2>
+				<p class="adventure__description">{{ adventure.description }}</p>
 			</div>
+			<p>Pozostało czasu: <span id="adventure_time"></span></p>
+			<progress id="adventure_progress" value="0" max="0"></progress>
 			{% endif %}
 	 </div>
 {% endblock %}
 
 {% block scripts %}
 	{{ parent() }}
+	<script>
+		var time = (({{ adventure.adventure_time }} * 1000) - Date.now()) / 1000;
+		$('#adventure_progress').attr('max', time);
+
+		function displayTime(){
+			var date = ({{ adventure.adventure_time }} * 1000) - Date.now();
+			date = new Date(date);
+
+			var hours = date.getHours() - 1;
+			var minutes = date.getMinutes();
+			var seconds = date.getSeconds();
+
+			if(hours != 0) hours = hours + ' godzin ';
+			else hours = '';
+			if(minutes != 0) minutes = minutes + ' minut ';
+			else minutes = '';
+			if(seconds != 0) seconds = seconds + ' sekund';
+			else seconds = '';
+
+			var time = hours + minutes + seconds;
+
+			$('#adventure_time').html(time);
+
+			var value =	$('#adventure_progress').val();
+			value = parseInt(value) + 1;
+			$('#adventure_progress').val(value);
+
+			var t = setTimeout(displayTime, 1000);
+		}
+
+		displayTime();
+	</script>
 	<script src="scripts/adventure.js"></script>
 {% endblock %}
