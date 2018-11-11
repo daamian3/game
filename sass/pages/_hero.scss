@@ -57,6 +57,10 @@
     border-radius: $rounded-small;
     background-color: $color-secondary-base;
     width: 100%;
+
+    @include media-query('desktop'){
+      width: 75%;
+    }
   }
 
   &-flex{

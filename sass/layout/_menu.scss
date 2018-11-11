@@ -108,8 +108,12 @@
 .main__menu__button{
   list-style-type: none;
   margin-top: 10px;
-
+  @include media-query('desktop'){
+    padding: 5px 10px;
+  }
   @include media-query('phone'){
     text-align: center;
   }
+
+
 }

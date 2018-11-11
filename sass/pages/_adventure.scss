@@ -94,9 +94,42 @@
     width: 50%;
     text-align: right;
   }
+
+  &__background{
+    height: 100%;
+    @include background-image;
+    @include padding-box('big');
+  }
 }
 
 #adventure_label{
+  &_1{
+    background-image: url(images/adventures/adventure_1.jpg);
+  }
+  &_2{
+    background-image: url(images/adventures/adventure_2.jpg);
+  }
+  &_3{
+    background-image: url(images/adventures/adventure_3.jpg);
+  }
+  &_4{
+    background-image: url(images/adventures/adventure_4.jpg);
+  }
+  &_5{
+    background-image: url(images/adventures/adventure_5.jpg);
+  }
+  &_6{
+    background-image: url(images/adventures/adventure_6.jpg);
+  }
+  &_7{
+    background-image: url(images/adventures/adventure_8.jpg);
+  }
+  &_8{
+    background-image: url(images/adventures/adventure_7.jpg);
+  }
+}
+
+#adventure_background{
   &_1{
     background-image: url(images/adventures/adventure_1.jpg);
   }

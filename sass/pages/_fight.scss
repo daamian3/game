@@ -97,6 +97,10 @@
     visibility: hidden;
     opacity: 0;
 
+    @include media-query('desktop'){
+      height: 100px;
+    }
+
     @include media-query('phone'){
       height: 60px;
     }

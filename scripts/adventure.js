@@ -14,3 +14,7 @@ $(document).ready(function() {
   $('.adventure__panel__block').on('click', function(){ show_info(this.id); });
 
 });
+
+$('.adventure_start').on('click', function(){
+  $('#adventure__list').submit();
+});

@@ -3,7 +3,7 @@
 use Medoo\Medoo;
 
 class Adventure{
-  function __construct(){
+  function __construct($hero){
     $this -> database = new Medoo([
       'database_type' => 'mysql',
       'database_name' => 'game',
@@ -12,25 +12,46 @@ class Adventure{
       'password' => '',
       "charset" => "utf8",
     ]);
+
+    $this -> hero = $hero;
   }
 
-  function getAdventures($hero){
+  function isStarted(){
+    $end = $this -> database -> get('heroes', 'adventure_time', [
+      'id' => $this -> hero -> id,
+    ]);
+
+    if($end == 0) return false;
+    else{
+      $end = new DateTime($end);
+      $now = new DateTime();
+
+      $diff = $end -> format('U') - $now -> format('U');
+      if($diff > 0) return true;
+      else{
+        $this -> changeAdventures();
+        return false;
+      }
+    }
+  }
+
+  function getAdventures(){
     $adventures = $this -> database -> get('heroes', [
       'adventures',
       'adventure_reward',
       'adventure_duration',
     ], [
-      'id' => $hero -> id,
+      'id' => $this -> hero -> id,
     ]);
 
     if($adventures['adventures'] == NULL){
-      $this -> changeAdventures($hero);
+      $this -> changeAdventures();
       $adventures = $this -> database -> get('heroes', [
         'adventures',
         'adventure_reward',
         'adventure_duration',
       ], [
-  			'id' => $hero -> id,
+  			'id' => $this -> hero -> id,
   		]);
     }
 
@@ -57,6 +78,41 @@ class Adventure{
     return $adv;
   }
 
+  function getAdventure($n = NULL){
+    if(is_null($n)){
+      $adv1 = $this -> database -> get('heroes', [
+        'adventures',
+        'adventure_reward',
+        'adventure_duration',
+        'adventure_time',
+      ], [
+        'id' => $this -> hero -> id,
+      ]);
+
+      $adv2 = $this -> database -> get('adventures', [
+        'name',
+        'description',
+      ], [
+        'id' => $adv1['adventures'],
+      ]);
+
+      return array_merge($adv1, $adv2);
+    }
+    else if($n == 0 || $n == 1 || $n == 2){
+      $adventures = $this -> getAdventures();
+
+      $adv['id'] = $adventures[$n]['id'];
+      $adv['name'] = $adventures[$n]['name'];
+      $adv['description'] = $adventures[$n]['description'];
+      $adv['reward'] = $adventures[$n]['reward'];
+      $adv['duration'] = $adventures[$n]['duration'];
+
+      return $adv;
+      if(is_null($adv['id'])) var_dump($this -> database -> error());
+    }
+    else echo 'Error: Zły numer przygody!';
+  }
+
   function random_numbers($from, $to) {
     $los = array();
     for($i = $from; $i < $to; $i++){
@@ -66,12 +122,12 @@ class Adventure{
     return $los;
   }
 
-  function adventureReward($hero, $time){
+  function adventureReward($time){
     $heroes = $this -> database -> get('heroes', [
 			'level',
 			'luck',
 		],[
-			'id' => $hero -> id,
+			'id' => $this -> hero -> id,
 		]);
 
     $reward = ($heroes['level'] * $heroes['level'] + ($heroes['luck'] * rand(9, 11))) * $time;
@@ -86,25 +142,43 @@ class Adventure{
     return $money;
   }
 
-  function changeAdventures($hero){
+  function start($n){
+    $adventure = $this -> getAdventure($n);
+    $time = new DateTime();
+    $time -> modify("+".$adventure['duration']." hours");
+    $duration = $time -> format("Y-m-d H:i:s");
+
+    $reward = $adventure['reward']['bronze'] + ($adventure['reward']['silver'] * 100) + ($adventure['reward']['gold'] * 10000);
+
+    $this -> database -> update('heroes', [
+      'adventures' => $adventure['id'],
+      'adventure_time' => $duration,
+      'adventure_reward' => $reward,
+      'adventure_duration' => $adventure['duration'],
+      ], [
+      'id' => $this -> hero -> id,
+    ]);
+  }
+
+  function changeAdventures(){
     $random = $this -> random_numbers(1, 5);
     $random = $random[0].'/'.$random[1].'/'.$random[2];
 
     $this -> database -> update('heroes', [
       'adventures' => $random,
       ], [
-      'id' => $hero -> id,
+      'id' => $this -> hero -> id,
     ]);
 
     $adventure = $this -> database -> get('heroes', 'adventures', [
-			'id' => $hero -> id,
+			'id' => $this -> hero -> id,
 		]);
     $adventure = explode("/", $adventure);
 
     $random = $this -> random_numbers(1, 4);
 
     for($i = 0; $i < 3; $i++){
-      $reward[] = $this -> adventureReward($hero, $adventure[$i]);
+      $reward[] = $this -> adventureReward($adventure[$i]);
       $time[] = $adventure[$i] * $random[$i];
     }
 
@@ -114,8 +188,9 @@ class Adventure{
     $this -> database -> update('heroes', [
       'adventure_reward' => $reward,
       'adventure_duration' => $time,
+      'adventure_time' => 0,
       ], [
-      'id' => $hero -> id,
+      'id' => $this -> hero -> id,
     ]);
   }
 }

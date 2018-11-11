@@ -68,14 +68,28 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
   else header("Refresh:0; url=/game/");
 });
 
-$klein -> respond('GET', '/game/adventure', function ($request, $response, $service, $app) {
+$klein -> respond(array('GET', 'POST'), '/game/adventure', function ($request, $response, $service, $app) {
   global $auth;
 
   if($auth -> isLoggedIn()) {
-    $adventure = new Adventure();
+    $hero = new Hero();
+    $adventure = new Adventure($hero);
 
-    echo $app -> twig -> render('adventure.html.twig', array(
-      'adventures' => $adventure -> getAdventures(new Hero),
+    if(isset($_POST['adventure'])){
+      $adventure -> start($_POST['adventure']);
+      echo $app -> twig -> render('adventure.html.twig', array(
+        'adventure' => $adventure -> getAdventure(),
+      ));
+    }
+
+    else if($adventure -> isStarted()){
+      echo $app -> twig -> render('adventure.html.twig', array(
+        'adventure' => $adventure -> getAdventure(),
+      ));
+    }
+
+    else echo $app -> twig -> render('adventure.html.twig', array(
+      'adventures' => $adventure -> getAdventures(),
     ));
   }
   else header("Refresh:0; url=/game/");

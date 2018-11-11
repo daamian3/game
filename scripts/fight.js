@@ -22,8 +22,6 @@ function fight(result) {
 		return min_dmg;
 	}
 
-	alert(getMinDmg('monster'));
-
 	$("#exit").fadeOut();
 
 	function finish(winner) {
@@ -135,7 +133,7 @@ function fight(result) {
 		let min_dmg = getMinDmg('hero');
 
 		if(result[i] > 0){
-			if((min_dmg * 2) <= result[i] * 2){
+			if((min_dmg * 2) <= result[i]){
 				setTimeout(function(){$("#monster").effect("highlight", { color: "#bb2200" }, 500);}, 400);
 			}
 			$("#progress-enemy").val(health_enemy);

@@ -15,11 +15,6 @@
 
 @import 'base/normalize';
 
-@import 'layout/grid';
-@import 'layout/window';
-@import 'layout/menu';
-@import 'layout/footer';
-
 @import 'components/inputs';
 @import 'components/buttons';
 @import 'components/headers';
@@ -28,6 +23,11 @@
 @import 'components/images';
 @import 'components/icons';
 @import 'components/spans';
+
+@import 'layout/grid';
+@import 'layout/window';
+@import 'layout/menu';
+@import 'layout/footer';
 
 @import 'pages/login';
 @import 'pages/creator';
