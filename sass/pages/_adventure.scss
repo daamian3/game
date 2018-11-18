@@ -115,6 +115,11 @@
     @include background-image;
     @include padding-box('big');
   }
+
+  &__flex-started{
+    @include flexbox(column, space-between);
+    height: 100%;
+  }
 }
 
 #adventure_label{

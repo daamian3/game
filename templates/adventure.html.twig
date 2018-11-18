@@ -41,14 +41,16 @@
 						</div>
 					{% endfor %}
 			  </div>
-			 </div>
+				</div>
 			{% else %}
-			<div id="adventure_background_{{ adventure.adventures }}" class="adventure__background" mask="url(#mask1)">
-				<h2 class="adventure__title">{{ adventure.name }}</h2>
-				<p class="adventure__description">{{ adventure.description }}</p>
-			</div>
-			<p>Pozostało czasu: <span id="adventure_time"></span></p>
-			<progress id="adventure_progress" value="0" max="0"></progress>
+				<div class="adventure__flex-started">
+					<div id="adventure_background_{{ adventure.adventures }}" class="adventure__background" mask="url(#mask1)">
+						<h2 class="adventure__title">{{ adventure.name }}</h2>
+						<p class="adventure__description">{{ adventure.description }}</p>
+					</div>
+					<p>Pozostało czasu: <span id="adventure_time"></span></p>
+					<progress id="adventure_progress" value="0" max="0"></progress>
+				</div>
 			{% endif %}
 	 </div>
 {% endblock %}
@@ -62,6 +64,8 @@
 		function displayTime(){
 			var date = ({{ adventure.adventure_time }} * 1000) - Date.now();
 			date = new Date(date);
+
+			if(date <= 1) location.reload();
 
 			var hours = date.getHours() - 1;
 			var minutes = date.getMinutes();

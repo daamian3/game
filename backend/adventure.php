@@ -16,6 +16,27 @@ class Adventure{
     $this -> hero = $hero;
   }
 
+  function end(){
+    $reward = $this -> database -> get('heroes', 'adventure_reward', [
+      'id' => $this -> hero -> id,
+    ]);
+
+    $this -> database -> update('heroes', [
+      'gold[+]' => $reward,
+      'adventures_traveled[+]' => 1,
+      ], [
+      'id' => $this -> hero -> id,
+    ]);
+
+    $this -> changeAdventures();
+    $this -> database -> update('heroes', [
+      'adventure_time' => 0,
+      ], [
+      'id' => $this -> hero -> id,
+    ]);
+    return false;
+  }
+
   function isStarted(){
     $end = $this -> database -> get('heroes', 'adventure_time', [
       'id' => $this -> hero -> id,
@@ -28,15 +49,7 @@ class Adventure{
 
       $diff = $end -> format('U') - $now -> format('U');
       if($diff > 0) return true;
-      else{
-        $this -> changeAdventures();
-        $this -> database -> update('heroes', [
-          'adventure_time' => 0,
-          ], [
-          'id' => $this -> hero -> id,
-        ]);
-        return false;
-      }
+      else return $this -> end();
     }
   }
 

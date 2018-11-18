@@ -5129,6 +5129,196 @@ template {
 [hidden] {
 		display: none; }
 
+.input {
+		padding: 7px 12px;
+		font-family: "Lato";
+		font-size: 0.7em;
+		border-radius: 4px;
+		border: solid 3px #3B3A59;
+		background-color: #efefef;
+		outline: none; }
+		.input:-webkit-autofill, .input:-webkit-autofill:hover, .input:-webkit-autofill:focus, .input:-webkit-autofill:active {
+				-webkit-text-fill-color: #111111; }
+
+button:focus {
+		outline: none; }
+
+.button {
+		cursor: pointer;
+		background-color: #3B3A59;
+		color: #efefef;
+		transition: 0.3s;
+		border-radius: 8px;
+		border: solid 2px #3B3A59;
+		font-size: 1em;
+		padding: 10px 15px; }
+		.button:hover {
+				background-color: #efefef;
+				color: #3B3A59; }
+
+.button.light {
+		background-color: #585686;
+		border-color: #585686; }
+		.button.light:hover {
+				background-color: #efefef; }
+
+.button.dark {
+		background-color: #27253e;
+		border-color: #27253e; }
+		.button.dark:hover {
+				background-color: #efefef; }
+
+.button.inverted {
+		background-color: #efefef;
+		color: #3B3A59;
+		border-color: #3B3A59; }
+		.button.inverted:hover {
+				background-color: #3B3A59;
+				color: #efefef; }
+
+.button.small {
+		font-size: 0.85em;
+		padding: 7px 12px; }
+
+.button.big {
+		font-size: 1.15em;
+		padding: 16px 24px; }
+
+.button.circle {
+		border-radius: 50%; }
+
+.button.disabled {
+		background-color: #555555; }
+		.button.disabled:hover {
+				background-color: #555555;
+				color: #efefef; }
+
+h1, h2, h3, h4, h5, h6 {
+		text-align: center;
+		margin: .5em 0; }
+
+h1 {
+		font-size: 1.3em;
+		font-family: 'Lato'; }
+
+h2 {
+		font-size: 1.15em; }
+
+h3 {
+		font-size: 1.15em; }
+
+h4 {
+		font-size: 1.15em; }
+
+h5 {
+		font-size: 1em; }
+
+h6 {
+		font-size: 1em; }
+
+.tooltip {
+		background-color: #3B3A59;
+		color: #efefef;
+		position: absolute;
+		min-width: 10em;
+		transform: translateX(-50%);
+		visibility: hidden;
+		opacity: 0;
+		font-size: 0.7em;
+		border: solid 2px #111111;
+		border-radius: 8px;
+		padding: 7px 12px;
+		transition: visibility 0s, opacity 0.3s linear;
+		z-index: 2; }
+		@media only screen and (max-width: 767px) {
+				.tooltip {
+						position: static;
+						visibility: visible;
+						opacity: 1;
+						margin: 10px auto;
+						transform: none;
+						width: 90%; } }
+
+*:hover + .tooltip {
+		visibility: visible;
+		opacity: 1; }
+
+progress {
+		width: 100%;
+		position: relative; }
+		progress[value] {
+				-webkit-appearance: none;
+				appearance: none; }
+		progress::-webkit-progress-value {
+				border-radius: 5px;
+				box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.5) inset;
+				transition: 1s; }
+		progress::after {
+				content: attr(data-value);
+				text-align: center;
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 50%;
+				transform: translateX(-50%);
+				padding: 5px;
+				font-size: calc(1em - 10px);
+				width: 100%; }
+
+.card-container {
+		position: relative;
+		cursor: pointer;
+		text-align: center;
+		font-weight: bold;
+		text-decoration: none;
+		border-radius: 8px; }
+		.card-container::before {
+				content: '';
+				visibility: hidden;
+				opacity: 0;
+				position: absolute;
+				width: 100%;
+				height: 30%;
+				bottom: 0;
+				left: 0;
+				background-image: linear-gradient(0deg, #111111, transparent);
+				border-radius: 0 0 10px 10px;
+				transition: 0.3s;
+				z-index: 9; }
+		.card-container:hover::before {
+				visibility: visible;
+				opacity: 1; }
+		.card-container:hover .card-content {
+				color: #efefef; }
+
+.card-content {
+		z-index: 10;
+		position: absolute;
+		transition: 0.3s;
+		color: transparent;
+		position: absolute;
+		width: 100%;
+		height: 30%;
+		bottom: 0;
+		left: 0; }
+
+.icon {
+		height: 2em;
+		vertical-align: middle; }
+
+.icon.small {
+		height: 1em; }
+
+.icon.big {
+		height: 3em; }
+
+.span {
+		font-weight: bold;
+		background-color: #3B3A59;
+		color: #efefef;
+		padding: 5px;
+		border-radius: 5px; }
+
 * {
 		box-sizing: border-box; }
 
@@ -5139,7 +5329,7 @@ html, body {
 		background-size: cover;
 		background-attachment: fixed;
 		font-family: "Patrick Hand";
-		font-size: calc(10px + 1vw);
+		font-size: calc(6px + 1.1vw);
 		overflow: hidden;
 		height: 100%;
 		width: 100%;
@@ -5344,6 +5534,9 @@ html, body {
 .main__menu__button {
 		list-style-type: none;
 		margin-top: 10px; }
+		@media only screen and (max-width: 1299px) {
+				.main__menu__button {
+						padding: 5px 10px; } }
 		@media only screen and (max-width: 767px) {
 				.main__menu__button {
 						text-align: center; } }
@@ -5358,196 +5551,6 @@ html, body {
 		@media only screen and (max-width: 767px) {
 				.footer {
 						background-color: #3B3A59; } }
-
-.input {
-		padding: 7px 12px;
-		font-family: "Lato";
-		font-size: 0.7em;
-		border-radius: 4px;
-		border: solid 3px #3B3A59;
-		background-color: #efefef;
-		outline: none; }
-		.input:-webkit-autofill, .input:-webkit-autofill:hover, .input:-webkit-autofill:focus, .input:-webkit-autofill:active {
-				-webkit-text-fill-color: #111111; }
-
-button:focus {
-		outline: none; }
-
-.button {
-		cursor: pointer;
-		background-color: #3B3A59;
-		color: #efefef;
-		transition: 0.3s;
-		border-radius: 8px;
-		border: solid 2px #3B3A59;
-		font-size: 1em;
-		padding: 10px 15px; }
-		.button:hover {
-				background-color: #efefef;
-				color: #3B3A59; }
-
-.button.light {
-		background-color: #585686;
-		border-color: #585686; }
-		.button.light:hover {
-				background-color: #efefef; }
-
-.button.dark {
-		background-color: #27253e;
-		border-color: #27253e; }
-		.button.dark:hover {
-				background-color: #efefef; }
-
-.button.inverted {
-		background-color: #efefef;
-		color: #3B3A59;
-		border-color: #3B3A59; }
-		.button.inverted:hover {
-				background-color: #3B3A59;
-				color: #efefef; }
-
-.button.small {
-		font-size: 0.85em;
-		padding: 7px 12px; }
-
-.button.big {
-		font-size: 1.15em;
-		padding: 16px 24px; }
-
-.button.circle {
-		border-radius: 50%; }
-
-.button.disabled {
-		background-color: #555555; }
-		.button.disabled:hover {
-				background-color: #555555;
-				color: #efefef; }
-
-h1, h2, h3, h4, h5, h6 {
-		text-align: center;
-		margin: .5em 0; }
-
-h1 {
-		font-size: 1.3em;
-		font-family: 'Lato'; }
-
-h2 {
-		font-size: 1.15em; }
-
-h3 {
-		font-size: 1.15em; }
-
-h4 {
-		font-size: 1.15em; }
-
-h5 {
-		font-size: 1em; }
-
-h6 {
-		font-size: 1em; }
-
-.tooltip {
-		background-color: #3B3A59;
-		color: #efefef;
-		position: absolute;
-		min-width: 10em;
-		transform: translateX(-50%);
-		visibility: hidden;
-		opacity: 0;
-		font-size: 0.7em;
-		border: solid 2px #111111;
-		border-radius: 8px;
-		padding: 7px 12px;
-		transition: visibility 0s, opacity 0.3s linear;
-		z-index: 2; }
-		@media only screen and (max-width: 767px) {
-				.tooltip {
-						position: static;
-						visibility: visible;
-						opacity: 1;
-						margin: 10px auto;
-						transform: none;
-						width: 90%; } }
-
-*:hover + .tooltip {
-		visibility: visible;
-		opacity: 1; }
-
-progress {
-		width: 100%;
-		position: relative; }
-		progress[value] {
-				-webkit-appearance: none;
-				appearance: none; }
-		progress::-webkit-progress-value {
-				border-radius: 5px;
-				box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.5) inset;
-				transition: 1s; }
-		progress::after {
-				content: attr(data-value);
-				text-align: center;
-				display: block;
-				position: absolute;
-				top: 0;
-				left: 50%;
-				transform: translateX(-50%);
-				padding: 5px;
-				font-size: calc(1em - 10px);
-				width: 100%; }
-
-.card-container {
-		position: relative;
-		cursor: pointer;
-		text-align: center;
-		font-weight: bold;
-		text-decoration: none;
-		border-radius: 8px; }
-		.card-container::before {
-				content: '';
-				visibility: hidden;
-				opacity: 0;
-				position: absolute;
-				width: 100%;
-				height: 30%;
-				bottom: 0;
-				left: 0;
-				background-image: linear-gradient(0deg, #111111, transparent);
-				border-radius: 0 0 10px 10px;
-				transition: 0.3s;
-				z-index: 9; }
-		.card-container:hover::before {
-				visibility: visible;
-				opacity: 1; }
-		.card-container:hover .card-content {
-				color: #efefef; }
-
-.card-content {
-		z-index: 10;
-		position: absolute;
-		transition: 0.3s;
-		color: transparent;
-		position: absolute;
-		width: 100%;
-		height: 30%;
-		bottom: 0;
-		left: 0; }
-
-.icon {
-		height: 2em;
-		vertical-align: middle; }
-
-.icon.small {
-		height: 1em; }
-
-.icon.big {
-		height: 3em; }
-
-.span {
-		font-weight: bold;
-		background-color: #3B3A59;
-		color: #efefef;
-		padding: 5px;
-		border-radius: 5px; }
 
 .login {
 		height: 90%;
@@ -5921,6 +5924,9 @@ progress {
 				border-radius: 4px;
 				background-color: #111111;
 				width: 100%; }
+				@media only screen and (max-width: 1299px) {
+						.hero__image {
+								width: 75%; } }
 		.hero-flex {
 				display: flex;
 				flex-direction: column;
@@ -6132,6 +6138,31 @@ progress {
 		.adventure__reward {
 				width: 50%;
 				text-align: right; }
+		.adventure__title {
+				background-color: rgba(255, 255, 255, 0.6);
+				padding: 7px 12px;
+				display: inline-block;
+				border-radius: 4px; }
+		.adventure__description {
+				background-color: rgba(255, 255, 255, 0.6);
+				padding: 7px 12px;
+				display: inline-block;
+				border-radius: 4px; }
+		.adventure__background {
+				height: 70%;
+				text-align: center;
+				background-image: url("");
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				padding: 16px 24px; }
+		.adventure__flex-started {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				flex-wrap: nowrap;
+				height: 100%; }
 
 #adventure_label_1 {
 		background-image: url(images/adventures/adventure_1.jpg); }
@@ -6155,6 +6186,30 @@ progress {
 		background-image: url(images/adventures/adventure_8.jpg); }
 
 #adventure_label_8 {
+		background-image: url(images/adventures/adventure_7.jpg); }
+
+#adventure_background_1 {
+		background-image: url(images/adventures/adventure_1.jpg); }
+
+#adventure_background_2 {
+		background-image: url(images/adventures/adventure_2.jpg); }
+
+#adventure_background_3 {
+		background-image: url(images/adventures/adventure_3.jpg); }
+
+#adventure_background_4 {
+		background-image: url(images/adventures/adventure_4.jpg); }
+
+#adventure_background_5 {
+		background-image: url(images/adventures/adventure_5.jpg); }
+
+#adventure_background_6 {
+		background-image: url(images/adventures/adventure_6.jpg); }
+
+#adventure_background_7 {
+		background-image: url(images/adventures/adventure_8.jpg); }
+
+#adventure_background_8 {
 		background-image: url(images/adventures/adventure_7.jpg); }
 
 .dungeon {
@@ -6272,6 +6327,9 @@ progress {
 				filter: blur(2px);
 				visibility: hidden;
 				opacity: 0; }
+				@media only screen and (max-width: 1299px) {
+						.fight__weapon-1, .fight__weapon-2 {
+								height: 100px; } }
 				@media only screen and (max-width: 767px) {
 						.fight__weapon-1, .fight__weapon-2 {
 								height: 60px; } }
