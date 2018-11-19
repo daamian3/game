@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 31 Paź 2018, 17:09
+-- Czas generowania: 19 Lis 2018, 17:50
 -- Wersja serwera: 10.1.31-MariaDB
 -- Wersja PHP: 7.2.3
 
@@ -137,7 +137,19 @@ INSERT INTO `eq` (`ID`, `name`, `hero_id`, `type`, `attack_min`, `attack_max`, `
 (9, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
 (10, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
 (11, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
-(12, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel');
+(12, 'Stalowy Miecz', 7, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 0, 2, 'sword_steel'),
+(13, 'Elfia Szata', 1, 'chestplate', 0, 0, 6, 0, 0, 0, 0, 0, 1, 14978, 'chestplate_elfin'),
+(14, 'Zbroja Paladyna', 1, 'chestplate', 0, 0, 38, 0, 0, 0, 0, 0, 2, 12482, 'chestplate_paladin'),
+(15, 'Stalowy Miecz', 1, 'sword', 3, 4, 0, 0, 0, 0, 0, 0, 2, 12482, 'sword_steel'),
+(16, 'Pancerz Rzezimieszka', 1, 'chestplate', 0, 0, 6, 0, 0, 0, 0, 0, 1, 12482, 'chestplate_rouge'),
+(17, 'Stalowy Hełm', 1, 'helmet', 0, 0, 1, 0, 0, 0, 0, 0, 2, 13730, 'helmet_steel'),
+(18, 'Szata Kapłana', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 1, 12482, 'chestplate_priest'),
+(19, 'Naszyjnik z rubinem', 1, 'necklace', 0, 0, 0, 0, 0, 0, 21, 23, 1, 15022, 'necklace_ruby'),
+(20, 'Złoty Pierścień', 1, 'ring', 0, 0, 0, 0, 0, 0, 0, 22, 2, 13752, 'ring_gold'),
+(21, 'Krasnoludzka Zbroja', 1, 'chestplate', 0, 0, 12, 0, 0, 0, 0, 0, 0, 14978, 'chestplate_dwaf'),
+(22, 'Elfia Szata', 1, 'chestplate', 0, 0, 6, 0, 0, 0, 0, 0, 0, 12482, 'chestplate_elfin'),
+(23, 'Szata Kapłana', 1, 'chestplate', 0, 0, 29, 0, 0, 0, 0, 0, 0, 12482, 'chestplate_priest'),
+(24, 'Kościane Buty', 1, 'feet', 0, 0, 5, 0, 0, 0, 0, 0, 0, 14978, 'boots_skull');
 
 -- --------------------------------------------------------
 
@@ -276,6 +288,7 @@ CREATE TABLE `heroes` (
   `experience` int(11) NOT NULL DEFAULT '0',
   `killed_monsters` smallint(6) NOT NULL DEFAULT '0',
   `beated_players` smallint(6) NOT NULL DEFAULT '0',
+  `adventures_traveled` smallint(6) NOT NULL DEFAULT '0',
   `gold` int(11) NOT NULL DEFAULT '0',
   `dungeon` tinyint(4) NOT NULL DEFAULT '1',
   `dungeon_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -289,9 +302,8 @@ CREATE TABLE `heroes` (
 -- Zrzut danych tabeli `heroes`
 --
 
-INSERT INTO `heroes` (`ID`, `name`, `race`, `class`, `strength`, `intelligence`, `agility`, `vitality`, `luck`, `level`, `experience`, `killed_monsters`, `beated_players`, `gold`, `dungeon`, `dungeon_time`, `adventures`, `adventure_duration`, `adventure_reward`, `adventure_time`) VALUES
-(1, 'Alalo', 'demon', 'warrior', 30, 17, 20, 46, 59, 79, 947, 43, 0, 1518378054, 11, '2018-10-31 11:50:05', '1/3/2', '2/9/2', '6499/19497/12884', '2018-10-31 11:50:05'),
-(7, 'daamian3', 'elf', 'mage', 1, 11, 1, 1, 2, 1, 27, 2, 0, 1388, 3, '2018-10-31 16:08:06', '2/3/4', '2/9/8', '46/69/84', '2018-10-31 16:08:06');
+INSERT INTO `heroes` (`ID`, `name`, `race`, `class`, `strength`, `intelligence`, `agility`, `vitality`, `luck`, `level`, `experience`, `killed_monsters`, `beated_players`, `adventures_traveled`, `gold`, `dungeon`, `dungeon_time`, `adventures`, `adventure_duration`, `adventure_reward`, `adventure_time`) VALUES
+(1, 'admin', 'demon', 'warrior', 11, 1, 1, 1, 1, 3, 5, 5, 0, 3, 158, 6, '2018-11-13 17:38:11', '1/3/4', '3/6/4', '19/60/80', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -412,23 +424,93 @@ INSERT INTO `races` (`ID`, `name`, `vitality`, `strength`, `intelligence`, `agil
 --
 
 CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
-  `login` varchar(20) COLLATE utf8_polish_ci NOT NULL,
-  `email` varchar(40) COLLATE utf8_polish_ci NOT NULL,
-  `password` varchar(60) COLLATE utf8_polish_ci NOT NULL,
-  `ip` int(4) NOT NULL,
-  `date` date NOT NULL,
-  `token` varchar(30) CHARACTER SET latin1 NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `email` varchar(249) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `username` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(2) UNSIGNED NOT NULL DEFAULT '0',
+  `verified` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `resettable` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `roles_mask` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `registered` int(10) UNSIGNED NOT NULL,
+  `last_login` int(10) UNSIGNED DEFAULT NULL,
+  `force_logout` mediumint(7) UNSIGNED NOT NULL DEFAULT '0',
   `hero_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Zrzut danych tabeli `users`
 --
 
-INSERT INTO `users` (`ID`, `login`, `email`, `password`, `ip`, `date`, `token`, `hero_id`) VALUES
-(1, 'admin', '', '$2a$06$8ZxrC9UUVXPLsBa8jiza0eB5/7sTfm2XlJEgCr0yUMZmCjC7X1csS', 1394061969, '0000-00-00', '', 1),
-(23, 'daamian3', 'damianchojnacki@op.pl', '$2y$10$e03L7d3OjCB/q4ctUcaWUelT048TSWR.J1x1nl6mQ56vV3xqsZ6y.', 0, '2018-07-15', 'c68be0232ff9721f8993d2ecced7e2', 7);
+INSERT INTO `users` (`id`, `email`, `password`, `username`, `status`, `verified`, `resettable`, `roles_mask`, `registered`, `last_login`, `force_logout`, `hero_id`) VALUES
+(1, 'damianchojnacki@op.pl', '$2y$10$MnpB.7x6Y1vY4LseyBsWmudOOMX.j1Oay/.YPa2joOWacKabDCn.m', 'admin', 0, 1, 1, 0, 1541451560, 1542129862, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `users_confirmations`
+--
+
+CREATE TABLE `users_confirmations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `email` varchar(249) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `selector` varchar(16) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `expires` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `users_remembered`
+--
+
+CREATE TABLE `users_remembered` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user` int(10) UNSIGNED NOT NULL,
+  `selector` varchar(24) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `expires` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `users_resets`
+--
+
+CREATE TABLE `users_resets` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user` int(10) UNSIGNED NOT NULL,
+  `selector` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `token` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `expires` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `users_throttling`
+--
+
+CREATE TABLE `users_throttling` (
+  `bucket` varchar(44) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
+  `tokens` float UNSIGNED NOT NULL,
+  `replenished_at` int(10) UNSIGNED NOT NULL,
+  `expires_at` int(10) UNSIGNED NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Zrzut danych tabeli `users_throttling`
+--
+
+INSERT INTO `users_throttling` (`bucket`, `tokens`, `replenished_at`, `expires_at`) VALUES
+('ejWtPDKvxt-q7LZ3mFjzUoIWKJYzu47igC8Jd9mffFk', 73.1489, 1542129862, 1542669862),
+('CUeQSH1MUnRpuE3Wqv_fI3nADvMpK_cg6VpYK37vgIw', 4, 1541451563, 1541883563),
+('sZYXdcyzJCIQjhLWDhxqtQgKYyGMgsFMjHNxwbpWOAE', 49, 1541451588, 1541523588),
+('ICQq3JXH5FfwRUndNTyPR-try3wcm3XIAbSBuBvwvgA', 29, 1541451588, 1541523588),
+('6E4BNDLk8UYLfRYWH8rAJhFc97wM6zJiSUORyRNJwqI', 29, 1541451588, 1541523588);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -468,16 +550,13 @@ ALTER TABLE `dungeons`
 --
 ALTER TABLE `eq`
   ADD KEY `ID` (`ID`),
-  ADD KEY `hero_id` (`hero_id`),
   ADD KEY `eq_ibfk_2` (`name`);
 
 --
 -- Indeksy dla tabeli `heroes`
 --
 ALTER TABLE `heroes`
-  ADD UNIQUE KEY `rasa` (`race`),
-  ADD UNIQUE KEY `klasa` (`class`),
-  ADD KEY `ID` (`ID`);
+  ADD PRIMARY KEY (`ID`) USING BTREE;
 
 --
 -- Indeksy dla tabeli `items`
@@ -504,8 +583,40 @@ ALTER TABLE `races`
 -- Indeksy dla tabeli `users`
 --
 ALTER TABLE `users`
-  ADD KEY `ID` (`ID`),
-  ADD KEY `hero_id` (`hero_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indeksy dla tabeli `users_confirmations`
+--
+ALTER TABLE `users_confirmations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `selector` (`selector`),
+  ADD KEY `email_expires` (`email`,`expires`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indeksy dla tabeli `users_remembered`
+--
+ALTER TABLE `users_remembered`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `selector` (`selector`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indeksy dla tabeli `users_resets`
+--
+ALTER TABLE `users_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `selector` (`selector`),
+  ADD KEY `user_expires` (`user`,`expires`);
+
+--
+-- Indeksy dla tabeli `users_throttling`
+--
+ALTER TABLE `users_throttling`
+  ADD PRIMARY KEY (`bucket`),
+  ADD KEY `expires_at` (`expires_at`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -533,13 +644,13 @@ ALTER TABLE `dungeons`
 -- AUTO_INCREMENT dla tabeli `eq`
 --
 ALTER TABLE `eq`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT dla tabeli `heroes`
 --
 ALTER TABLE `heroes`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `items`
@@ -563,7 +674,25 @@ ALTER TABLE `races`
 -- AUTO_INCREMENT dla tabeli `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT dla tabeli `users_confirmations`
+--
+ALTER TABLE `users_confirmations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT dla tabeli `users_remembered`
+--
+ALTER TABLE `users_remembered`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `users_resets`
+--
+ALTER TABLE `users_resets`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -588,14 +717,7 @@ ALTER TABLE `dungeons`
 -- Ograniczenia dla tabeli `eq`
 --
 ALTER TABLE `eq`
-  ADD CONSTRAINT `eq_ibfk_1` FOREIGN KEY (`hero_id`) REFERENCES `heroes` (`ID`),
   ADD CONSTRAINT `eq_ibfk_2` FOREIGN KEY (`name`) REFERENCES `items` (`name`);
-
---
--- Ograniczenia dla tabeli `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`hero_id`) REFERENCES `heroes` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
