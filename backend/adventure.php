@@ -108,7 +108,7 @@ class Adventure{
       ]);
       $time = new DateTime($adv1['adventure_time']);
       $time -> format('U');
-      $adv1['adventure_time'] = $time->getTimestamp();
+      $adv1['adventure_time'] = $time -> getTimestamp();
       $adv2 = $this -> database -> get('adventures', [
         'name',
         'description',

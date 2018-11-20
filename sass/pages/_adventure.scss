@@ -118,7 +118,7 @@
 
   &__flex-started{
     @include flexbox(column, space-between);
-    height: 100%;
+    height: 95%;
   }
 }
 

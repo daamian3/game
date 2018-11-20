@@ -75,14 +75,14 @@ $klein -> respond(array('GET', 'POST'), '/game/adventure', function ($request, $
     $hero = new Hero();
     $adventure = new Adventure($hero);
 
-    if(isset($_POST['adventure'])){
-      $adventure -> start($_POST['adventure']);
+    if($adventure -> isStarted()){
       echo $app -> twig -> render('adventure.html.twig', array(
         'adventure' => $adventure -> getAdventure(),
       ));
     }
 
-    else if($adventure -> isStarted()){
+    else if(isset($_POST['adventure'])){
+      $adventure -> start($_POST['adventure']);
       echo $app -> twig -> render('adventure.html.twig', array(
         'adventure' => $adventure -> getAdventure(),
       ));
@@ -100,40 +100,43 @@ $klein -> respond('GET', '/game/dungeons', function ($request, $response, $servi
   global $auth;
 
   if($auth -> isLoggedIn()) {
-    if(!isset($_GET['name'])) echo $app -> twig -> render('dungeons.html.twig');
+    $hero = new Hero();
+    $dungeon = new Dungeon($hero);
+
+    if(!isset($_GET['name'])) echo $app -> twig -> render('dungeons.html.twig', array(
+      'dungeon' => $dungeon -> getDungeon(),
+    ));
 
     else{
       switch($_GET['name']){
         case 'basements':
-          $dungeon = 'Piwnice';
+          $name = 'Piwnice';
           break;
         case 'catacombs':
-          $dungeon = 'Katakumby';
+          $name = 'Katakumby';
           break;
         case 'snakesground':
-          $dungeon = 'Wężowe pole';
+          $name = 'Wężowe pole';
           break;
         case 'infernalcave':
-          $dungeon = 'Piekielna grota';
+          $name = 'Piekielna grota';
           break;
         case 'spiderlair':
-          $dungeon = 'Leże pająków';
+          $name = 'Leże pająków';
           break;
         case 'demontower':
-          $dungeon = 'Wieża demonów';
+          $name = 'Wieża demonów';
           break;
         default:
           echo $app -> twig -> render('dungeons.html.twig');
           exit();
           break;
       }
-      $hero = new Hero();
 
-      $dunegon = new Dungeon($hero);
-      $enemy = new Enemy($dunegon -> getEnemyId());
+      $enemy = new Enemy($dungeon -> getEnemyId());
 
       echo $app -> twig -> render('fight.html.twig', array(
-        'dungeon' => $dungeon,
+        'dungeon' => $name,
         'hero' => $hero -> getStats(),
         'enemy' => $enemy -> getStats(),
         'is_available' => $hero -> dungeonIsAvailable(),
@@ -288,6 +291,7 @@ $klein -> dispatch();
 
 unset($_SESSION['error']);
 unset($_SESSION['success']);
+unset($_SESSION['adventure']);
 
 $toolbar = new \Fabfuel\Prophiler\Toolbar($profiler);
 $toolbar->addDataCollector(new \Fabfuel\Prophiler\DataCollector\Request());

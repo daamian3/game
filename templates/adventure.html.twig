@@ -3,6 +3,28 @@
 {% block title %}Wyprawa{% endblock %}
 
 {% block body %}
+	{% if session.adventure.reward %}
+		<div data-remodal-id="adventure">
+			<button data-remodal-action="close" class="remodal-close"></button>
+			<div>
+				<h2 class="remodal__header">Wróciłeś z przygody!</h2>
+				<p>Tłum wiwatuje na twój powrót, a ty przeglądasz swoje łupy - zdobyłeś:
+					<span class="adventure__reward">
+						{% if session.adventure.reward.gold != false %}
+							<img class="icon small" src="images/gold.svg"/>
+							<span id="adventure-gold">{{ session.adventure.reward.gold }}</span>
+						{% endif %}
+						{% if session.adventure.reward.silver != false %}
+							<img class="icon small" src="images/silver.svg"/>
+							<span id="adventure-silver">{{ session.adventure.reward.silver }}</span>
+						{% endif %}
+						<img class="icon small" src="images/bronze.svg"/>
+						<span id="adventure-bronze">{{ session.adventure.reward.bronze }}</span>
+					</span>
+				</p>
+				</div>
+			</div>
+		{% endif %}
 
 	<div class="adventure">
 		<h1>Wyprawa</h1>
@@ -58,6 +80,12 @@
 {% block scripts %}
 	{{ parent() }}
 	<script>
+		var adventure_modal = $('[data-remodal-id=adventure]').remodal();
+
+		{% if session.adventure.reward %}
+			adventure_modal.open();
+		{% endif %}
+
 		var time = (({{ adventure.adventure_time }} * 1000) - Date.now()) / 1000;
 		$('#adventure_progress').attr('max', time);
 
