@@ -11,7 +11,7 @@
   border-radius: $rounded-normal;
   @include padding-box('small');
   transition: visibility 0s, opacity $transition-fast linear;
-  z-index: 2;
+  z-index: 3;
 
   @include media-query('phone'){
     position: static;

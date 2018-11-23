@@ -26,72 +26,67 @@ class Shop{
   }
 
   function newItem($ile){
+    $already_used = array();
+
     $level = $this -> hero -> getLevel();
     $class = $this -> database -> get('heroes', 'class', [
       'id' =>  $this -> hero -> id,
     ]);
 
-    for($j = 0; $j < $ile; $j++){
-      $id = $this -> database -> count('items', [
-        'level[<=]' =>  $this -> hero -> getLevel(),
+
+      $items = $this -> database -> select('items', '*', [
+        'level[<>]' => [$level - 20, $level],
       ]);
-
-      $i = 1;
-
-      do{
-        $item = $this -> database -> get('items', '*', [
-          'AND' => [
-            'level[<=]' => $level,
-            'id' => $i,
-          ],
-        ]);
-        if($item){
-          $i++;
-          $items[] = $item;
-        }
-        else break; //TODO nie rozwiązałem problemu nieskończonej pętli na 1 lvl.
-      } while($i < $id);
 
       shuffle($items);
-      $item = $items[0];
 
-      $multipler = $level;
+      for($i = 0; $i < $ile; $i++){
 
-      $vitality = 0;
-      $strength = 0;
-      $intelligence = 0;
-      $agility = 0;
-      $luck = 0;
+        $item = $items[$i];
 
-      if( $item['type'] == 'ring' ||
-          $item['type'] == 'necklace' ||
-          $item['type'] == 'belt'){
-        if(rand(1, 3) == 1) $vitality = $multipler / 4 + rand(1, 5);
-        if(rand(1, 3) == 1) $strength = $multipler / 4 + rand(1, 5);
-        if(rand(1, 3) == 1) $intelligence = $multipler / 4 + rand(1, 5);
-        if(rand(1, 3) == 1) $agility = $multipler / 4 + rand(1, 5);
-        if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
+        if(in_array($item['name'], $already_used)){
+          $i--;
+        }
+        else{
+          $already_used[] = $item['name'];
+          $multipler = $level;
+
+          $vitality = 0;
+          $strength = 0;
+          $intelligence = 0;
+          $agility = 0;
+          $luck = 0;
+
+          if( $item['type'] == 'ring' ||
+              $item['type'] == 'necklace' ||
+              $item['type'] == 'belt'){
+            if(rand(1, 3) == 1) $vitality = $multipler / 4 + rand(1, 5);
+            if(rand(1, 3) == 1) $strength = $multipler / 4 + rand(1, 5);
+            if(rand(1, 3) == 1) $intelligence = $multipler / 4 + rand(1, 5);
+            if(rand(1, 3) == 1) $agility = $multipler / 4 + rand(1, 5);
+            if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
+          }
+
+          $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck);
+
+          $this -> database -> insert("eq", [
+          	"name" => $item['name'],
+          	"hero_id" => $this -> hero -> id,
+          	"type" => $item['type'],
+            "attack_min" => $item['attack_min'],
+            "attack_max" => $item['attack_max'],
+            "defense" => $item['defense'],
+            "state" => 0,
+            "img" => $item['img'],
+            "vitality" => $vitality,
+            "strength" => $strength,
+            "intelligence" => $intelligence,
+            "agility" => $agility,
+            "luck" => $luck,
+            "cost" => $cost,
+          ]);
+        }
       }
-
-      $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck);
-
-      $this -> database -> insert("eq", [
-      	"name" => $item['name'],
-      	"hero_id" => $this -> hero -> id,
-      	"type" => $item['type'],
-        "attack_min" => $item['attack_min'],
-        "attack_max" => $item['attack_max'],
-        "defense" => $item['defense'],
-        "state" => 0,
-        "img" => $item['img'],
-        "vitality" => $vitality,
-        "strength" => $strength,
-        "intelligence" => $intelligence,
-        "agility" => $agility,
-        "luck" => $luck,
-        "cost" => $cost,
-      ]);
-    }
   }
 
   function getItems(){

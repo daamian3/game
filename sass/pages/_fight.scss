@@ -111,6 +111,10 @@
   }
 }
 
+.fireworks_hero, .fireworks_monster{
+  display: none;
+}
+
 #dungeon_time{
   border: 2px solid transparent;
   background-color: $color-primary-base;

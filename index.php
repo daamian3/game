@@ -63,6 +63,8 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
 
     echo $app -> twig -> render('shop.html.twig', array(
       'items' => $shop -> getItems(),
+      'money' => $hero -> getMoney(),
+      'eq' => $hero -> getEq(),
     ));
   }
   else header("Refresh:0; url=/game/");
@@ -118,11 +120,11 @@ $klein -> respond('GET', '/game/dungeons', function ($request, $response, $servi
         case 'snakesground':
           $name = 'Wężowe pole';
           break;
-        case 'infernalcave':
-          $name = 'Piekielna grota';
-          break;
         case 'spiderlair':
           $name = 'Leże pająków';
+          break;
+        case 'heaven':
+          $name = 'Niebiosa';
           break;
         case 'demontower':
           $name = 'Wieża demonów';

@@ -52,4 +52,39 @@
       transform: rotate(30deg);
     }
   }
+
+  &__items__block{
+    height: 9vh;
+    width:  9vh;
+    background-color: rgba($white, .75);
+    border-radius: $rounded-small;
+    margin: 0 5px 0 5px;
+    cursor: pointer;
+    border: outset 2px $grey;
+    text-align: center;
+    line-height: 8vh;
+    z-index: 2;
+
+    @include media-query('phone', portrait){
+      height: 50px;
+      width: 50px;
+    }
+
+    img{
+      max-width: 100%;
+      max-height: 100%;
+      vertical-align: middle;
+    }
+
+    transition: .3s;
+  }
+
+  &__tooltip{
+    top: -300px;
+    left: 80px;
+  }
+
+  &__items-flex{
+    @include flexbox;
+  }
 }

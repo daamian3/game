@@ -196,6 +196,7 @@
     border: outset 2px $grey;
     text-align: center;
     line-height: 8vh;
+    z-index: 2;
 
     @include media-query('phone', portrait){
       height: 50px;

@@ -34,7 +34,8 @@ class Adventure{
       ], [
       'id' => $this -> hero -> id,
     ]);
-    return false;
+    $_SESSION['adventure']['reward'] = $this -> convertGold($reward);
+    return true;
   }
 
   function isStarted(){

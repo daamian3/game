@@ -85,39 +85,40 @@
 		{% if session.adventure.reward %}
 			adventure_modal.open();
 		{% endif %}
+		{% if adventure.adventure_time %}
+			var time = (({{ adventure.adventure_time }} * 1000) - Date.now()) / 1000;
+			$('#adventure_progress').attr('max', time);
 
-		var time = (({{ adventure.adventure_time }} * 1000) - Date.now()) / 1000;
-		$('#adventure_progress').attr('max', time);
+			function displayTime(){
+				var date = ({{ adventure.adventure_time }} * 1000) - Date.now();
+				date = new Date(date);
 
-		function displayTime(){
-			var date = ({{ adventure.adventure_time }} * 1000) - Date.now();
-			date = new Date(date);
+				if(date <= 1) location.reload();
 
-			if(date <= 1) location.reload();
+				var hours = date.getHours() - 1;
+				var minutes = date.getMinutes();
+				var seconds = date.getSeconds();
 
-			var hours = date.getHours() - 1;
-			var minutes = date.getMinutes();
-			var seconds = date.getSeconds();
+				if(hours != 0) hours = hours + ' godzin ';
+				else hours = '';
+				if(minutes != 0) minutes = minutes + ' minut ';
+				else minutes = '';
+				if(seconds != 0) seconds = seconds + ' sekund';
+				else seconds = '';
 
-			if(hours != 0) hours = hours + ' godzin ';
-			else hours = '';
-			if(minutes != 0) minutes = minutes + ' minut ';
-			else minutes = '';
-			if(seconds != 0) seconds = seconds + ' sekund';
-			else seconds = '';
+				var time = hours + minutes + seconds;
 
-			var time = hours + minutes + seconds;
+				$('#adventure_time').html(time);
 
-			$('#adventure_time').html(time);
+				var value =	$('#adventure_progress').val();
+				value = parseInt(value) + 1;
+				$('#adventure_progress').val(value);
 
-			var value =	$('#adventure_progress').val();
-			value = parseInt(value) + 1;
-			$('#adventure_progress').val(value);
+				var t = setTimeout(displayTime, 1000);
+			}
 
-			var t = setTimeout(displayTime, 1000);
-		}
-
-		displayTime();
+			displayTime();
+		{% endif %}
 	</script>
 	<script src="scripts/adventure.js"></script>
 {% endblock %}

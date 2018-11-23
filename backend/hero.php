@@ -151,7 +151,6 @@ class Hero{
     $ring_count = 0;
 
     foreach($equiped as $item){
-      $eq[$item['type']] = $item;
 
       if($item['type'] == "sword"){
         $sword_count++;
@@ -164,6 +163,8 @@ class Hero{
         if($ring_count > 1) $eq['ring2'] = $item;
         else $eq['ring1'] = $item;
       }
+
+      if($item['type'] != "sword" && $item['type'] != "ring") $eq[$item['type']] = $item;
     }
 
     return $eq;

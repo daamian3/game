@@ -6,17 +6,20 @@
 	<div id="level-choice" class="dungeon">
 		<header><h1>Wybierz poziom lochów:</h1></header>
 		<div class="dungeon__level-flex">
-			<a href="dungeons?name=basements" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_1.jpg)"><span class="card-content">Piwnice</span></a>
-			<a href="dungeons?name=catacombs" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_2.jpg)"><span class="card-content">Katakumby</span></a>
-			<a href="dungeons?name=snakesground" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_3.jpg)"><span class="card-content">Wężowe pole</span></a>
-			<a href="dungeons?name=infernalcave" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_4.jpg)"><span class="card-content">Piekielna Grota</span></a>
-			<a href="dungeons?name=spiderlair" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_5.jpg)"><span class="card-content">Leże pająków</span></a>
-			<a href="dungeons?name=demontower" class="card-container dungeon__level" style="background-image: url(images/dungeons/dungeon_6.jpg)"><span class="card-content">Wieża demonów</span></a>
+			<a href="dungeons?name=basements" id="dungeon_1" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_1.jpg)"><span class="card-content">Piwnice</span></a>
+			<a href="dungeons?name=catacombs" id="dungeon_2" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_2.jpg)"><span class="card-content">Katakumby</span></a>
+			<a href="dungeons?name=snakesground" id="dungeon_3" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_3.jpg)"><span class="card-content">Wężowe pole</span></a>
+			<a href="dungeons?name=spiderlair" id="dungeon_4" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_4.jpg)"><span class="card-content">Leże pająków</span></a>
+			<a href="dungeons?name=heaven" id="dungeon_5" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_5.jpg)"><span class="card-content">Niebiosa</span></a>
+			<a href="dungeons?name=demontower" id="dungeon_6" class="card-container dungeon__level disabled" style="background-image: url(images/dungeons/dungeon_6.jpg)"><span class="card-content">Wieża demonów</span></a>
 		</div>
 	</div>
 {% endblock %}
 
 {% block scripts %}
 	{{ parent() }}
+	<script>
+		$('#dungeon_{{ dungeon }}').removeClass('disabled');
+	</script>
 	<script src="scripts/dungeons.js"></script>
 {% endblock %}

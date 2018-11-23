@@ -21,12 +21,19 @@ function fight(result) {
 
 		return min_dmg;
 	}
-
+	$(".fireworks_hero").fadeIn();
+	$(".fireworks_monster").fadeIn();
 	$("#exit").fadeOut();
 
 	function finish(winner) {
 		if (result[0]) {
-			$('#won_gold').html(result['gold']);
+			if(result['gold']['bronze']) $('#won_gold-bronze').html(result['gold']['bronze']);
+			else $('#won_gold-bronze + img').hide();
+			if(result['gold']['silver']) $('#won_gold-silver').html(result['gold']['silver']);
+			else $('#won_gold-silver + img').hide();
+			if(result['gold']['gold']) $('#won_gold-gold').html(result['gold']['gold']);
+			else $('#won_gold-gold + img').hide();
+
 			$('#won_exp').html(result['exp']);
 			$('[data-remodal-id=modal_won]').remodal().open();
 		}

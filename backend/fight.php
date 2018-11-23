@@ -71,7 +71,7 @@ class Fight{
 			'experience[+]' => $exp,
 			'gold[+]' => $gold,
 			'dungeon[+]' => 1,
-			'dungeon_stage[+]' => 1,
+			'dungeon_stage' => 1,
 			'killed_monsters[+]' => 1,
 		],[
 			'id' => $this -> hero -> id,
@@ -88,7 +88,7 @@ class Fight{
 
 
 		$this -> result['exp'] = $exp;
-		$this -> result['gold'] = $gold;
+		$this -> result['gold'] = $this -> convertGold($gold);
 	}
 
 	function winPlayer($gold){
@@ -115,7 +115,7 @@ class Fight{
 		]);
 
 		$this -> result['exp'] = $exp;
-		$this -> result['gold'] = $gold;
+		$this -> result['gold'] = $this -> convertGold($gold);
 	}
 
 
@@ -185,4 +185,12 @@ class Fight{
 
 		if($this -> hero -> health > 0) $this -> hitEnemy();
 	}
+
+	function convertGold($gold){
+    $money['bronze'] = $gold % 100;
+    $money['silver'] = substr($gold % 10000 - $gold % 100, 0, -2);
+    $money['gold'] = substr($gold % 1000000 - $gold % 10000, 0, -4);
+
+    return $money;
+  }
 }

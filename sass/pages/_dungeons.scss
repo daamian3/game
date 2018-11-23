@@ -23,4 +23,9 @@
       height: 40vw;
     }
   }
+
+  .disabled{
+    filter: grayscale(100%);
+    cursor: default;
+  }
 }
