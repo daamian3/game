@@ -63,24 +63,11 @@ class Fight{
 
 		$exp = $multipler * rand(12, 16);
 		$gold = $multipler * rand(12, 16);
-		$stage = $this -> database -> get('heroes', 'dungeon_stage', [
-			'id' => $this -> hero -> id,
-		]);
 
-		if($stage == 10) $this -> database -> update('heroes', [
+		$this -> database -> update('heroes', [
 			'experience[+]' => $exp,
 			'gold[+]' => $gold,
 			'dungeon[+]' => 1,
-			'dungeon_stage' => 1,
-			'killed_monsters[+]' => 1,
-		],[
-			'id' => $this -> hero -> id,
-		]);
-
-		else $this -> database -> update('heroes', [
-			'experience[+]' => $exp,
-			'gold[+]' => $gold,
-			'dungeon_stage[+]' => 1,
 			'killed_monsters[+]' => 1,
 		],[
 			'id' => $this -> hero -> id,

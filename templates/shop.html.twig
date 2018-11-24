@@ -90,7 +90,7 @@
     <div class="shop__items-flex">
       {% for item in eq %}
         {% if item.name %}
-          <div class="shop__items__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
+          <div class="shop__bag__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
           <div class="tooltip shop__tooltip">
             <span><h5>{{ item.name }}</h5></span>
             {% if item.type == 'sword' %}

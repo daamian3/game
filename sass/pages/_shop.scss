@@ -53,7 +53,7 @@
     }
   }
 
-  &__items__block{
+  &__bag__block{
     height: 9vh;
     width:  9vh;
     background-color: rgba($white, .75);
@@ -80,11 +80,11 @@
   }
 
   &__tooltip{
-    top: -300px;
-    left: 80px;
+    top: 300px;
+    left: -50px;
   }
 
   &__items-flex{
-    @include flexbox;
+    @include flexbox(row, flex-start);
   }
 }

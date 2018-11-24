@@ -17,17 +17,17 @@ class Dungeon{
   }
 
   function getEnemyId(){
-    $dungeon = $this -> database -> get('heroes', [
-      'dungeon',
-      'dungeon_stage',
-      ], [
+    $dungeon = $this -> database -> get('heroes', 'dungeon', [
       'id' =>  $this -> hero -> id,
     ]);
 
-    $stage = 'stage_'.$dungeon['dungeon_stage'];
+    if($dungeon % 10 == 0) $stage = 'stage_10';
+    else $stage = 'stage_'.$dungeon % 10;
+
+    $dungeon = ceil($dungeon / 10);
 
     $monster = $this -> database -> get('dungeons', $stage, [
-      'id' => $dungeon['dungeon'],
+      'id' => $dungeon,
     ]);
 
     return $this -> database -> get('monsters', 'id', [
@@ -36,8 +36,9 @@ class Dungeon{
   }
 
   function getDungeon(){
-    return $this -> database -> get('heroes', 'dungeon', [
+    $dungeon = $this -> database -> get('heroes', 'dungeon', [
       'id' =>  $this -> hero -> id,
     ]);
+    return ceil($dungeon / 10);
   }
 }
