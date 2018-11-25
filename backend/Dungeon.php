@@ -26,12 +26,8 @@ class Dungeon{
 
     $dungeon = ceil($dungeon / 10);
 
-    $monster = $this -> database -> get('dungeons', $stage, [
+    return $this -> database -> get('dungeons', $stage, [
       'id' => $dungeon,
-    ]);
-
-    return $this -> database -> get('monsters', 'id', [
-      'name' => $monster,
     ]);
   }
 

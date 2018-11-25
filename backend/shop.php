@@ -67,7 +67,7 @@ class Shop{
             if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
           }
 
-          $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck);
+          $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck) + 15;
 
           $this -> database -> insert("eq", [
           	"name" => $item['name'],

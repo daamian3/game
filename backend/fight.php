@@ -33,22 +33,22 @@ class Fight{
 		else{
 			$check = $this -> database -> count('dungeons', [
 				'OR' => [
-					'stage_1' => $this -> enemy -> name,
-					'stage_2' => $this -> enemy -> name,
-					'stage_3' => $this -> enemy -> name,
-					'stage_4' => $this -> enemy -> name,
-					'stage_5' => $this -> enemy -> name,
-					'stage_6' => $this -> enemy -> name,
-					'stage_7' => $this -> enemy -> name,
-					'stage_8' => $this -> enemy -> name,
-					'stage_9' => $this -> enemy -> name,
-					'stage_10' => $this -> enemy -> name,
+					'stage_1' => $this -> enemy -> id,
+					'stage_2' => $this -> enemy -> id,
+					'stage_3' => $this -> enemy -> id,
+					'stage_4' => $this -> enemy -> id,
+					'stage_5' => $this -> enemy -> id,
+					'stage_6' => $this -> enemy -> id,
+					'stage_7' => $this -> enemy -> id,
+					'stage_8' => $this -> enemy -> id,
+					'stage_9' => $this -> enemy -> id,
+					'stage_10' => $this -> enemy -> id,
 				],
 			]);
 			if($check > 0) $type = 'dungeon';
 			else{
 				$check = $this -> database -> count('monsters', [
-					'name' => $this -> enemy -> name,
+					'id' => $this -> enemy -> id,
 				]);
 				if($check > 0) $type = 'monster';
 				else $type = 'not exist';
@@ -62,7 +62,7 @@ class Fight{
 		$multipler = $this -> hero -> level;
 
 		$exp = $multipler * rand(12, 16);
-		$gold = $multipler * rand(12, 16);
+		$gold = $multipler * rand(12, 16) * 10;
 
 		$this -> database -> update('heroes', [
 			'experience[+]' => $exp,

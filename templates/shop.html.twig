@@ -67,8 +67,8 @@
             {% endif %}
             <img class="icon small" src="images/bronze.svg"/>
             <span>{{ item.cost.bronze }}</span>
+            <button class="button small inverted shop__items__buy" value="{{ item.ID }}">Kup</button>
           </div>
-					<button class="button small shop__items__buy" value="{{ item.ID }}">Kup</button>
         </div>
       {% endfor %}
       <button class="shop__reload"><img src="images/shop/reload.svg"></button>

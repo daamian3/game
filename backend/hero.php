@@ -185,7 +185,7 @@ class Hero{
       'id' =>  $this -> id,
     ]);
 
-    $this -> vitality = floor($vitality * $class_multipler * $race_multipler + $eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1);
+    $this -> vitality = floor($vitality * $class_multipler * $race_multipler + ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1) * $this -> level);
 
     return $this -> vitality;
   }
