@@ -13,6 +13,7 @@ require_once 'backend/Fight.php';
 require_once 'backend/Adventure.php';
 require_once 'backend/Shop.php';
 require_once 'backend/Dungeon.php';
+require_once 'backend/Admin.php';
 
 $db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
 $auth = new \Delight\Auth\Auth($db);
@@ -64,7 +65,7 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
     echo $app -> twig -> render('shop.html.twig', array(
       'items' => $shop -> getItems(),
       'money' => $hero -> getMoney(),
-      'eq' => $hero -> getEq(),
+      'eq' => $hero -> getBag(),
     ));
   }
   else header("Refresh:0; url=/game/");
@@ -192,6 +193,13 @@ $klein -> respond('POST', '/game/attrib_cost', function ($request, $response, $s
 $klein -> respond('POST', '/game/get_money', function ($request, $response, $service, $app) {
   $hero = new Hero();
   echo json_encode($hero -> getMoney());
+});
+
+$klein -> respond('POST', '/game/admin_attrib', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  $admin = new Admin($hero);
+
+  $admin -> attrib($_POST['attrib'], $_POST['sign']);
 });
 
 $klein -> respond('POST', '/game/check_hero', function ($request, $response, $service, $app) {

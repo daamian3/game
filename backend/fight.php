@@ -135,7 +135,8 @@ class Fight{
 			else $critical = 1;
 
 			$hit = rand($this -> hero -> attack_min, $this -> hero -> attack_max) * $critical;
-			$hit -= $this -> enemy -> defense;
+			$hit_def = floor($hit * ($this -> enemy -> defense / ($this -> hero -> level / 5)) / 100);
+			$hit -= $hit_def;
 			if($hit <= 0) $hit = 1;
 			$this -> enemy -> health -= $hit;
 		}
@@ -159,7 +160,9 @@ class Fight{
 			else $critical = 1;
 
 			$hit = rand($this -> enemy -> attack_min, $this -> enemy -> attack_max) * $critical;
-			$hit -= $this -> hero -> defense;
+			$hit_def = floor($hit * ($this -> hero -> defense / ($this -> enemy -> id / 5)) / 100);
+			$hit -= $hit_def;
+
 			if($hit <= 0) $hit = 1;
  			$this -> hero -> health -= $hit;
 		}

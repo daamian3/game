@@ -56,6 +56,9 @@ class Shop{
           $intelligence = 0;
           $agility = 0;
           $luck = 0;
+          $attack_min = 0;
+          $attack_max = 0;
+          $defense = 0;
 
           if( $item['type'] == 'ring' ||
               $item['type'] == 'necklace' ||
@@ -66,16 +69,27 @@ class Shop{
             if(rand(1, 3) == 1) $agility = $multipler / 4 + rand(1, 5);
             if(rand(1, 3) == 1) $luck = $multipler / 4 + rand(1, 5);
           }
+          else if($item['type'] == 'sword'){
+            $attack_min = $multipler + rand(ceil($multipler / 6), ceil($multipler / 4));
+            $attack_max = $multipler + rand(ceil($multipler / 3), ceil($multipler / 1));
+          }
+          else if($item['type'] == 'shield') $defense = floor(($multipler / 1.5) + rand(ceil($mulitpler / 4), ceil($multipler / 2)));
 
-          $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck) + 15;
+          else if($item['type'] == 'chestplate') $defense = floor(($multipler / 2) + rand(ceil($multipler / 4), ceil($multipler / 2)));
+
+          else if($item['type'] == 'arm' ||
+                  $item['type'] == 'helmet' ||
+                  $item['type'] == 'feet') $defense = floor(($multipler / 5) + rand(ceil($multipler / 4), ceil($multipler / 2)));
+
+          $cost = ($multipler * $multipler) / 5 * rand(10, 12) + ($vitality + $strength + $intelligence + $agility + $luck + $defense + $attack_min + $attack_max) + 15;
 
           $this -> database -> insert("eq", [
           	"name" => $item['name'],
           	"hero_id" => $this -> hero -> id,
           	"type" => $item['type'],
-            "attack_min" => $item['attack_min'],
-            "attack_max" => $item['attack_max'],
-            "defense" => $item['defense'],
+            "attack_min" => $attack_min,
+            "attack_max" => $attack_max,
+            "defense" => $defense,
             "state" => 0,
             "img" => $item['img'],
             "vitality" => $vitality,

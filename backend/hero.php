@@ -173,19 +173,11 @@ class Hero{
   function getVitality($eq){
     if($eq == NULL) $eq = $this -> getEq();
 
-    $class_multipler = $this -> database -> get('classes', 'vitality', [
-      'name' =>  $this -> klasa,
-    ]);
-
-    $race_multipler = $this -> database -> get('races', 'vitality', [
-      'name' =>  $this -> race,
-    ]);
-
     $vitality = $this -> database -> get('heroes', 'vitality', [
       'id' =>  $this -> id,
     ]);
 
-    $this -> vitality = floor($vitality * $class_multipler * $race_multipler + ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1) * $this -> level);
+    $this -> vitality = floor($vitality + ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1));
 
     return $this -> vitality;
   }
@@ -247,7 +239,15 @@ class Hero{
   function getHealth($eq = NULL){
     if($eq == NULL) $eq = $this -> getEq();
 
-    $health = $this -> vitality * 7 + (3 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1));
+    $class_multipler = $this -> database -> get('classes', 'vitality', [
+      'name' =>  $this -> klasa,
+    ]);
+
+    $race_multipler = $this -> database -> get('races', 'vitality', [
+      'name' =>  $this -> race,
+    ]);
+
+    $health = (($this -> vitality * 3 + $this -> level * 3) + (3 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1))) * $race_multipler + $class_multipler;
 
     return floor($health);
   }
@@ -456,7 +456,7 @@ class Hero{
       'level' => $level + 1,
     ]);
 
-    if($exp >= $cost){
+    if($exp >= $cost && $level < 100){
       $this -> database -> update('heroes', [
         "level[+]" => 1,
       ],[

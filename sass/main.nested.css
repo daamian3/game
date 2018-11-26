@@ -6376,6 +6376,10 @@ html, body {
 				margin-top: .5em;
 				width: 100%; }
 
+.shop__flex {
+		display: flex;
+		padding: 10px 15px; }
+
 .shop__gold {
 		position: absolute;
 		top: 0;
@@ -6387,7 +6391,6 @@ html, body {
 		opacity: 0;
 		background-color: rgba(0, 0, 0, 0.75);
 		padding: 1em;
-		padding-top: 50%;
 		color: #efefef;
 		transition: 0.3s; }
 		.shop__gold__header {
