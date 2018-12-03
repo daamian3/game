@@ -86,28 +86,30 @@ $(document).ready(function() {
 	    });
 	});
 
-	$("body").on( "click", "#hero__inventory .hero__items__block img", function( event ) {
-			const id = $(this).parent().attr('id').slice(5);
+	$("body").on( "click", "#hero__inventory .hero__items__block", function( event ) {
+			if ($(this).find('img').length) {
+				const id = $(this).attr('id').slice(5);
 
-			$.post({
-						url : 'hero_equip',
-						data: { item: id },
-				})
-				.done(result => {
-					if(result){
-						$("#hero__tab1").load("hero__stats");
-						$("#hero__tab2").load("hero__eq");
-						$("#hero__tab3").load("hero__attrib");
-					}
-					else{
-						noty = new Noty({
-								type: 'error',
-								layout: 'topRight',
-								text: 'Nie udało się, przepraszamy!',
-								timeout: 3000,
-						}).show();
-					}
+				$.post({
+							url : 'hero_equip',
+							data: { item: id },
+					})
+					.done(result => {
+						if(result){
+							$("#hero__tab1").load("hero__stats");
+							$("#hero__tab2").load("hero__eq");
+							$("#hero__tab3").load("hero__attrib");
+						}
+						else{
+							noty = new Noty({
+									type: 'error',
+									layout: 'topRight',
+									text: 'Nie udało się, przepraszamy!',
+									timeout: 3000,
+							}).show();
+						}
 				});
+			}
 		});
 
 	$("body").on( "click", ".equiped", function( event ) {

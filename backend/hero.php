@@ -47,6 +47,10 @@ class Hero{
       'state' => 1,
     ]);
 
+    for($i = 0; $i < count($eq); $i++){
+        $eq[$i]['cost'] = $this -> convertGold($eq[$i]['cost']);
+    }
+
     $count = count($eq);
     $items = array_fill($count, 8 - $count, 0);
 
@@ -165,12 +169,64 @@ class Hero{
       }
 
       if($item['type'] != "sword" && $item['type'] != "ring") $eq[$item['type']] = $item;
+
+      $eq[$item['type']]['cost'] = $this -> convertGold($item['cost']);
     }
 
     return $eq;
   }
 
   function getVitality($eq){
+    if($eq == NULL) $eq = $this -> getEq();
+
+    $vitality = $this -> database -> get('heroes', 'vitality', [
+      'id' =>  $this -> id,
+    ]);
+
+    $this -> vitality = floor($vitality + ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality']));
+
+    return $this -> vitality;
+  }
+
+  function getTriple($eq){
+    if($eq == NULL) $eq = $this -> getEq();
+
+    $stats = $this -> database -> get('heroes', [
+      'strength',
+      'intelligence',
+      'agility',
+    ],[
+      'id' =>  $this -> id,
+    ]);
+
+    $this -> strength = floor($stats['strength'] + $eq['ring1']['strength'] + $eq['ring2']['strength'] + $eq['belt']['strength'] + $eq['necklace']['strength']);
+
+    $this -> intelligence = floor($stats['intelligence'] + $eq['ring1']['intelligence'] + $eq['ring2']['intelligence'] + $eq['belt']['intelligence'] + $eq['necklace']['intelligence']);
+
+    $this -> agility = floor($stats['agility'] + $eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility']);
+
+    $triple = [
+      'strength' => $this -> strength,
+      'intelligence' => $this -> intelligence,
+      'agility' => $this -> agility
+    ];
+
+    return $triple;
+  }
+
+  function getLuck($eq){
+    if($eq == NULL) $eq = $this -> getEq();
+
+    $luck = $this -> database -> get('heroes', 'luck', [
+     'id' =>  $this -> id,
+    ]);
+
+    $this -> luck = floor($luck + $eq['ring1']['luck'] + $eq['ring2']['luck'] + $eq['belt']['luck'] + $eq['necklace']['luck']);
+
+    return $this -> luck;
+  }
+
+  function getHealth($eq = NULL){
     if($eq == NULL) $eq = $this -> getEq();
 
     $class_multipler = $this -> database -> get('classes', 'vitality', [
@@ -181,16 +237,12 @@ class Hero{
       'name' =>  $this -> race,
     ]);
 
-    $vitality = $this -> database -> get('heroes', 'vitality', [
-      'id' =>  $this -> id,
-    ]);
+    $health = (($this -> vitality * 3 + $this -> level * 3) + (3 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1))) * $race_multipler + $class_multipler;
 
-    $this -> vitality = floor($vitality * $class_multipler * $race_multipler + $eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1);
-
-    return $this -> vitality;
+    return floor($health);
   }
 
-  function getTriple($eq){
+  function getAttack_min($eq = NULL){
     if($eq == NULL) $eq = $this -> getEq();
 
     $class_multipler = $this -> database -> get('classes', [
@@ -209,63 +261,20 @@ class Hero{
       'name' =>  $this -> race,
     ]);
 
-    $stats = $this -> database -> get('heroes', [
-      'strength',
-      'intelligence',
-      'agility',
-    ],[
-      'id' =>  $this -> id,
-    ]);
-
-    $this -> strength = floor($stats['strength'] * $class_multipler['strength'] * $race_multipler['strength'] + $eq['ring1']['strength'] + $eq['ring2']['strength'] + $eq['belt']['strength'] + $eq['necklace']['strength'] + 1);
-
-    $this -> intelligence = floor($stats['intelligence'] * $class_multipler['intelligence'] * $race_multipler['intelligence'] + $eq['ring1']['intelligence'] + $eq['ring2']['intelligence'] + $eq['belt']['intelligence'] + $eq['necklace']['intelligence'] + 1);
-
-    $this -> agility = floor($stats['agility'] * $class_multipler['agility'] * $race_multipler['agility'] + $eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility'] + 1);
-
-    $triple = [
-      'strength' => $this -> strength,
-      'intelligence' => $this -> intelligence,
-      'agility' => $this -> agility
-    ];
-
-    return $triple;
-  }
-
-  function getLuck($eq){
-    if($eq == NULL) $eq = $this -> getEq();
-
-    $luck = $this -> database -> get('heroes', 'luck', [
-     'id' =>  $this -> id,
-    ]);
-
-    $this -> luck = floor($luck + $eq['ring1']['luck'] + $eq['ring2']['luck'] + $eq['belt']['luck'] + $eq['necklace']['luck'] + 1);
-
-    return $this -> luck;
-  }
-
-  function getHealth($eq = NULL){
-    if($eq == NULL) $eq = $this -> getEq();
-
-    $health = $this -> vitality * 7 + (3 * ($eq['ring1']['vitality'] + $eq['ring2']['vitality'] + $eq['belt']['vitality'] + $eq['necklace']['vitality'] + 1));
-
-    return floor($health);
-  }
-
-  function getAttack_min($eq = NULL){
-    if($eq == NULL) $eq = $this -> getEq();
-
     if(!isset($this -> strength) || !isset($this -> intelligence) || !isset($this -> agility)) getTriple($eq);
 
     switch($this -> klasa){
       case "warrior":
         $stats = $this -> strength + $eq['ring1']['strength'] + $eq['ring2']['strength'] + $eq['belt']['strength'] + $eq['necklace']['strength'] + 1;
+        $stats *= $class_multipler['strength'] * $race_multipler['strength'];
         break;
       case "mage":
         $stats = $this -> intelligence + $eq['ring1']['intelligence'] + $eq['ring2']['intelligence'] + $eq['belt']['intelligence'] + $eq['necklace']['intelligence'] + 1;
+        $stats *= $class_multipler['intelligence'] * $race_multipler['intelligence'];
         break;
       case "ranger":
         $stats = $this -> agility + $eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility'] + 1;
+        $stats *= $class_multipler['agility'] * $race_multipler['agility'];
         break;
     }
     $attack_min = 0.04 * $stats * ($eq['hand1']['attack_min'] + $eq['hand2']['attack_min']) + $stats;
@@ -276,17 +285,36 @@ class Hero{
   function getAttack_max($eq = NULL){
     if($eq == NULL) $eq = $this -> getEq();
 
+    $class_multipler = $this -> database -> get('classes', [
+      'strength',
+      'intelligence',
+      'agility',
+    ],[
+      'name' =>  $this -> klasa,
+    ]);
+
+    $race_multipler = $this -> database -> get('races', [
+      'strength',
+      'intelligence',
+      'agility',
+    ],[
+      'name' =>  $this -> race,
+    ]);
+
     if(!isset($this -> strength) || !isset($this -> intelligence) || !isset($this -> agility)) getTriple($eq);
 
     switch($this -> klasa){
       case "warrior":
         $stats = $this -> strength + $eq['ring1']['strength'] + $eq['ring2']['strength'] + $eq['belt']['strength'] + $eq['necklace']['strength'] + 1;
+        $stats *= $class_multipler['strength'] * $race_multipler['strength'];
         break;
       case "mage":
         $stats = $this -> intelligence + $eq['ring1']['intelligence'] + $eq['ring2']['intelligence'] + $eq['belt']['intelligence'] + $eq['necklace']['intelligence'] + 1;
+        $stats *= $class_multipler['intelligence'] * $race_multipler['intelligence'];
         break;
       case "ranger":
         $stats = $this -> agility + $eq['ring1']['agility'] + $eq['ring2']['agility'] + $eq['belt']['agility'] + $eq['necklace']['agility'] + 1;
+        $stats *= $class_multipler['agility'] * $race_multipler['agility'];
         break;
     }
     $attack_max = 0.05 * $stats * ($eq['hand1']['attack_max'] + $eq['hand2']['attack_max']) + $stats;
@@ -456,7 +484,7 @@ class Hero{
       'level' => $level + 1,
     ]);
 
-    if($exp >= $cost){
+    if($exp >= $cost && $level < 100){
       $this -> database -> update('heroes', [
         "level[+]" => 1,
       ],[

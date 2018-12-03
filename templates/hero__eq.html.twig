@@ -8,6 +8,18 @@
             Pancerz:
             <span>{{ eq.helmet.defense }}</span>
           </p>
+          <p>Cena:
+              {% if eq.helmet.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.helmet.cost.gold }}
+              {% endif %}
+              {% if eq.helmet.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.helmet.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.helmet.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="helmet" class="hero__items__block"><img src="images/equipment/helmet.svg"/></div>
@@ -43,6 +55,18 @@
             Szczęście:
             <span>{{ eq.necklace.luck }}</span>
           </p>
+          <p>Cena:
+              {% if eq.necklace.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.necklace.cost.gold }}
+              {% endif %}
+              {% if eq.necklace.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.necklace.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.necklace.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="necklace" class="hero__items__block"><img src="images/equipment/necklace.svg"/></div>
@@ -56,6 +80,18 @@
             <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
             Pancerz:
             <span>{{ eq.chestplate.defense }}</span>
+          </p>
+          <p>Cena:
+              {% if eq.chestplate.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.chestplate.cost.gold }}
+              {% endif %}
+              {% if eq.arm.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.chestplate.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.chestplate.cost.bronze }}
           </p>
         </div>
       {% else %}
@@ -71,6 +107,18 @@
             Pancerz:
             <span>{{ eq.arm.defense }}</span>
           </p>
+          <p>Cena:
+              {% if eq.arm.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.arm.cost.gold }}
+              {% endif %}
+              {% if eq.arm.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.arm.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.arm.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="arm" class="hero__items__block"><img src="images/equipment/arm.svg"/></div>
@@ -85,6 +133,18 @@
             <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
             Obrażenia:
             <span>{{ eq.hand1.attack_min }}-{{ eq.hand1.attack_max }}</span>
+          </p>
+          <p>Cena:
+              {% if eq.hand1.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.hand1.cost.gold }}
+              {% endif %}
+              {% if eq.hand1.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.hand1.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.hand1.cost.bronze }}
           </p>
         </div>
       {% else %}
@@ -120,6 +180,18 @@
             Szczęście:
             <span>{{ eq.belt.luck }}</span>
           </p>
+          <p>Cena:
+              {% if eq.belt.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.belt.cost.gold }}
+              {% endif %}
+              {% if eq.belt.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.belt.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.belt.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="belt" class="hero__items__block"><img src="images/equipment/belt.svg"/></div>
@@ -145,6 +217,18 @@
               <span>{{ eq.hand2.defense }}</span>
             </p>
           {% endif %}
+          <p>Cena:
+              {% if eq.hand2.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.hand2.cost.gold }}
+              {% endif %}
+              {% if eq.hand2.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.hand2.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.hand2.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="hand2" class="hero__items__block"><img src="images/equipment/hand.svg"/></div>
@@ -180,6 +264,18 @@
             Szczęście:
             <span>{{ eq.ring1.luck }}</span>
           </p>
+          <p>Cena:
+              {% if eq.ring1.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.ring1.cost.gold }}
+              {% endif %}
+              {% if eq.ring1.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.ring1.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.ring1.cost.bronze }}
+          </p>
         </div>
       {% else %}
         <div id="ring1" class="hero__items__block"><img src="images/equipment/ring.svg"/></div>
@@ -193,6 +289,18 @@
             <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
             Pancerz:
             <span>{{ eq.feet.defense }}</span>
+          </p>
+          <p>Cena:
+              {% if eq.feet.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.feet.cost.gold }}
+              {% endif %}
+              {% if eq.feet.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.feet.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.feet.cost.bronze }}
           </p>
         </div>
       {% else %}
@@ -227,6 +335,18 @@
             <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
             Szczęście:
             <span>{{ eq.ring2.luck }}</span>
+          </p>
+          <p>Cena:
+              {% if eq.ring2.cost.gold != false %}
+                <img class="icon small" src="images/gold.svg"/>
+                {{ eq.ring2.cost.gold }}
+              {% endif %}
+              {% if eq.ring2.cost.silver != false %}
+                <img class="icon small" src="images/silver.svg"/>
+                {{ eq.ring2.cost.silver }}
+              {% endif %}
+              <img class="icon small" src="images/bronze.svg"/>
+              {{ eq.ring2.cost.bronze }}
           </p>
         </div>
       {% else %}
@@ -284,6 +404,18 @@
                 <span>{{ item.luck }}</span>
               </p>
             {% endif %}
+            <p>Cena:
+                {% if item.cost.gold != false %}
+                  <img class="icon small" src="images/gold.svg"/>
+                  {{ item.cost.gold }}
+                {% endif %}
+                {% if item.cost.silver != false %}
+                  <img class="icon small" src="images/silver.svg"/>
+                  {{ item.cost.silver }}
+                {% endif %}
+                <img class="icon small" src="images/bronze.svg"/>
+                {{ item.cost.bronze }}
+            </p>
           </div>
         {% endif %}
       {% endfor %}

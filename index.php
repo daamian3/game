@@ -13,6 +13,8 @@ require_once 'backend/Fight.php';
 require_once 'backend/Adventure.php';
 require_once 'backend/Shop.php';
 require_once 'backend/Dungeon.php';
+require_once 'backend/Arena.php';
+require_once 'backend/Admin.php';
 
 $db = new \PDO('mysql:host=localhost;dbname=game;charset=utf8', 'root', '');
 $auth = new \Delight\Auth\Auth($db);
@@ -64,10 +66,32 @@ $klein -> respond('GET', '/game/shop', function ($request, $response, $service, 
     echo $app -> twig -> render('shop.html.twig', array(
       'items' => $shop -> getItems(),
       'money' => $hero -> getMoney(),
-      'eq' => $hero -> getEq(),
+      'eq' => $hero -> getBag(),
     ));
   }
   else header("Refresh:0; url=/game/");
+});
+
+$klein -> respond('GET', '/game/arena', function ($request, $response, $service, $app) {
+  global $auth;
+
+  if($auth -> isLoggedIn()) {
+    $hero = new Hero;
+    $arena = new Arena($hero);
+
+    echo $app -> twig -> render('arena.html.twig', array(
+      'enemy' => $arena -> getEnemy(),
+    ));
+  }
+  else header("Refresh:0; url=/game/");
+});
+
+$klein -> respond('GET', '/game/about-us', function ($request, $response, $service, $app) {
+  echo $app -> twig -> render('about-us.html.twig');
+});
+
+$klein -> respond('GET', '/game/help', function ($request, $response, $service, $app) {
+  echo $app -> twig -> render('help.html.twig');
 });
 
 $klein -> respond(array('GET', 'POST'), '/game/adventure', function ($request, $response, $service, $app) {
@@ -194,6 +218,13 @@ $klein -> respond('POST', '/game/get_money', function ($request, $response, $ser
   echo json_encode($hero -> getMoney());
 });
 
+$klein -> respond('POST', '/game/admin_attrib', function ($request, $response, $service, $app) {
+  $hero = new Hero();
+  $admin = new Admin($hero);
+
+  $admin -> attrib($_POST['attrib'], $_POST['sign']);
+});
+
 $klein -> respond('POST', '/game/check_hero', function ($request, $response, $service, $app) {
   $hero = new Hero();
   echo $hero -> checkHero();
@@ -222,6 +253,13 @@ $klein -> respond('POST', '/game/buy_item', function ($request, $response, $serv
   echo json_encode($result, JSON_UNESCAPED_UNICODE);
 });
 
+$klein -> respond('POST', '/game/sell_item', function ($request, $response, $service, $app) {
+  $hero = new Hero;
+  $shop = new Shop($hero);
+
+  echo $shop -> sellItem($_POST['id']);
+});
+
 $klein -> respond('POST', '/game/get_stats', function ($request, $response, $service, $app) {
   $hero = new Hero();
   echo json_encode($hero -> getStats());
@@ -239,6 +277,16 @@ $klein -> respond('GET', '/game/hero__stats', function ($request, $response, $se
   $hero = new Hero();
   echo $app -> twig -> render('hero__stats.html.twig', array(
     'hero' => $hero -> getStats(),
+  ));
+});
+
+$klein -> respond('GET', '/game/shop__bag', function ($request, $response, $service, $app) {
+  $hero = new Hero;
+  $shop = new Shop($hero);
+
+  echo $app -> twig -> render('shop__bag.html.twig', array(
+    'money' => $hero -> getMoney(),
+    'eq' => $hero -> getBag(),
   ));
 });
 

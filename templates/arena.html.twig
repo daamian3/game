@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Arena{% endblock %}
+
+{% block body %}
+	<div id="level-choice" class="dungeon">
+		<header><h1>Wybierz przeciwnika</h1></header>
+		<div class="arena__choice">
+			{{ enemy.id }}
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+	<script src="scripts/arena.js"></script>
+{% endblock %}

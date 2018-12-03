@@ -67,80 +67,15 @@
             {% endif %}
             <img class="icon small" src="images/bronze.svg"/>
             <span>{{ item.cost.bronze }}</span>
+            <button class="button small inverted shop__items__buy" value="{{ item.ID }}">Kup</button>
           </div>
-					<button class="button small shop__items__buy" value="{{ item.ID }}">Kup</button>
         </div>
       {% endfor %}
-      <button class="shop__reload"><img src="images/shop/reload.svg"></button>
+      <a href="shop" class="shop__reload"><img src="images/shop/reload.svg"></a>
     </div>
-    <p>Twoje złoto:
-      <span class="shop__money">
-        {% if money.gold != false %}
-          <img class="icon small" src="images/gold.svg"/>
-          <span id="shop-gold">{{ money.gold }}</span>
-        {% endif %}
-        {% if money.silver != false %}
-          <img class="icon small" src="images/silver.svg"/>
-          <span id="shop-silver">{{ money.silver }}</span>
-        {% endif %}
-        <img class="icon small" src="images/bronze.svg"/>
-        <span id="shop-bronze">{{ money.bronze }}</span>
-      </span>
-    </p>
-    <div class="shop__items-flex">
-      {% for item in eq %}
-        {% if item.name %}
-          <div class="shop__bag__block" id="item_{{ item.ID }}"><img src="images/equipment/{{ item.img }}.png"/></div>
-          <div class="tooltip shop__tooltip">
-            <span><h5>{{ item.name }}</h5></span>
-            {% if item.type == 'sword' %}
-              <p>
-                <img class="icon small" src="images/attributes/swords.svg" alt="miecze"/>
-                Obrażenia:
-                <span>{{ item.attack_min }}-{{ item.attack_max }}</span>
-              </p>
-            {% endif %}
-
-            {% if item.type == 'chestplate' or  item.type == 'helmet' or item.type == 'arm' or item.type == 'feet'%}
-              <p>
-                <img class="icon small" src="images/attributes/defense.svg" alt="tarcza"/>
-                Pancerz:
-                <span>{{ item.defense }}</span>
-              </p>
-            {% endif %}
-
-            {% if item.type == 'ring' or item.type == 'necklace' or item.type == 'belt' %}
-              <p>
-                <img class="icon small" src="images/attributes/strength.svg" alt="pięść"/>
-                Siła:
-                <span>{{ item.strength }}</span>
-              </p>
-              <p>
-                <img class="icon small" src="images/attributes/intelligence.svg" alt="inteligencja"/>
-                Inteligencja:
-                <span>{{ item.intelligence }}</span>
-              </p>
-              <p>
-                <img class="icon small" src="images/attributes/agility.svg" alt="zwinność"/>
-                Zwinność:
-                <span>{{ item.agility }}</span>
-              </p>
-              <p>
-                <img class="icon small" src="images/attributes/vitality.svg" alt="serce"/>
-                Witalność:
-                <span>{{ item.vitality }}</span>
-              </p>
-              <p>
-                <img class="icon small" src="images/attributes/luck.svg" alt="koniczyna"/>
-                Szczęście:
-                <span>{{ item.luck }}</span>
-              </p>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
+    <div class="shop__flex">
+      {% include 'shop__bag.html.twig' %}
     </div>
-
   </div>
 
 {% endblock %}

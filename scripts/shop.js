@@ -1,5 +1,6 @@
 var items = 0;
-$(".shop__items__buy").on("click", function(){
+
+$("body").on( "click", ".shop__items__buy", function( event ) {
   const identify = $(this).val();
 
   $.post({
@@ -32,10 +33,46 @@ $(".shop__items__buy").on("click", function(){
         $('.shop__items__block[data-id='+identify+']').fadeOut();
         items++;
         if(items >= 4) $('.shop__reload').delay(500).fadeIn('slow');
+        $(".shop__flex").load('shop__bag');
+        getMoney();
       }
     });
 });
 
-$('.shop__reload').on('click', function(){
-  location.reload();
+$("body").on( "click", ".shop__sell", function( event ) {
+  const identify = $(this).parent().attr('id').slice(5);
+  const object = $(this).parent();
+
+  $.post({
+				url : 'sell_item',
+        data: {id: identify},
+        dataType : 'json',
+		})
+		.done(result => {
+        new Noty({
+        			type: 'success',
+        			layout: 'topRight',
+        			text: 'Przedmiot został sprzedany.',
+        			timeout: 2000,
+        }).show();
+        object.fadeOut();
+    });
+
+    getMoney();
 });
+
+function getMoney(){
+	$.post({
+				url : 'get_money',
+				dataType : 'json',
+		})
+		.done(result => {
+				$('#shop-gold').html(result['gold']);
+				$('#shop-silver').html(result['silver']);
+				$('#shop-bronze').html(result['bronze']);
+				if(result['gold'] == false) $('#shop-img-gold').fadeOut();
+        else $('#shop-img-gold').fadeIn();
+				if(result['silver'] == false) $('#shop-img-silver').fadeOut();
+        else $('#shop-img-silver').fadeIn();
+		});
+}
