@@ -98,7 +98,22 @@
       vertical-align: middle;
     }
 
-    &:hover button{
+    &::after{
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      box-shadow: inset #ab3c35 0 0 1em 2px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .5s;
+      border: none;
+    }
+
+    &:hover::after{
       opacity: 1;
     }
   }
@@ -111,21 +126,4 @@
   &__items-flex{
     @include flexbox(row, flex-start);
   }
-
-  &__sell{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: none;
-    border: none
-    text-align: center;
-    box-shadow: inset red 0 0 1em 2px;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity .5s;
-    border: none;
-   }
 }

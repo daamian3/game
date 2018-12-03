@@ -39,9 +39,9 @@ $("body").on( "click", ".shop__items__buy", function( event ) {
     });
 });
 
-$("body").on( "click", ".shop__sell", function( event ) {
-  const identify = $(this).parent().attr('id').slice(5);
-  const object = $(this).parent();
+$("body").on( "click", ".shop__bag__block", function( event ) {
+  const identify = $(this).attr('id').slice(5);
+  const object = $(this);
 
   $.post({
 				url : 'sell_item',
